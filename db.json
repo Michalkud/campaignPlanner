@@ -1,0 +1,31 @@
+{
+  "contacts": [
+    {
+      "id": 1,
+      "name": "Honza Kudrnáčaaaaaa",
+      "phone": "604 385 782",
+      "address": "Na Cihlářce 576, Nová Paka, 50901",
+      "email": "michalkud@gmail.com",
+      "web": "bravecrew.cz",
+      "birthday": "10.6.1993"
+    },
+    {
+      "id": 2,
+      "name": "Honza Kudrnáč",
+      "phone": "604 385 782 2555",
+      "address": "Na Cihlářce 576, Nová Paka, 50901",
+      "email": "michalkud@gmail.com",
+      "web": "bravecrew.czbbbaaaddd",
+      "birthday": "10.6.1993"
+    },
+    {
+      "id": 3,
+      "name": "Honza Kudrnáčasdasddd",
+      "phone": "604 385 782",
+      "address": "Na Cihlářce 576, Nová Paka, 50901",
+      "email": "michalkud@gmail.com",
+      "web": "bravecrew.cz",
+      "birthday": "10.6.1993"
+    }
+  ]
+}
