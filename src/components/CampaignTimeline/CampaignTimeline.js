@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import Timeline from 'react-visjs-timeline';
+import BigCalendar from 'react-big-calendar';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+// Setup the localizer by providing the moment (or globalize) Object
+// to the correct localizer.
+BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
 const propTypes = {
   campaigns: PropTypes.array
@@ -15,24 +21,30 @@ class CampaignTimeline extends Component {
       }
     }
   }
+  
 
   render() {
-    console.log(this.props);
 
     return (
-    <Timeline 
-        items={this.props.campaigns.map( campaign => ({
-          start: campaign.timeInterval[0],
-          end: campaign.timeInterval[1],
-          content: campaign.campaignName,
-          group: 1
-        }))}
-      groups={[{
-        id: 1,
-        content: 'Group 1'
-        // Optional: a field 'className', 'style', 'order', [properties]
-      }]}
-      options={this.state.options} />)
+      <div {...this.props}>
+        <h3 className="callout">
+          Click an event to see more info, or
+          drag the mouse over the calendar to select a date/time range.
+        </h3>
+        <BigCalendar
+          selectable={true}
+          onNavigate={console.log}
+          onView={console.log}
+          onSelecting={console.log}
+          events={this.props.campaigns.map((campaign) => ({ start: campaign.timeInterval[0], end: campaign.timeInterval[1], title: campaign.campaignName }))}
+          defaultView="week"
+          scrollToTime={new Date(1970, 1, 1, 6)}
+          defaultDate={new Date()}
+          onSelectEvent={console.log}
+          onSelectSlot={console.log}          
+        />
+      </div>
+    )
   }
 }
 
