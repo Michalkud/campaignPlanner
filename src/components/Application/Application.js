@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-//import CreateCampaignForm from 'components/CreateCampaignForm';
+import CreateCampaignForm from 'components/CreateCampaignForm';
 //import LeftPanel from 'components/LeftPanel';
-//import CampaignTimeline from 'components/CampaignTimeline';
+import CampaignTimeline from 'components/CampaignTimeline';
 import { graphql, gql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import LoginAuth0 from 'components/LoginAuth0';
@@ -51,6 +51,8 @@ class Application extends Component {
           >
             Logout
           </button>
+          <CreateCampaignForm />
+          <CampaignTimeline />
         </div>
       </div>
     );
