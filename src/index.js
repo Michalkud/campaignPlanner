@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import store from './store';
 import Application from 'components/Application';
+import AdminUI from 'components/AdminUI';
 import CreateUser from 'components/CreateUser';
 import 'styles/main.scss';
 import 'antd/lib/locale-provider/style';
@@ -35,6 +36,7 @@ const Root = () => (
       <Router>
         <div>
         <Route exact={true} path="/" component={Application} />
+        <Route exact={true} path="/admin" component={AdminUI} />
         <Route path="/signup" component={CreateUser} />
         </div>
       </Router>
