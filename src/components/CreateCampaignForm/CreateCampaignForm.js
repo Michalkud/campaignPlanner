@@ -1,27 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Form, Input, InputNumber, DatePicker, Select } from 'antd';
 
-import { Form, DatePicker, Input, Select, Button } from 'antd';
+import Channels from './components/Channels';
+import Domains from './components/Domains';
+import Goals from './components/Goals';
 
-const Option = Select.Option;
 const FormItem = Form.Item;
-const RangePicker = DatePicker.RangePicker;
+const { RangePicker } = DatePicker;
+const { TextArea } = Input;
+const InputGroup = Input.Group;
+const Option = Select.Option;
 
 const propTypes = {
   domains: PropTypes.array,
   channels: PropTypes.array,
 
   addCampaign: PropTypes.func.isRequired
-}
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 14 },
-  },
 };
 
 class CreateCampaignForm extends Component {
@@ -34,11 +29,15 @@ class CreateCampaignForm extends Component {
       timeInterval: [],
       domains: [],
       channels: [],
+      goals: [],
       motto: '',
       description: '',
       target: '',
-      budget: ''
-    }
+      budget: '',
+      utmCampaign: '',
+      startDate: null,
+      endDate: null
+    };
 
     this.onInputsChange = this.onInputsChange.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -47,7 +46,6 @@ class CreateCampaignForm extends Component {
   
   onChange(name, value) {
     this.setState({ [name]: value });
-    console.log(this.state);
   }
 
   addCampaign() {
@@ -55,63 +53,70 @@ class CreateCampaignForm extends Component {
   }
 
   onInputsChange = (e) => this.onChange(e.target.name, e.target.value)
-  
+
+  handleChannelChange = (id, checked) => {
+    const { channels } = this.state;
+    this.setState({ channels: checked ? 
+      [...channels, id] : 
+      channels.filter( channelId => channelId !== id) 
+    })
+  };
+
+  handleDomainChange = (id, checked) => {
+    const { domains } = this.state;
+    this.setState({ domains: checked ? 
+      [...domains, id] : 
+      domains.filter( domainId => domainId !== id) 
+    })
+  };
+
+
+  handleGoalChange = (id, checked) => {
+    const { goals } = this.state;
+    this.setState({ goals: checked ? 
+      [...goals, id] : 
+      goals.filter( goalId => goalId !== id) 
+    })
+  };
+
   render() {
+    const { channels, domains, goals } = this.state;
+
     return (
-      <Form onChange={this.onInputsChange}>
-        <FormItem {...formItemLayout} label="Campaign name">
-          <Input name="campaignName" />
+      <Form>
+        <FormItem label="Name">
+          <Input placeholder="Name of campaign" onChange={ (value) => this.setState({ name : value })} />
         </FormItem>
-        <FormItem {...formItemLayout} label="Time">
-          <RangePicker onChange={(val) => this.onChange('timeInterval', val)} showTime="true" name="fromTo" format="YYYY-MM-DD HH:mm:ss" />
+        <FormItem label="UTM_campaign">
+          <Input placeholder="Název utm kampaně" onChange={ (value) => this.setState({ utmCampaign : value })} />
         </FormItem>
-        <FormItem {...formItemLayout} label="Domains">
-          <Select
-            mode="multiple"
-            style={{ width: '100%' }}
-            placeholder="Please select"
-            defaultValue={[]}
-            name="domains"
-            
-          >
-            {
-              this.props.domains.map((domain, i) => 
-                (<Option key={`domains_${i}`}>{domain}</Option>)
-              )
-            }
-          </Select>
+        <FormItem label="Interval">
+          <RangePicker onChange={(dates) => this.setState({ startDate: dates[0], endDate: dates[1] })} />
         </FormItem>
-        <FormItem {...formItemLayout} label="Channels">
-          <Select
-            mode="multiple"
-            style={{ width: '100%' }}
-            placeholder="Please select"
-            defaultValue={[]}
-            name="channels"
-            
-          >
-            {
-              this.props.channels.map((channel, i) => 
-                (<Option key={`channels_${i}`}>{channel}</Option>)
-              )
-            }
-          </Select>
+        <FormItem label="Channels" >
+          <Channels checkedIds={channels} onChange={this.handleChannelChange} />
         </FormItem>
-        <FormItem {...formItemLayout} label="Motto">
-          <Input name="motto" />
+        <FormItem label="Domains">
+          <Domains key="domains" checkedIds={domains} onChange={this.handleDomainChange} />
         </FormItem>
-        <FormItem {...formItemLayout} label="Description">
-          <Input name="description" />
+        <FormItem label="Motto">
+          <TextArea placeholder="There is place for your motto" autosize={{ minRows: 2, maxRows: 2 }} onChange={(value) => this.setState({ motto: value })} />
         </FormItem>
-        <FormItem {...formItemLayout} label="Target">
-          <Input name="target" />
+        <FormItem label="Budget">
+          <InputGroup compact={true} >
+            <InputNumber style={{ width: '20%' }} onChange={(value) => this.setState({ budget : { ...this.state.budget, amnout: value } })} />
+            <Select defaultValue="CZK" onChange={(value) => this.setState({ budget : { ...this.state.budget, currency: value } })} >
+              <Option value="CZK">CZK</Option>
+              <Option value="USD">USD</Option>
+              <Option value="EUR">EUR</Option>
+            </Select>
+          </InputGroup>
         </FormItem>
-        <FormItem {...formItemLayout} label="Budget">
-          <Input name="budget" />
+        <FormItem label="Goals" >
+          <Goals checkedIds={goals} onChange={this.handleGoalChange} />
         </FormItem>
-        <Button onClick={this.addCampaign} icon="plus-circle-o">Add campaign</Button>
       </Form>
-    )
+    );
   }
 }
 
