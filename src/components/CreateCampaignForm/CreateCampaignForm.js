@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, InputNumber, DatePicker, Select } from 'antd';
+import { Form, Input, InputNumber, DatePicker, Select, Button } from 'antd';
 
 import Channels from './components/Channels';
 import Domains from './components/Domains';
@@ -25,7 +25,7 @@ class CreateCampaignForm extends Component {
     super(props);
 
     this.state = {
-      campaignName: '',
+      name: '',
       timeInterval: [],
       domains: [],
       channels: [],
@@ -79,28 +79,36 @@ class CreateCampaignForm extends Component {
     })
   };
 
+  handleCampaignCreate = () => {
+    
+  }
+
   render() {
     const { channels, domains, goals } = this.state;
 
     return (
       <Form>
-        <FormItem label="Name">
-          <Input placeholder="Name of campaign" onChange={ (value) => this.setState({ name : value })} />
+        <FormItem label="Název kampaně">
+          <Input onChange={ (e) => this.setState({ name : e.target.value })} />
+        </FormItem>
+        <FormItem label="Trvání">
+          <RangePicker onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })} />
         </FormItem>
         <FormItem label="UTM_campaign">
-          <Input placeholder="Název utm kampaně" onChange={ (value) => this.setState({ utmCampaign : value })} />
+          <Input placeholder="Název utm kampaně" onChange={ (e) => this.setState({ utmCampaign : e.target.value })} />
         </FormItem>
-        <FormItem label="Interval">
-          <RangePicker onChange={(dates) => this.setState({ startDate: dates[0], endDate: dates[1] })} />
+        <FormItem label="Kanály" >
+          <Channels key="channels" checkedIds={channels} onChange={this.handleChannelChange} />
         </FormItem>
-        <FormItem label="Channels" >
-          <Channels checkedIds={channels} onChange={this.handleChannelChange} />
-        </FormItem>
-        <FormItem label="Domains">
+        <FormItem label="Domény">
           <Domains key="domains" checkedIds={domains} onChange={this.handleDomainChange} />
         </FormItem>
         <FormItem label="Motto">
-          <TextArea placeholder="There is place for your motto" autosize={{ minRows: 2, maxRows: 2 }} onChange={(value) => this.setState({ motto: value })} />
+          <TextArea 
+            placeholder="There is place for your motto" 
+            autosize={{ minRows: 2, maxRows: 2 }} 
+            onChange={(e) => this.setState({ motto: e.target.value })} 
+          />
         </FormItem>
         <FormItem label="Budget">
           <InputGroup compact={true} >
@@ -112,9 +120,10 @@ class CreateCampaignForm extends Component {
             </Select>
           </InputGroup>
         </FormItem>
-        <FormItem label="Goals" >
+        <FormItem label="Cíl" >
           <Goals checkedIds={goals} onChange={this.handleGoalChange} />
         </FormItem>
+        <Button onClick={() => this.props.mutate({ variables : this.state })}> Add </Button>
       </Form>
     );
   }

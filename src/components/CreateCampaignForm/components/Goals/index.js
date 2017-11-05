@@ -6,7 +6,7 @@ import Goals from './Goals';
 const allGoalsQuery = gql`
   query allGoalsQuery {
     allGoals {
-      id,
+      id
       name
     }
   }

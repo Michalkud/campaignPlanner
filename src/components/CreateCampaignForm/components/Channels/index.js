@@ -6,7 +6,7 @@ import Channels from './Channels';
 const allChannelsQuery = gql`
   query allChannelsQuery {
     allChannels {
-      id,
+      id
       name
     }
   }

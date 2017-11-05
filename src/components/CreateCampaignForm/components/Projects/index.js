@@ -1,15 +1,15 @@
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import Domains from './Domains';
+import Projects from './Projects';
 // We use the gql tag to parse our query string into a query document
-const allDomainsQuery = gql`
-  query allDomainsQuery {
-    allDomains {
+const allProjectsQuery = gql`
+  query allProjectsQuery {
+    allProjects {
       id
       name
     }
   }
 `;
 
-export default graphql(allDomainsQuery)(Domains);
+export default graphql(allProjectsQuery)(Projects);
