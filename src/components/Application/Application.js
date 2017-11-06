@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import CreateCampaignForm from 'components/CreateCampaignForm';
-//import LeftPanel from 'components/LeftPanel';
 import CampaignTimeline from 'components/CampaignTimeline';
+//import LeftPanel from 'components/LeftPanel';
 import { graphql, gql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import LoginAuth0 from 'components/LoginAuth0';
 import { PropTypes } from 'prop-types';
 import { clientId, domain } from 'config';
+import { Menu, Breadcrumb, Layout, Button } from 'antd';
+
+const { Header, Content, Footer, Sider } = Layout;
 
 
 class Application extends Component {
@@ -17,18 +20,15 @@ class Application extends Component {
   }
 
   _logout() {
-    // remove token from local storage and reload page to reset apollo client
     window.localStorage.removeItem('auth0IdToken');
     location.reload();
   }
 
   _isLoggedIn() {
-    console.log(this.props.data.user);
     return this.props.data.user;
   }
 
   render() {
-    console.log(this.props.data);
     if (this.props.data.loading) {
       return (<div>Loading</div>);
     }
@@ -43,18 +43,46 @@ class Application extends Component {
 
   renderLoggedIn() {
     return (
-      <div>
-        <div className="pv3">
-          <button
-            className="dib bg-red white pa3 pointer dim"
+          <Layout>
+    <Header className="header">
+      <div className="logo" />
+          <Button
             onClick={this._logout}
           >
             Logout
-          </button>
+          </Button>
+    </Header>
+    <Content style={{ padding: '0 50px' }}>
+      <Breadcrumb style={{ margin: '16px 0' }}>
+        <Breadcrumb.Item>Home</Breadcrumb.Item>
+        <Breadcrumb.Item>List</Breadcrumb.Item>
+        <Breadcrumb.Item>App</Breadcrumb.Item>
+      </Breadcrumb>
+      <Layout style={{ padding: '24px 0', background: '#fff' }}>
+        <Sider width={200} style={{ background: '#fff' }}>
+          <Menu
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['sub1']}
+            style={{ height: '100%' }}
+          >
+              <Menu.Item key="9">Základní informace</Menu.Item>
+              <Menu.Item key="10">Texty</Menu.Item>
+              <Menu.Item key="11">Vizuály</Menu.Item>
+              <Menu.Item key="12">Vyhodnocení kampaně</Menu.Item>
+              <Menu.Item key="12">Channels</Menu.Item>
+          </Menu>
+        </Sider>
+        <Content style={{ padding: '0 24px', minHeight: 280 }}>
           <CreateCampaignForm />
           <CampaignTimeline />
-        </div>
-      </div>
+        </Content>
+      </Layout>
+    </Content>
+    <Footer style={{ textAlign: 'center' }}>
+      Ant Design ©2016 Created by Ant UED
+    </Footer>
+  </Layout>
     );
   }
 

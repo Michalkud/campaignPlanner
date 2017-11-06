@@ -1,10 +1,17 @@
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+
 import CampaignTimeline from './CampaignTimeline';
-import { connect } from 'react-redux';
 
-import { selectors } from 'models/campaign';
+// We use the gql tag to parse our query string into a query document
+const allCampaignsQuery = gql`
+query allCampaignsQuery {
+  allCampaigns {
+    id
+    name
+    startDate
+    endDate
+  }
+}`;
 
-const mapStateToProps = state => ({
-  campaigns: selectors.getCampaigns(state)
-});
-
-export default connect(mapStateToProps)(CampaignTimeline);
+export default graphql(allCampaignsQuery)(CampaignTimeline);
