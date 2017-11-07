@@ -1,6 +1,7 @@
 'use strict';
 
 const OFF = 0;
+const WARN = 1;
 const ERROR = 2;
 
 module.exports = {
@@ -38,6 +39,7 @@ module.exports = {
     'curly': [ERROR, 'multi-line'],
     'object-curly-spacing': [ERROR, 'always'],
     'comma-spacing': [ERROR, { after: true, before: false }],
+    'max-len': [WARN, 80],
     'max-len': [ERROR, 160],
 
     // React & JSX

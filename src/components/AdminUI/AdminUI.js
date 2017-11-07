@@ -5,7 +5,8 @@ import { withRouter } from 'react-router-dom';
 import LoginAuth0 from 'components/LoginAuth0';
 import { PropTypes } from 'prop-types';
 import { clientId, domain } from 'config';
-import { Layout, Menu, Breadcrumb, Icon, Button } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import UserPanel from 'components/UserPanel';
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
@@ -44,19 +45,10 @@ class Application extends Component {
     return (
       <Layout>
     <Header className="header">
-      <div className="logo" />
-      <Menu
-        theme="dark"
-        mode="horizontal"
-        defaultSelectedKeys={['2']}
-        style={{ lineHeight: '64px', float:'left' }}
-      >
-        <Menu.Item key="1">nav 123</Menu.Item>
-        <Menu.Item key="2">nav 2</Menu.Item>
-        <Menu.Item key="3">nav 3</Menu.Item>
-      </Menu>
-      <Button style={{ float:'right', position: 'relative', top:'15px' }} onClick={this._logout}
-      type="primary" shape="circle" icon="logout" title="Logout" />
+      <div className="logo" style={{ float:'left' }} >
+        <h1 style={{ color:'white', fontWeight:'600' }}>Marketing planner</h1>
+      </div>
+      <UserPanel />
     </Header>
     <Layout>
       <Sider width={200} style={{ background: '#fff' }}>
@@ -66,18 +58,10 @@ class Application extends Component {
           defaultOpenKeys={['sub1']}
           style={{ height: '100%', borderRight: 0 }}
         >
-          <SubMenu key="sub1" title={<span><Icon type="user" />subnav 1</span>}>
-            <Menu.Item key="1">option1</Menu.Item>
+            <Menu.Item key="1">Základní informace</Menu.Item>
             <Menu.Item key="2">option2</Menu.Item>
             <Menu.Item key="3">option3</Menu.Item>
             <Menu.Item key="4">option4</Menu.Item>
-          </SubMenu>
-          <SubMenu key="sub2" title={<span><Icon type="laptop" />subnav 2</span>}>
-            <Menu.Item key="5">option5</Menu.Item>
-            <Menu.Item key="6">option6</Menu.Item>
-            <Menu.Item key="7">option7</Menu.Item>
-            <Menu.Item key="8">option8</Menu.Item>
-          </SubMenu>
           <SubMenu key="sub3" title={<span><Icon type="notification" />subnav 3</span>}>
             <Menu.Item key="9">option9</Menu.Item>
             <Menu.Item key="10">option10</Menu.Item>
