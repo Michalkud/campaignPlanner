@@ -23,12 +23,10 @@ class Application extends Component {
   }
 
   _isLoggedIn() {
-    console.log(this.props.data.user);
     return this.props.data.user;
   }
 
   render() {
-    console.log(this.props.data);
     if (this.props.data.loading) {
       return (<div>Loading</div>);
     }

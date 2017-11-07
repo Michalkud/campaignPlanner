@@ -12,7 +12,7 @@ const propTypes = {
   channels: PropTypes.array,
 
   addCampaign: PropTypes.func.isRequired
-}
+};
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -38,16 +38,15 @@ class CreateCampaignForm extends Component {
       description: '',
       target: '',
       budget: ''
-    }
+    };
 
     this.onInputsChange = this.onInputsChange.bind(this);
     this.onChange = this.onChange.bind(this);
     this.addCampaign = this.addCampaign.bind(this);
   }
-  
+
   onChange(name, value) {
     this.setState({ [name]: value });
-    console.log(this.state);
   }
 
   addCampaign() {
@@ -55,7 +54,7 @@ class CreateCampaignForm extends Component {
   }
 
   onInputsChange = (e) => this.onChange(e.target.name, e.target.value)
-  
+
   render() {
     return (
       <Form onChange={this.onInputsChange}>
@@ -72,10 +71,10 @@ class CreateCampaignForm extends Component {
             placeholder="Please select"
             defaultValue={[]}
             name="domains"
-            
+
           >
             {
-              this.props.domains.map((domain, i) => 
+              this.props.domains.map((domain, i) =>
                 (<Option key={`domains_${i}`}>{domain}</Option>)
               )
             }
@@ -88,10 +87,10 @@ class CreateCampaignForm extends Component {
             placeholder="Please select"
             defaultValue={[]}
             name="channels"
-            
+
           >
             {
-              this.props.channels.map((channel, i) => 
+              this.props.channels.map((channel, i) =>
                 (<Option key={`channels_${i}`}>{channel}</Option>)
               )
             }
@@ -111,15 +110,14 @@ class CreateCampaignForm extends Component {
         </FormItem>
         <Button onClick={this.addCampaign} icon="plus-circle-o">Add campaign</Button>
       </Form>
-    )
+    );
   }
 }
 
-CreateCampaignForm.propTypes = propTypes
+CreateCampaignForm.propTypes = propTypes;
 CreateCampaignForm.defaultProps = {
   domains: ['seznam.cz', 'atlas.cz', 'yahoo.com', 'bing.com', 'google.com'],
   channels: ['i dont know 1', 'i dont know 2']
-}
+};
 
 export default CreateCampaignForm;
-

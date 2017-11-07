@@ -14,7 +14,6 @@ const propTypes = {
 class EditCampaignModal extends Component {
 
   render () {
-    console.log(this.props);
     return (<Modal
       title="Basic Modal"
       visible={this.props.visible}
@@ -22,8 +21,8 @@ class EditCampaignModal extends Component {
       onCancel={this.handleCancel}
     >
       {this.props.start && this.props.end &&
-        <RangePicker 
-          onChange={console.log} 
+        <RangePicker
+          onChange={console.log}
           defaultValue={[this.props.start, this.props.end]}
         />
       }

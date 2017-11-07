@@ -24,12 +24,10 @@ class Application extends Component {
   }
 
   _isLoggedIn() {
-    console.log(this.props.data.user);
     return this.props.data.user;
   }
 
   render() {
-    console.log(this.props.data);
     if (this.props.data.loading) {
       return (<div>Loading</div>);
     }
@@ -53,7 +51,7 @@ class Application extends Component {
         defaultSelectedKeys={['2']}
         style={{ lineHeight: '64px', float:'left' }}
       >
-        <Menu.Item key="1">nav 1</Menu.Item>
+        <Menu.Item key="1">nav 123</Menu.Item>
         <Menu.Item key="2">nav 2</Menu.Item>
         <Menu.Item key="3">nav 3</Menu.Item>
       </Menu>

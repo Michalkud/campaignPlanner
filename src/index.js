@@ -35,8 +35,8 @@ const Root = () => (
     <ApolloProvider store={store} client={client}>
       <Router>
         <div>
-        <Route exact={true} path="/" component={Application} />
-        <Route exact={true} path="/admin" component={AdminUI} />
+        <Route exact={true} path="/new-campaign" component={Application} />
+        <Route exact={true} path="/" component={AdminUI} />
         <Route path="/signup" component={CreateUser} />
         </div>
       </Router>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, Redirect } from 'react-router-dom';
 import { gql, graphql } from 'react-apollo';
- 
+
 class CreateUser extends Component {
 
   static propTypes = {
@@ -17,9 +17,6 @@ class CreateUser extends Component {
   }
 
   render() {
-
-    console.log('here');
-
     if (this.props.data.loading) {
       return (<div>Loading...</div>);
     }
@@ -30,7 +27,7 @@ class CreateUser extends Component {
       return (<Redirect to={{
         pathname: '/'
       }} />);
-    } 
+    }
 
     return (
       <div>
@@ -48,13 +45,13 @@ class CreateUser extends Component {
           <input
             value={this.state.emailSubscription}
             type="checkbox"
-            onChange={(e) => this.setState({ emailSubscription: e.target.checked })}        
+            onChange={(e) => this.setState({ emailSubscription: e.target.checked })}
           />
           <span>
             Subscribe to email notifications?
           </span>
           {this.state.name &&
-          <button onClick={this.createUser}>Sign up</button> 
+          <button onClick={this.createUser}>Sign up</button>
           }
         </div>
       </div>
@@ -62,7 +59,6 @@ class CreateUser extends Component {
   }
 
   createUser = () => {
-    console.log(localStorage);
     const variables = {
       idToken: window.localStorage.getItem('auth0IdToken'),
       name: this.state.name,
@@ -101,4 +97,3 @@ const createUser = gql`
 export default graphql(createUser, { name: 'createUser' } )(
   graphql(userQuery, { options: { fetchPolicy: 'network-only' } })(withRouter(CreateUser))
 );
-

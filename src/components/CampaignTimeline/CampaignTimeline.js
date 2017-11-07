@@ -13,7 +13,7 @@ BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 const propTypes = {
   campaigns: PropTypes.array,
   editCampaignModalVisible: false
-}; 
+};
 
 class CampaignTimeline extends Component {
   constructor(props) {
@@ -26,9 +26,8 @@ class CampaignTimeline extends Component {
 
     this.handleOnSelect = this.handleOnSelect.bind(this);
   }
-  
+
   handleOnSelect(campaign) {
-    console.log(campaign);
     this.setState({
       selectedCampaign: campaign,
       editCampaignModalVisible: true
@@ -36,7 +35,6 @@ class CampaignTimeline extends Component {
   }
 
   render() {
-    console.log(this.props, this.state);
     return (
       <div>
         <h3 className="callout">
@@ -56,7 +54,7 @@ class CampaignTimeline extends Component {
           scrollToTime={new Date(1970, 1, 1, 6)}
           defaultDate={new Date()}
           onSelectEvent={this.handleOnSelect}
-          onSelectSlot={console.log}          
+          onSelectSlot={console.log}
         />
       </div>
     );
@@ -66,5 +64,3 @@ class CampaignTimeline extends Component {
 CampaignTimeline.propTypes = propTypes;
 
 export default CampaignTimeline;
-
-

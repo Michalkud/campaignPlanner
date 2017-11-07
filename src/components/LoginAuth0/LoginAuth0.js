@@ -19,7 +19,6 @@ class LoginAuth0 extends Component {
 
   componentDidMount() {
     this._lock.on('authenticated', (authResult) => {
-      console.log(authResult);
       window.localStorage.setItem('auth0IdToken', authResult.idToken);
       this.props.history.push(`/signup`);
     });
@@ -49,6 +48,6 @@ class LoginAuth0 extends Component {
       </div>
     );
   }
-};
+}
 
 export default withRouter(LoginAuth0);
