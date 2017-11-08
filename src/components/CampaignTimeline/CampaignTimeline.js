@@ -35,6 +35,7 @@ class CampaignTimeline extends Component {
   }
 
   render() {
+    const { data: { allCampaigns } } = this.props;
     return (
       <div>
         <h3 className="callout">
@@ -42,20 +43,22 @@ class CampaignTimeline extends Component {
           drag the mouse over the calendar to select a date/time range.
         </h3>
         <EditCampaignModal {...this.state.selectedCampaign} visible={this.state.editCampaignModalVisible} />
-        <BigCalendar
-          selectable={true}
-          onNavigate={console.log}
-          onView={console.log}
-          onSelecting={console.log}
-          events={
-              this.props.campaigns.map((campaign) => ({ start: campaign.timeInterval[0], end: campaign.timeInterval[1], title: campaign.campaignName, id: 1 
-          }))}
-          defaultView="week"
-          scrollToTime={new Date(1970, 1, 1, 6)}
-          defaultDate={new Date()}
-          onSelectEvent={this.handleOnSelect}
-          onSelectSlot={console.log}
-        />
+        {allCampaigns && allCampaigns.length > 0 &&
+          <BigCalendar
+            selectable={true}
+            onNavigate={console.log}
+            onView={console.log}
+            onSelecting={console.log}
+            events={
+              allCampaigns.map((campaign) => ({ start: campaign.startDate, end: campaign.endDate, title: campaign.name, id: campaign.id
+            }))}
+            defaultView="week"
+            scrollToTime={new Date(1970, 1, 1, 6)}
+            defaultDate={new Date()}
+            onSelectEvent={this.handleOnSelect}
+            onSelectSlot={console.log}
+          />
+        }
       </div>
     );
   }
