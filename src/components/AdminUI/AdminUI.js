@@ -10,6 +10,9 @@ import UserPanel from 'components/UserPanel';
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
+function handleSelect(item, key, selectedKeys) {
+  console.log(item, key, selectedKeys);
+}
 
 class Application extends Component {
 
@@ -42,6 +45,7 @@ class Application extends Component {
   }
 
   renderLoggedIn() {
+
     return (
       <Layout>
     <Header className="header">
@@ -57,6 +61,8 @@ class Application extends Component {
           defaultSelectedKeys={['1']}
           defaultOpenKeys={['sub1']}
           style={{ height: '100%', borderRight: 0 }}
+          onSelect={handleSelect}
+        //  onOpenChange={onOpenChange}
         >
             <Menu.Item key="1">Základní informace</Menu.Item>
             <Menu.Item key="2">option2</Menu.Item>
