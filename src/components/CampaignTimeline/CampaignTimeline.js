@@ -3,8 +3,11 @@ import BigCalendar from 'react-big-calendar';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { Form, Input, DatePicker } from 'antd';
 
-import EditCampaignModal from './EditCampaignModal';
+const FormItem = Form.Item;
+const { RangePicker } = DatePicker;
+const { TextArea } = Input;
 
 // Setup the localizer by providing the moment (or globalize) Object
 // to the correct localizer.
@@ -20,29 +23,43 @@ class CampaignTimeline extends Component {
     super(props);
 
     this.state = {
-      editCampaignModalVisible: false,
       selectedCampaign: null
     };
 
     this.handleOnSelect = this.handleOnSelect.bind(this);
   }
-
-  handleOnSelect(campaign) {
+  
+  handleOnSelect = (selectedEntity) =>
     this.setState({
-      selectedCampaign: campaign,
-      editCampaignModalVisible: true
+      selectedCampaign: this.props.data.allCampaigns.find( campaign => campaign.id === selectedEntity.id )
     });
-  }
 
   render() {
     const { data: { allCampaigns } } = this.props;
+    const { selectedCampaign } = this.state;
+
     return (
       <div>
-        <h3 className="callout">
-          Click an event to see more info, or
-          drag the mouse over the calendar to select a date/time range.
-        </h3>
-        <EditCampaignModal {...this.state.selectedCampaign} visible={this.state.editCampaignModalVisible} />
+        { selectedCampaign &&
+        <Form>
+        <FormItem label="Název kampaně">
+          <Input value={selectedCampaign.name} />
+        </FormItem>
+        <FormItem label="UTM_campaign">
+          <Input value={selectedCampaign.utmCampaign} />
+        </FormItem>
+        <FormItem label="Motto">
+          <TextArea
+            placeholder="There is place for your motto"
+            autosize={{ minRows: 2, maxRows: 2 }}
+            value={selectedCampaign.motto}
+          />
+        </FormItem>
+        <FormItem label="Trvání">
+          <RangePicker value={[moment(selectedCampaign.startDate), moment(selectedCampaign.endDate)]} />
+        </FormItem>
+        </Form>
+        }
         {allCampaigns && allCampaigns.length > 0 &&
           <BigCalendar
             selectable={true}

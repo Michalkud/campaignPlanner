@@ -26,14 +26,13 @@ class CreateCampaignForm extends Component {
 
     this.state = {
       name: '',
-      timeInterval: [],
       domains: [],
       channels: [],
       goals: [],
       motto: '',
       description: '',
       target: '',
-      budget: '',
+      budget: {},
       utmCampaign: '',
       startDate: null,
       endDate: null
@@ -56,7 +55,7 @@ class CreateCampaignForm extends Component {
 
   handleChannelChange = (id, checked) => {
     const { channels } = this.state;
-    this.setState({ channels: checked ?
+    this.setState({ channels: checked ? 
       [...channels, id] :
       channels.filter( channelId => channelId !== id)
     });
@@ -80,6 +79,8 @@ class CreateCampaignForm extends Component {
   };
 
   handleCampaignCreate = () => {
+
+    this.props.mutate({ variables : this.state });
 
   }
 
@@ -123,16 +124,12 @@ class CreateCampaignForm extends Component {
         <FormItem label="Cíl" >
           <Goals checkedIds={goals} onChange={this.handleGoalChange} />
         </FormItem>
-        <Button onClick={() => this.props.mutate({ variables : this.state })}> Add </Button>
+        <Button onClick={this.handleCampaignCreate}> Add </Button>
       </Form>
     );
   }
 }
 
 CreateCampaignForm.propTypes = propTypes;
-CreateCampaignForm.defaultProps = {
-  domains: ['seznam.cz', 'atlas.cz', 'yahoo.com', 'bing.com', 'google.com'],
-  channels: ['i dont know 1', 'i dont know 2']
-};
 
 export default CreateCampaignForm;

@@ -11,6 +11,7 @@ query allCampaignsQuery {
     name
     startDate
     endDate
+    motto
   }
 }`;
 
