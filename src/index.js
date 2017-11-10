@@ -1,16 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import store from './store';
-import Application from 'components/Application';
-import AdminUI from 'components/AdminUI';
-import CreateUser from 'components/CreateUser';
-import 'styles/main.scss';
-import 'antd/lib/locale-provider/style';
-import 'antd/dist/antd.css';
 import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import DefaultLayout from 'components/Layout';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 
 
@@ -34,11 +29,7 @@ const Root = () => (
   <LocaleProvider locale={enUS}>
     <ApolloProvider store={store} client={client}>
       <Router>
-        <div>
-        <Route exact={true} path="/new-campaign" component={Application} />
-        <Route exact={true} path="/" component={AdminUI} />
-        <Route path="/signup" component={CreateUser} />
-        </div>
+        <DefaultLayout />
       </Router>
     </ApolloProvider>
   </LocaleProvider>

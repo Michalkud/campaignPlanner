@@ -20,6 +20,12 @@ class UserPanel extends Component {
     };
   }
 
+  _logout() {
+    // remove token from local storage and reload page to reset apollo client
+    window.localStorage.removeItem('auth0IdToken');
+    location.reload();
+  }
+
   render() {
     return (
       <div style={{ float:'right' }} onMouseEnter={this.handleMouseHover}
