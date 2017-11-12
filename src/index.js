@@ -28,7 +28,7 @@ networkInterface.use([{
 const Root = () => (
   <LocaleProvider locale={enUS}>
     <ApolloProvider store={store} client={client}>
-      <Router>
+      <Router path="access_token=:auth0IdToken" >
         <DefaultLayout />
       </Router>
     </ApolloProvider>

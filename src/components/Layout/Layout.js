@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SiderMenu from 'components/SiderMenu';
 import { graphql, gql } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
+import { Switch, withRouter } from 'react-router-dom';
 import LoginAuth0 from 'components/LoginAuth0';
 import { PropTypes } from 'prop-types';
 import { clientId, domain } from 'config';
@@ -11,7 +11,7 @@ const { Header, Content, Sider, Footer } = Layout;
 import Application from 'components/Application';
 import AdminUI from 'components/AdminUI';
 import CreateUser from 'components/CreateUser';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import 'styles/main.scss';
 import 'antd/lib/locale-provider/style';
 import 'antd/dist/antd.css';
@@ -34,7 +34,6 @@ class DefaultLayout extends Component {
   }
 
   render() {
-    console.log(this.props.data);
     if (this.props.data.loading) {
       return (<div>Loading</div>);
     }
@@ -68,13 +67,11 @@ class DefaultLayout extends Component {
               <Breadcrumb.Item>App</Breadcrumb.Item>
             </Breadcrumb>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-              <Router>
-                <div>
+                <Switch>
                   <Route exact={true} path="/new-campaign" component={Application} />
                   <Route exact={true} path="/" component={AdminUI} />
                   <Route path="/signup" component={CreateUser} />
-                </div>
-              </Router>
+                </Switch>
             </Content>
           </Layout>
         </Layout>

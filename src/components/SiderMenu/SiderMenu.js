@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
 const { SubMenu } = Menu;
-
-function handleSelect(item, key, selectedKeys) {
-  console.log(item, key, selectedKeys);
-}
+import { Link } from 'react-router-dom';
 
 class SiderMenu extends Component {
 
@@ -15,11 +12,11 @@ render () {
           defaultSelectedKeys={['1']}
           defaultOpenKeys={['sub1']}
           style={{ height: '100%', borderRight: 0 }}
-          onSelect={handleSelect}
+          onClick={this.handleClick}
         //  onOpenChange={onOpenChange}
         >
-            <Menu.Item key="1">Základní informace</Menu.Item>
-            <Menu.Item key="2">option2</Menu.Item>
+            <Menu.Item key="1"><Link to="/new-campaign">Základní informace</Link></Menu.Item>
+            <Menu.Item key="2"><Link to="/test">option2</Link></Menu.Item>
             <Menu.Item key="3">option3</Menu.Item>
             <Menu.Item key="4">option4</Menu.Item>
           <SubMenu key="sub3" title={<span><Icon type="notification" />subnav 3</span>}>
