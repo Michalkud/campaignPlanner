@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SiderMenu from 'components/SiderMenu';
-import { graphql, gql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { Switch, withRouter } from 'react-router-dom';
 import LoginAuth0 from 'components/LoginAuth0';
 import { PropTypes } from 'prop-types';

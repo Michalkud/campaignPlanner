@@ -3,28 +3,30 @@ import ReactDOM from 'react-dom';
 import store from './store';
 import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
-import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo';
+import { ApolloProvider } from 'react-apollo';
+import { ApolloClient } from 'apollo-client';
 import DefaultLayout from 'components/Layout';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { createHttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloLink, concat } from 'apollo-link';
+
+
+const httpLink = createHttpLink({ uri: 'https://api.graph.cool/simple/v1/cj7yfwulp1j710168atkx0492/api' });
 
 
 
-const networkInterface = createNetworkInterface({ uri: 'https://api.graph.cool/simple/v1/cj7yfwulp1j710168atkx0492/api' });
-const client = new ApolloClient({ networkInterface });
-networkInterface.use([{
-  applyMiddleware (req, next) {
-    if (!req.options.headers) {
-      req.options.headers = {};
-    }
+const authMiddleware = new ApolloLink((operation, forward) => {
+  // add the authorization to the headers
+  operation.setContext({
+    headers: {
+      authorization: localStorage.getItem('auth0IdToken') ? `Bearer ${localStorage.getItem('auth0IdToken')}` : null,
+    } 
+  });
+  return forward(operation);
+});
 
-    // get the authentication token from local storage if it exists
-    if (localStorage.getItem('auth0IdToken')) {
-      req.options.headers.authorization = `Bearer ${localStorage.getItem('auth0IdToken')}`;
-    }
-    next();
-  },
-}]);
-
+const client = new ApolloClient({ link: concat(authMiddleware, httpLink), cache: new InMemoryCache() });
 const Root = () => (
   <LocaleProvider locale={enUS}>
     <ApolloProvider store={store} client={client}>
