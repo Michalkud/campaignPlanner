@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import { selectors } from 'models/campaign'
 
-import CampaignTimeline from './CampaignTimeline';
+import UniversalChannelPage from './UniversalChannelPage';
 
 // We use the gql tag to parse our query string into a query document
 const currentCampaignQuery = gql`
@@ -19,6 +19,10 @@ const currentCampaignQuery = gql`
         name
         startDate
         endDate
+        text
+        channelType {
+          name
+        }
       }
     }
 }
@@ -35,4 +39,4 @@ export default connect(mapStateToProps)(graphql(currentCampaignQuery,
   },
   {
   options: ({ selectedCampaignId }) => ({ variables: { selectedCampaignId } }),
-})(CampaignTimeline));
+})(UniversalChannelPage));

@@ -9,13 +9,16 @@ import { clientId, domain } from 'config';
 import { Layout, Breadcrumb } from 'antd';
 import UserPanel from 'components/UserPanel';
 const { Header, Content, Sider, Footer } = Layout;
-import Application from 'components/Application';
+import CampaignTimeline from 'components/CampaignTimeline';
+import CreateCampaignForm from 'components/CreateCampaignForm';
+import UniversalChannelPage from 'components/UniversalChannelPage';
 import AdminUI from 'components/AdminUI';
 import CreateUser from 'components/CreateUser';
 import { Route } from 'react-router-dom';
 import 'styles/main.scss';
 import 'antd/lib/locale-provider/style';
 import 'antd/dist/antd.css';
+import SelectCampaign from 'components/SelectCampaign';
 
 class DefaultLayout extends Component {
 
@@ -55,6 +58,7 @@ class DefaultLayout extends Component {
           <div className="logo" style={{ float:'left' }} >
             <h1 style={{ color:'white', fontWeight:'600' }}>Marketing planner</h1>
           </div>
+          <SelectCampaign />
           <UserPanel />
         </Header>
         <Layout>
@@ -69,8 +73,10 @@ class DefaultLayout extends Component {
             </Breadcrumb>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                 <Switch>
-                  <Route exact={true} path="/new-campaign" component={Application} />
+                  <Route exact={true} path="/new-campaign" component={CreateCampaignForm} />
                   <Route exact={true} path="/" component={AdminUI} />
+                  <Route exact={true} path="/media-plan" component={CampaignTimeline} />
+                  <Route exact={true} path="/universal-channel-page" component={UniversalChannelPage} />
                   <Route path="/signup" component={CreateUser} />
                 </Switch>
             </Content>

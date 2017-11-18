@@ -10,7 +10,7 @@ class Domains extends Component {
 
     if ( loading ) return <Spin />;
 
-    return (<Tagger tags={allDomains} onChange={onChange} checkedIds={checkedIds} />)
+    return (<Tagger tags={allDomains} onChange={onChange} checkedIds={checkedIds} />);
   }
 }
 

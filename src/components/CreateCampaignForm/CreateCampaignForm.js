@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input, InputNumber, DatePicker, Select, Button } from 'antd';
 
-import Channels from './components/Channels';
+import ChannelTypes from './components/ChannelTypes';
 import Domains from './components/Domains';
 import Goals from './components/Goals';
 
@@ -99,7 +99,7 @@ class CreateCampaignForm extends Component {
           <Input placeholder="Název utm kampaně" onChange={ (e) => this.setState({ utmCampaign : e.target.value })} />
         </FormItem>
         <FormItem label="Kanály" >
-          <Channels key="channels" checkedIds={channels} onChange={this.handleChannelChange} />
+          <ChannelTypes key="channels" checkedIds={channels} onChange={this.handleChannelChange} />
         </FormItem>
         <FormItem label="Domény">
           <Domains key="domains" checkedIds={domains} onChange={this.handleDomainChange} />

@@ -1,1 +1,1 @@
-export const ADD_CAMPAIGN = 'ADD_CAMPAIGN::campaign';
+export const SELECT_CAMPAIGN_ID = 'SELECT_CAMPAIGN_ID::campaign';

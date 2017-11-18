@@ -1,10 +1,10 @@
 import * as types from './types';
 
-const addCampaign = (campaign) => ({
-  type: types.ADD_CAMPAIGN,
-  payload: { campaign }
+const selectCampaignId = (campaignId) => ({
+  type: types.SELECT_CAMPAIGN_ID,
+  payload: { campaignId }
 });
 
 export {
-  addCampaign
+  selectCampaignId
 };

@@ -1,1 +1,1 @@
-export const getCampaigns = state => state.campaign;
+export const selectedCampaignId = state => state.campaign.selectedCampaignId;

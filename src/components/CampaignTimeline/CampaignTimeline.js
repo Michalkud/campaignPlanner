@@ -3,11 +3,12 @@ import BigCalendar from 'react-big-calendar';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Form, Input, DatePicker } from 'antd';
+import { Form, Input, DatePicker, Button } from 'antd';
+
+import CreateChannelForm from 'components/CreateChannelForm';
 
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
-const { TextArea } = Input;
 
 // Setup the localizer by providing the moment (or globalize) Object
 // to the correct localizer.
@@ -23,7 +24,8 @@ class CampaignTimeline extends Component {
     super(props);
 
     this.state = {
-      selectedCampaign: null
+      selectedCampaign: null,
+      modalVisible: false
     };
 
     this.handleOnSelect = this.handleOnSelect.bind(this);
@@ -35,47 +37,47 @@ class CampaignTimeline extends Component {
     });
 
   render() {
-    const { data: { allCampaigns } } = this.props;
-    const { selectedCampaign } = this.state;
+    const { data } = this.props;
 
     return (
       <div>
-        { selectedCampaign &&
-        <Form>
-        <FormItem label="Název kampaně">
-          <Input value={selectedCampaign.name} />
-        </FormItem>
-        <FormItem label="UTM_campaign">
-          <Input value={selectedCampaign.utmCampaign} />
-        </FormItem>
-        <FormItem label="Motto">
-          <TextArea
-            placeholder="There is place for your motto"
-            autosize={{ minRows: 2, maxRows: 2 }}
-            value={selectedCampaign.motto}
-          />
-        </FormItem>
-        <FormItem label="Trvání">
-          <RangePicker value={[moment(selectedCampaign.startDate), moment(selectedCampaign.endDate)]} />
-        </FormItem>
-        </Form>
+        { data && data.Campaign &&
+        <div>
+          <Form>
+          <FormItem label="Název kampaně">
+            <Input value={data.Campaign.name} />
+          </FormItem>
+          <FormItem label="Trvání">
+            <RangePicker value={[moment(data.Campaign.startDate), moment(data.Campaign.endDate)]} />
+          </FormItem>
+          </Form>
+          <CreateChannelForm closeModal={() => this.setState({ modalVisible: false })} modalVisible={this.state.modalVisible} campaignId={data.Campaign.id} />
+          <Button onClick={ () => this.setState({ modalVisible: true })}>Create channel</Button>
+        </div>
         }
-        {allCampaigns && allCampaigns.length > 0 &&
+
           <BigCalendar
             selectable={true}
             onNavigate={console.log}
             onView={console.log}
             onSelecting={console.log}
             events={
-              allCampaigns.map((campaign) => ({ start: campaign.startDate, end: campaign.endDate, title: campaign.name, id: campaign.id
-            }))}
+              data &&
+              data.Campaign && 
+              data.Campaign.channels
+                .map((campaign) => (
+                  { 
+                    start: campaign.startDate, 
+                    end: campaign.endDate, 
+                    title: campaign.name, 
+                    id: campaign.id
+                  })) || []} 
             defaultView="week"
             scrollToTime={new Date(1970, 1, 1, 6)}
             defaultDate={new Date()}
             onSelectEvent={this.handleOnSelect}
             onSelectSlot={console.log}
           />
-        }
       </div>
     );
   }

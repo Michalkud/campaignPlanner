@@ -1,15 +1,15 @@
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import Channels from './Channels';
+import ChannelTypes from './ChannelsTypes';
 // We use the gql tag to parse our query string into a query document
 const allChannelsQuery = gql`
-  query allChannelsQuery {
-    allChannels {
+  query allChannelQuery {
+    allChannelTypes {
       id
       name
     }
   }
 `;
 
-export default graphql(allChannelsQuery)(Channels);
+export default graphql(allChannelsQuery)(ChannelTypes);
