@@ -11,10 +11,29 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink, concat } from 'apollo-link';
 import { Provider } from 'react-redux';
+import { WebSocketLink } from 'apollo-link-ws';
+import { split } from 'apollo-link';
+import { getMainDefinition } from 'apollo-utilities';
+
+const wsLink = new WebSocketLink({
+  uri: `wss://subscriptions.graph.cool/v1/cj7yfwulp1j710168atkx0492`,
+  options: {
+    reconnect: true
+  }
+});
 
 
 const httpLink = createHttpLink({ uri: 'https://api.graph.cool/simple/v1/cj7yfwulp1j710168atkx0492/api' });
 
+const link = split(
+  // split based on operation type
+  ({ query }) => {
+    const { kind, operation } = getMainDefinition(query);
+    return kind === 'OperationDefinition' && operation === 'subscription';
+  },
+  wsLink,
+  httpLink,
+);
 
 
 const authMiddleware = new ApolloLink((operation, forward) => {
@@ -27,7 +46,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-const client = new ApolloClient({ link: concat(authMiddleware, httpLink), cache: new InMemoryCache() });
+const client = new ApolloClient({ link: concat(authMiddleware, link), cache: new InMemoryCache() });
 const Root = () => (
   <LocaleProvider locale={enUS}>
     <Provider store={store}>

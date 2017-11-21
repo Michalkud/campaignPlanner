@@ -30,6 +30,7 @@ class CampaignTimeline extends Component {
 
     this.handleOnSelect = this.handleOnSelect.bind(this);
   }
+
   
   handleOnSelect = (selectedEntity) =>
     this.setState({
@@ -38,7 +39,7 @@ class CampaignTimeline extends Component {
 
   render() {
     const { data } = this.props;
-
+    console.log(this.props);
     return (
       <div>
         { data && data.Campaign &&
@@ -63,8 +64,8 @@ class CampaignTimeline extends Component {
             onSelecting={console.log}
             events={
               data &&
-              data.Campaign && 
-              data.Campaign.channels
+              data.allChannels && 
+              data.allChannels
                 .map((campaign) => (
                   { 
                     start: campaign.startDate, 

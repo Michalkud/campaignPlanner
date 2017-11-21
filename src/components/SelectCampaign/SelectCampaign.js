@@ -4,7 +4,6 @@ import { Select, Spin } from 'antd';
 const Option = Select.Option;
 
 const SelectCampaign = ({ data: { allCampaigns, loading, error }, selectCampaignId, selectedCampaignId }) => { 
-  console.log(selectedCampaignId, 'here');
   return (<div>
     {loading && <Spin /> }
     {allCampaigns && allCampaigns.length > 0 && 
