@@ -46,7 +46,6 @@ class CreateCampaignForm extends Component {
 
     this.props.mutate({ variables : this.state });
     this.props.closeModal();
-    console.log('iam here');
   }
 
   render() {

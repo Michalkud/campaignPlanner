@@ -24,17 +24,14 @@ const wsLink = new WebSocketLink({
 
 
 const httpLink = createHttpLink({ uri: 'https://api.graph.cool/simple/v1/cj7yfwulp1j710168atkx0492/api' });
-
 const link = split(
-  // split based on operation type
   ({ query }) => {
-    const { kind, operation } = getMainDefinition(query);
-    return kind === 'OperationDefinition' && operation === 'subscription';
+    const { kind, operation } = getMainDefinition(query)
+    return kind === 'OperationDefinition' && operation === 'subscription'
   },
   wsLink,
   httpLink,
 );
-
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
