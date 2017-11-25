@@ -2,6 +2,7 @@
   "name": "car-shop-front",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://michalkud.github.io/campaignPlanner",
   "dependencies": {
     "ajv": "^5.3.0",
     "antd": "^2.13.0",
@@ -79,7 +80,9 @@
   "scripts": {
     "start": "cross-env NODE_PATH=src node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -123,6 +126,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "cross-env": "^5.1.1"
+    "cross-env": "^5.1.1",
+    "gh-pages": "^1.1.0"
   }
 }
