@@ -27,7 +27,7 @@ class CreateCampaignForm extends Component {
     this.state = {
       name: '',
       domains: [],
-      channels: [],
+      channelTypesIds: [],
       goals: [],
       motto: '',
       description: '',
@@ -53,11 +53,11 @@ class CreateCampaignForm extends Component {
 
   onInputsChange = (e) => this.onChange(e.target.name, e.target.value)
 
-  handleChannelChange = (id, checked) => {
-    const { channels } = this.state;
-    this.setState({ channels: checked ? 
-      [...channels, id] :
-      channels.filter( channelId => channelId !== id)
+  handleChannelTypesChange = (id, checked) => {
+    const { channelTypesIds } = this.state;
+    this.setState({ channelTypesIds: checked ? 
+      [...channelTypesIds, id] :
+      channelTypesIds.filter( channelTypeId => channelTypeId !== id)
     });
   };
 
@@ -85,8 +85,8 @@ class CreateCampaignForm extends Component {
   }
 
   render() {
-    const { channels, domains, goals } = this.state;
-
+    const { channelTypesIds, domains, goals } = this.state;
+    console.log(this.state);
     return (
       <Form>
         <FormItem label="Název kampaně">
@@ -99,7 +99,7 @@ class CreateCampaignForm extends Component {
           <Input placeholder="Název utm kampaně" onChange={ (e) => this.setState({ utmCampaign : e.target.value })} />
         </FormItem>
         <FormItem label="Kanály" >
-          <ChannelTypes key="channels" checkedIds={channels} onChange={this.handleChannelChange} />
+          <ChannelTypes key="channelTypes" checkedIds={channelTypesIds} onChange={this.handleChannelTypesChange} />
         </FormItem>
         <FormItem label="Domény">
           <Domains key="domains" checkedIds={domains} onChange={this.handleDomainChange} />

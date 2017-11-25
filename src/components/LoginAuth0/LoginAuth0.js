@@ -19,8 +19,20 @@ class LoginAuth0 extends Component {
 
   componentDidMount() {
     this._lock.on('authenticated', (authResult) => {
-      window.localStorage.setItem('auth0IdToken', authResult.idToken);
-      this.props.history.push(`/signup`);
+      this._lock.getUserInfo(authResult.accessToken, (error, profile) => {
+        if (error) {
+          // Handle error
+          return;
+        }
+    
+        // Save token and profile locally
+        localStorage.setItem('auth0IdToken', authResult.idToken);
+        this.props.setUser(profile);
+        this.props.history.push(`/signup`);
+    
+        // Update DOM
+      });
+
     });
   }
 

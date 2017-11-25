@@ -1,1 +1,1 @@
-export const USER_ID = 'USER_ID::user';
+export const SET_USER = 'SET_USER::user';

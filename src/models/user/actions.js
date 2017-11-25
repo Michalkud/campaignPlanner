@@ -1,10 +1,10 @@
 import * as types from './types';
 
-const setUserID = (userID) => ({
-  type: types.USER_ID,
-  payload: { userID }
+const setUser = (user) => ({
+  type: types.SET_USER,
+  payload: { user }
 });
 
 export {
-  setUserID
+  setUser
 };

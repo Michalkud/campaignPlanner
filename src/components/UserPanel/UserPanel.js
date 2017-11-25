@@ -1,25 +1,9 @@
 import React, { Component } from 'react';
-import { Avatar, Button } from 'antd';
+import { Button, Popover, Avatar } from 'antd';
 
 class UserPanel extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
-    this.user = props.userID;
-    this.handleMouseHover = this.handleMouseHover.bind(this);
-    this.state = {
-      isHovering: false,
-    };
-  }
-
-  handleMouseHover() {
-    this.setState(this.toggleHoverState);
-  }
-
-  toggleHoverState(state) {
-    return {
-      isHovering: !state.isHovering,
-    };
   }
 
   _logout() {
@@ -28,23 +12,15 @@ class UserPanel extends Component {
     location.reload();
   }
 
+  content = () => 
+  (<Button onClick={this._logout}>Odhlásit se</Button>)
+  
   render() {
     return (
-      <div style={{ float:'right', position:'relative', zindex:'1000' }} onMouseEnter={this.handleMouseHover}
-        onMouseLeave={this.handleMouseHover}>
-        <div>
-          <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
-            <span>Jan Novak {this.user}</span>
-          </div>
-        {
-          this.state.isHovering &&
-        <div>
-         <div>
-          <Button onClick={this._logout}
-            shape="circle" icon="logout" title="Logout" /> Odhlásit se
-         </div>
-        </div>
-        }
+      <div style={{ marginTop: '10px' }}>
+        <Popover placement="bottom" title={'User panel'} content={this.content()} trigger="click">
+          <Avatar size="large" src={this.props && this.props.user && this.props.user.picture} />
+        </Popover>
       </div>
     );
   }

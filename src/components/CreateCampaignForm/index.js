@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 
 const createCampaign = gql`
   mutation createCampaign(
-    $channelsIds: [ID!],
+    $channelTypesIds: [ID!],
     $domainsIds: [ID!],
     $goalsIds: [ID!],
     $motto: String,
@@ -18,7 +18,7 @@ const createCampaign = gql`
     createCampaign(
       name: $name,
       domainsIds: $domainsIds,
-      channelsIds: $channelsIds,
+      channelTypesIds: $channelTypesIds,
       goalsIds: $goalsIds,
       motto: $motto,
       description: $description,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, DatePicker, Button, Tabs } from 'antd';
+import { Form, Input, DatePicker, Button } from 'antd';
 import moment from 'moment';
 import gql from 'graphql-tag';
 
@@ -10,7 +10,6 @@ import ChannelText from './ChannelText';
 
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
-const { TabPane } = Tabs;
 
 class UniversalChannelPage extends Component {
 
@@ -42,12 +41,9 @@ class UniversalChannelPage extends Component {
         </Form>
         <CreateChannelForm closeModal={() => this.setState({ modalVisible: false })} modalVisible={this.state.modalVisible} campaignId={data.Campaign.id} />
         <Button onClick={ () => this.setState({ modalVisible: true })}>Create channel</Button>
-        <Tabs>
-        { data && data.allChannelTypes && data.allChannelTypes.map( (channelType, i) =>
-            (<TabPane tab={channelType.name} key={i}>
               { data.Campaign.channels &&
                 data.Campaign.channels
-                  .filter(channel => channel.channelType.id === channelType.id )
+                  .filter(channel => channel.channelType.id === this.props.selectedChannelTypeId )
                   .map((channel, y) => (
                     <ChannelText 
                       key={y}
@@ -59,10 +55,6 @@ class UniversalChannelPage extends Component {
                     />
                 ))      
               }
-            </TabPane>)
-          )
-        }
-        </Tabs>
       </div>
       
     }
