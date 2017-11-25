@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Form, Input, DatePicker, Button } from 'antd';
+import { Form, Input, DatePicker, Button, Row, Col } from 'antd';
 import gql from 'graphql-tag';
+import ChannelSelect from './components/ChannelSelect';
 
 import CreateChannelForm from 'components/CreateChannelForm';
 
@@ -21,7 +22,8 @@ class CampaignTimeline extends Component {
 
     this.state = {
       selectedChannel: null,
-      modalVisible: false
+      modalVisible: false,
+      filterState: []
     };
 
     this.handleOnSelect = this.handleOnSelect.bind(this);
@@ -34,31 +36,66 @@ class CampaignTimeline extends Component {
   
   handleOnSelect = (selectedEntity) =>
     this.setState({
-      selectedChannel: this.props.campaignWithChannelsQuery.Campaign.channels.find( channel => channel.id === selectedEntity.id )
-    });
+      selectedChannel: this.props.data.Campaign.channels.find( channel => channel.id === selectedEntity.id )
+    }, () => this.setState({ modalVisible: true }));
+
+  eventStyleGetter = (event, start, end, isSelected) => {
+
+      var backgroundColor = '#' + event.color;
+      var style = {
+          backgroundColor: backgroundColor,
+          borderRadius: '0px',
+          opacity: 0.8,
+          color: 'black',
+          border: '0px',
+          display: 'block'
+      };
+      return {
+          style: style
+      };
+  }
 
   render() {
-    const { campaignWithChannelsQuery } = this.props;
+    const { data } = this.props;
 
     return (
       <div>
-        { campaignWithChannelsQuery && campaignWithChannelsQuery.Campaign &&
+        { data && data.Campaign &&
         <div>
           <Form>
           <FormItem label="Název kampaně">
-            <Input value={campaignWithChannelsQuery.Campaign.name} />
+            <Input value={data.Campaign.name} />
           </FormItem>
           <FormItem label="Trvání">
-            <RangePicker value={[moment(campaignWithChannelsQuery.Campaign.startDate), moment(campaignWithChannelsQuery.Campaign.endDate)]} />
+            <RangePicker value={[moment(data.Campaign.startDate), moment(data.Campaign.endDate)]} />
           </FormItem>
           </Form>
-          <CreateChannelForm 
-            closeModal={() => this.setState({ modalVisible: false })} 
-            modalVisible={this.state.modalVisible} 
-            campaignId={campaignWithChannelsQuery.Campaign.id} 
+          <Row style={{ marginBottom : '15px' }}>
+            <Col span={4}>
+              <CreateChannelForm 
+                closeModal={() => this.setState({ modalVisible: false })} 
+                modalVisible={this.state.modalVisible} 
+                campaignId={data.Campaign.id} 
+                { ...this.state.selectedChannel }
+              />
+              <Button 
+                onClick={ 
+                  () => this.setState({ selectedChannel : null }, 
+                  () => this.setState({ modalVisible: true }))
+                }>
+                  Create channel
+                </Button>
+            </Col>
+            <Col span={20}>
+              { data && data.allChannelTypes &&
+                <ChannelSelect 
+                  allChannelTypes={data.allChannelTypes} 
+                  onChange={(newFilterState) => this.setState({ filterState : newFilterState })} 
 
-          />
-          <Button onClick={ () => this.setState({ modalVisible: true })}>Create channel</Button>
+                />
+              }
+            </Col>
+          </Row>
         </div>
         }
 
@@ -67,31 +104,36 @@ class CampaignTimeline extends Component {
             onNavigate={console.log}
             onView={console.log}
             onSelecting={console.log}
+            views={['month', 'agenda']}
             events={
-              campaignWithChannelsQuery &&
-              campaignWithChannelsQuery.Campaign &&
-              campaignWithChannelsQuery.Campaign.channels && 
-              campaignWithChannelsQuery.Campaign.channels
-                .map((campaign) => (
+              data &&
+              data.Campaign &&
+              data.Campaign.channels && 
+              data.Campaign.channels
+                .filter((channel) =>
+                  this.state.filterState.indexOf(channel.channelType.id) !== -1 
+                )
+                .map((channel) => (
                   { 
-                    start: campaign.startDate, 
-                    end: campaign.endDate, 
-                    title: campaign.name, 
-                    id: campaign.id
+                    start: channel.startDate, 
+                    end: channel.endDate, 
+                    title: channel.name, 
+                    id: channel.id,
+                    color: channel.channelType.color
                   })) || []} 
-            defaultView="week"
             scrollToTime={new Date(1970, 1, 1, 6)}
             defaultDate={new Date()}
             onSelectEvent={this.handleOnSelect}
             onSelectSlot={console.log}
+            eventPropGetter={(this.eventStyleGetter)}
           />
       </div>
     );
   }
 
   _subscribeToNewChannels = () => {
-    if (this.props.campaignWithChannelsQuery) {
-    this.props.campaignWithChannelsQuery.subscribeToMore({
+    if (this.props.data) {
+    this.props.data.subscribeToMore({
       document: gql`
       subscription {
         Channel(
@@ -105,6 +147,9 @@ class CampaignTimeline extends Component {
               startDate
               endDate
               campaign {
+                id
+              }
+              channelType {
                 id
               }
           }

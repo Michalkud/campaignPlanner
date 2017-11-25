@@ -19,7 +19,16 @@ const currentCampaignQuery = gql`
         name
         startDate
         endDate
+        channelType {
+          id
+          color
+        }
       }
+    }
+    allChannelTypes {
+      id
+      color
+      name
     }
   }
 `;
@@ -34,7 +43,6 @@ export default connect(mapStateToProps)(graphql(
   currentCampaignQuery, 
   { 
     skip: ({ selectedCampaignId }) => !selectedCampaignId,
-    name: 'campaignWithChannelsQuery',
     options: ({ selectedCampaignId }) => ({ variables: { selectedCampaignId } })
   }
 )(CampaignTimeline));
