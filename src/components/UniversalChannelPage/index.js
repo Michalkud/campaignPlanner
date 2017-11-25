@@ -22,8 +22,15 @@ const currentCampaignQuery = gql`
         text
         channelType {
           name
+          id
+          color
         }
       }
+    }
+    allChannelTypes {
+      id
+      color
+      name
     }
 }
 `;

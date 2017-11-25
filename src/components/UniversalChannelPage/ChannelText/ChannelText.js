@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Button, Alert, DatePicker } from 'antd';
+import { Card, Button, DatePicker } from 'antd';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -47,9 +47,8 @@ class ChannelText extends Component {
   
 
   render() {
-    const { name, channelTypeName } = this.props;
+    const { name } = this.props;
     return (<Card title={name} bordered={true} >
-      <Alert message={channelTypeName} type="success" />
       <RangePicker 
         value={[moment(this.state.startDate), moment(this.state.endDate)]} 
         onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })} 

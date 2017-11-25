@@ -91,6 +91,7 @@ class CampaignTimeline extends Component {
                 <ChannelSelect 
                   allChannelTypes={data.allChannelTypes} 
                   onChange={(newFilterState) => this.setState({ filterState : newFilterState })} 
+                  defaultValue={data.allChannelTypes.map( channelType => channelType.id )}
 
                 />
               }
@@ -151,6 +152,7 @@ class CampaignTimeline extends Component {
               }
               channelType {
                 id
+                color
               }
           }
         }

@@ -20,8 +20,10 @@ class ChannelSelect extends Component {
     super(props);
 
     this.state = {
-      selectedChannelTypes: props.defaultValues || []
+      selectedChannelTypes: props.defaultValue || []
     };
+    
+    props.onChange(this.state.selectedChannelTypes);
   }
 
   onChannelSelect = (channelTypeId) => {
