@@ -1,7 +1,8 @@
 import * as types from './types';
+import { load, save } from 'services/localStorage';
 
 const initState = {
-  selectedCampaignId: null
+  selectedCampaignId: load('selectedCampaignId') || null
 };
 
 const reducer = (state = initState, action ) => {
@@ -9,7 +10,8 @@ const reducer = (state = initState, action ) => {
 
   switch (action.type) {
     case types.SELECT_CAMPAIGN_ID:
-      return { ...state, selectedCampaignId: payload.campaignId }
+      save('selectedCampaignId', payload.campaignId);
+      return { ...state, selectedCampaignId: payload.campaignId };
     default:
       return state;
   }

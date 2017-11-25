@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
-import { reducer, saga } from 'models';
+import { reducer } from 'models';
 
 // Enable DevTools extension in Google Chrome
 const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
@@ -12,7 +12,5 @@ const store = createStore(
     devTools,
     applyMiddleware(sagaMiddleware)
 );
-
-sagaMiddleware.run(saga);
 
 export default store;
