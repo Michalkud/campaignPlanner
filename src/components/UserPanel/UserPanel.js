@@ -4,6 +4,8 @@ import { Avatar, Button } from 'antd';
 class UserPanel extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
+    this.user = props.userID;
     this.handleMouseHover = this.handleMouseHover.bind(this);
     this.state = {
       isHovering: false,
@@ -28,11 +30,11 @@ class UserPanel extends Component {
 
   render() {
     return (
-      <div style={{ float:'right' }} onMouseEnter={this.handleMouseHover}
+      <div style={{ float:'right', position:'relative', zindex:'1000' }} onMouseEnter={this.handleMouseHover}
         onMouseLeave={this.handleMouseHover}>
         <div>
           <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
-            Jan Novak
+            <span>Jan Novak {this.user}</span>
           </div>
         {
           this.state.isHovering &&

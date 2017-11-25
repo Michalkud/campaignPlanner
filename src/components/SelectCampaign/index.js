@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 
 import SelectCampaign from './SelectCampaign';
-import { selectors, actions } from 'models/campaign'
+import { selectors, actions } from 'models/campaign';
 
 const allCampaignsQuery = gql`
 query allCampaignsQuery {
