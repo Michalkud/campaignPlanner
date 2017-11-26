@@ -28,7 +28,7 @@ class LoginAuth0 extends Component {
         // Save token and profile locally
         localStorage.setItem('auth0IdToken', authResult.idToken);
         this.props.setUser(profile);
-        this.props.history.push(`/signup`);
+        this.props.history.push(`/campaign`);
     
         // Update DOM
       });

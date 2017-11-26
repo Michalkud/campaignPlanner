@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 class SiderMenu extends Component {
 
 render () {
-    console.log(this.props);
     return (
         <Menu
           mode="inline"
@@ -15,7 +14,7 @@ render () {
           style={{ height: '100%', borderRight: 0 }}
           onClick={this.handleClick}
         >
-            <Menu.Item key="1"><Link to="/new-campaign">Základní informace</Link></Menu.Item>
+            <Menu.Item key="1"><Link to="/campaign">Základní informace</Link></Menu.Item>
             <Menu.Item key="2"><Link to="/media-plan">Média plán</Link></Menu.Item>
             <Menu.Item key="3">option3</Menu.Item>
             <Menu.Item key="4">option4</Menu.Item>

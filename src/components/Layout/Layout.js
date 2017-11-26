@@ -34,14 +34,13 @@ class DefaultLayout extends Component {
   }
 
   _isLoggedIn() {
-    return this.props.data.user;
+    return localStorage.getItem('auth0IdToken');
   }
 
   render() {
     if (this.props.data.loading) {
       return (<div>Loading</div>);
     }
-
     if (this._isLoggedIn()) {
       return this.renderLoggedIn();
     } else {
@@ -74,7 +73,7 @@ class DefaultLayout extends Component {
             </Breadcrumb>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                 <Switch>
-                  <Route exact={true} path="/new-campaign" component={CreateCampaignForm} />
+                  <Route exact={true} path="/campaign" component={CreateCampaignForm} />
                   <Route exact={true} path="/" component={AdminUI} />
                   <Route exact={true} path="/media-plan" component={CampaignTimeline} />
                   <Route exact={true} path="/universal-channel-page" component={UniversalChannelPage} />
