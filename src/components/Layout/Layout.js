@@ -27,6 +27,13 @@ class DefaultLayout extends Component {
     data: PropTypes.object.isRequired,
   }
 
+  state = {
+    collapsed: false,
+  };
+  onCollapse = (collapsed) => {
+    this.setState({ collapsed });
+  }
+
   _logout() {
     // remove token from local storage and reload page to reset apollo client
     window.localStorage.removeItem('auth0IdToken');
@@ -52,18 +59,20 @@ class DefaultLayout extends Component {
   renderLoggedIn() {
 
     return (
-      <Layout>
-        <Header className="header">
-          <Col span={4}>
+      <Layout style={{ minHeight: '100vh' }}>
+        <Header className="header" style={{ padding:'0 25px' }} >
+          <Col span={8}>
             <SelectCampaign />
           </Col>
-          <Col offset={18} span={2}>
+          <Col span={2} push={14}>
             <UserPanel />
           </Col>
         </Header>
         <Layout>
-          <Sider width={200} style={{ background: '#fff' }}>
-            <SiderMenu />
+          <Sider collapsible={true}
+            collapsed={this.state.collapsed}
+            onCollapse={this.onCollapse}>
+            <SiderMenu collapsed={this.state.collapsed} />
           </Sider>
           <Layout style={{ padding: '0 24px 24px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { 
-  Menu, 
+import {
+  Menu,
   MenuItem
 
 } from 'material-ui';
@@ -11,7 +11,7 @@ class LeftPanel extends Component {
       <Menu>
         <MenuItem primaryText="Preview" />
       </Menu>
-    )
+    );
   }
 }
 
