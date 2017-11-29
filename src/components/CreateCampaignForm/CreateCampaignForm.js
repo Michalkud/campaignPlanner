@@ -48,7 +48,7 @@ class CreateCampaignForm extends Component {
 
   componentWillReceiveProps(props) {
     if (props.queryData && props.queryData.Campaign) {
-      const { queryData: { Campaign } } = props; 
+      const { queryData: { Campaign } } = props;
       this.setState({
         id: Campaign.id || null,
         name: Campaign.name || '',
@@ -76,7 +76,7 @@ class CreateCampaignForm extends Component {
         utmCampaign: '',
         startDate: null,
         endDate: null
-      })
+      });
     }
   }
 
@@ -84,7 +84,7 @@ class CreateCampaignForm extends Component {
 
   handleChannelTypesChange = (id, checked) => {
     const { channelTypesIds } = this.state;
-    this.setState({ channelTypesIds: checked ? 
+    this.setState({ channelTypesIds: checked ?
       [...channelTypesIds, id] :
       channelTypesIds.filter( channelTypeId => channelTypeId !== id)
     });
@@ -123,8 +123,8 @@ class CreateCampaignForm extends Component {
           <Input value={name} onChange={ (e) => this.setState({ name : e.target.value })} />
         </FormItem>
         <FormItem label="Trvání">
-          <RangePicker 
-            value={startDate && endDate && [moment(startDate), moment(endDate)]} 
+          <RangePicker
+            value={startDate && endDate && [moment(startDate), moment(endDate)]}
             onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })} />
         </FormItem>
         <FormItem value={utmCampaign} label="UTM_campaign">
@@ -146,9 +146,9 @@ class CreateCampaignForm extends Component {
         </FormItem>
         <FormItem label="Budget">
           <InputGroup compact={true} >
-            <InputNumber 
-              value={budget && budget.amount} 
-              style={{ width: '20%' }} onChange={(value) => this.setState({ budget : { ...this.state.budget, amount: value } })} 
+            <InputNumber
+              value={budget && budget.amount}
+              style={{ width: '100px' }} onChange={(value) => this.setState({ budget : { ...this.state.budget, amount: value } })} 
             />
             <Select defaultValue="CZK" onChange={(value) => this.setState({ budget : { ...this.state.budget, currency: value } })} >
               <Option value="CZK">CZK</Option>
