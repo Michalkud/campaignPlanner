@@ -104,9 +104,9 @@ class CampaignTimeline extends Component {
 
           <BigCalendar
             selectable={true}
-            onNavigate={console.log}
-            onView={console.log}
-            onSelecting={console.log}
+            /*onNavigate={}
+            onView={}
+            onSelecting={}*/
             views={['month', 'agenda']}
             events={
               data &&
@@ -127,7 +127,7 @@ class CampaignTimeline extends Component {
             scrollToTime={new Date(1970, 1, 1, 6)}
             defaultDate={new Date()}
             onSelectEvent={this.handleOnSelect}
-            onSelectSlot={console.log}
+            /*onSelectSlot={console.log}*/
             eventPropGetter={(this.eventStyleGetter)}
           />
       </div>

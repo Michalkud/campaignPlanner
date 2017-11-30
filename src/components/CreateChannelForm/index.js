@@ -1,7 +1,7 @@
 import CreateChannelForm from './CreateChannelForm';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { compose } from 'react-apollo'
+import { compose } from 'react-apollo';
 
 const createChannel = gql`
   mutation createChannel(
@@ -21,7 +21,7 @@ const createChannel = gql`
       createdAt
     }
   }
-`; 
+`;
 
 const updateChannel = gql`
   mutation updateChannel(
@@ -43,7 +43,7 @@ const updateChannel = gql`
       createdAt
     }
   }
-`; 
+`;
 
 export default compose(
   graphql(updateChannel, {
