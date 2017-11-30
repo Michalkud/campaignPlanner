@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import Auth0Lock from 'auth0-lock';
 import { withRouter } from 'react-router-dom';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 
+const USER_ALREADY_EXISTS_ERROR_CODE = 3023;
 
 class LoginAuth0 extends Component {
 
@@ -24,17 +27,36 @@ class LoginAuth0 extends Component {
           // Handle error
           return;
         }
-    
+
         // Save token and profile locally
         localStorage.setItem('auth0IdToken', authResult.idToken);
+        this.signinGraphcool(authResult, profile);
         this.props.setUser(profile);
         this.props.history.push(`/campaign`);
-    
+
         // Update DOM
       });
 
     });
   }
+
+  signinGraphcool = async (auth0Token, profile) => {
+    //console.info('Signing into Graphcool');
+    // create user if necessary
+    //console.log(auth0Token, profile);
+    try {
+      await this.props.createUser({
+        variables: { idToken: auth0Token.idToken, name:profile.name, emailAddress: profile.email, emailSubscription:false }
+      });
+    } catch (e) {
+      if (
+        !e.graphQLErrors ||
+        e.graphQLErrors[0].code !== USER_ALREADY_EXISTS_ERROR_CODE
+      ) {
+        throw e;
+      }
+    }
+}
 
   _showLogin = () => {
     this._lock.show({
@@ -62,4 +84,27 @@ class LoginAuth0 extends Component {
   }
 }
 
-export default withRouter(LoginAuth0);
+const createUser = gql`
+  mutation ( $idToken: String!, $name: String!, $emailAddress: String!, $emailSubscription: Boolean! ) {
+    createUser(authProvider: {auth0: {idToken: $idToken}}, name: $name, emailAddress: $emailAddress, emailSubscription: $emailSubscription) {
+      id
+    }
+  }`;
+
+/*const signinUser = gql`
+  mutation signinUser($authToken: String!){
+    signinUser(
+      auth0: {
+        idToken: $authToken
+      }
+    ) {
+      token
+      user {
+        id,
+        auth0UserId
+      }
+    }
+  }
+`*/
+
+export default withRouter(graphql(createUser, { name: 'createUser' })(LoginAuth0));
