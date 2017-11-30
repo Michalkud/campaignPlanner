@@ -33,7 +33,7 @@ class CampaignTimeline extends Component {
     this._subscribeToNewChannels();
   }
 
-  
+
   handleOnSelect = (selectedEntity) =>
     this.setState({
       selectedChannel: this.props.data.Campaign.channels.find( channel => channel.id === selectedEntity.id )
@@ -72,25 +72,27 @@ class CampaignTimeline extends Component {
           </Form>
           <Row style={{ marginBottom : '15px' }}>
             <Col span={4}>
-              <CreateChannelForm 
-                closeModal={() => this.setState({ modalVisible: false })} 
-                modalVisible={this.state.modalVisible} 
-                campaignId={data.Campaign.id} 
+              <CreateChannelForm
+                closeModal={() => this.setState({ modalVisible: false })}
+                modalVisible={this.state.modalVisible}
+                campaignId={data.Campaign.id}
                 { ...this.state.selectedChannel }
               />
-              <Button 
-                onClick={ 
-                  () => this.setState({ selectedChannel : null }, 
+              <Button
+                onClick={
+                  () => this.setState({ selectedChannel : null },
                   () => this.setState({ modalVisible: true }))
                 }>
                   Create channel
                 </Button>
             </Col>
-            <Col span={20}>
+        </Row>
+        <Row style={{ marginBottom : '15px' }}>
+            <Col span={24}>
               { data && data.allChannelTypes &&
-                <ChannelSelect 
-                  allChannelTypes={data.allChannelTypes} 
-                  onChange={(newFilterState) => this.setState({ filterState : newFilterState })} 
+                <ChannelSelect
+                  allChannelTypes={data.allChannelTypes}
+                  onChange={(newFilterState) => this.setState({ filterState : newFilterState })}
                   defaultValue={data.allChannelTypes.map( channelType => channelType.id )}
 
                 />
@@ -109,19 +111,19 @@ class CampaignTimeline extends Component {
             events={
               data &&
               data.Campaign &&
-              data.Campaign.channels && 
+              data.Campaign.channels &&
               data.Campaign.channels
                 .filter((channel) =>
-                  this.state.filterState.indexOf(channel.channelType.id) !== -1 
+                  this.state.filterState.indexOf(channel.channelType.id) !== -1
                 )
                 .map((channel) => (
-                  { 
-                    start: channel.startDate, 
-                    end: channel.endDate, 
-                    title: channel.name, 
+                  {
+                    start: channel.startDate,
+                    end: channel.endDate,
+                    title: channel.name,
                     id: channel.id,
                     color: channel.channelType.color
-                  })) || []} 
+                  })) || []}
             scrollToTime={new Date(1970, 1, 1, 6)}
             defaultDate={new Date()}
             onSelectEvent={this.handleOnSelect}
@@ -158,8 +160,8 @@ class CampaignTimeline extends Component {
         }
       }`,
       updateQuery: (previous, { subscriptionData : { Channel } }) => {
-  
-        const channelIndex = previous.Campaign && 
+
+        const channelIndex = previous.Campaign &&
         previous.Campaign.channels &&
         previous.Campaign.channels.findIndex(channel => channel.id === Channel.node.id);
         if (channelIndex !== -1) {
@@ -173,24 +175,24 @@ class CampaignTimeline extends Component {
               channels: newAllChannels
             }
           };
-        } else if ( 
-          Channel && 
-          Channel.node.campaign && 
-          Channel.node.campaign.id && 
-          Channel.node.campaign.id === previous.Campaign.id 
+        } else if (
+          Channel &&
+          Channel.node.campaign &&
+          Channel.node.campaign.id &&
+          Channel.node.campaign.id === previous.Campaign.id
         ) {
           return {
             ...previous,
             Campaign: {
               ...previous.Campaign,
-              channels: [ ...previous.Campaign.channels, Channel.node]
+              channels: [...previous.Campaign.channels, Channel.node]
             }
           };
 
         }
         return previous;
       }
-    })
+    });
   }
   }
 }

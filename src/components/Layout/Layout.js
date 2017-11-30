@@ -29,9 +29,19 @@ class DefaultLayout extends Component {
 
   state = {
     collapsed: false,
+    mobileDevice: false
   };
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.resize.bind(this));
+    this.resize();
+  }
+
+  resize() {
+      this.setState({ mobileDevice: window.innerWidth <= 760 });
   }
 
   _logout() {
@@ -61,18 +71,18 @@ class DefaultLayout extends Component {
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Header className="header" style={{ padding:'0 25px' }} >
-          <Col span={8}>
+          <Col span={this.state.mobileDevice ? 18 : 8}>
             <SelectCampaign />
           </Col>
-          <Col span={2} push={14}>
+          <Col span={2} push={this.state.mobileDevice ? 4 : 14}>
             <UserPanel />
           </Col>
         </Header>
         <Layout>
           <Sider collapsible={true}
-            collapsed={this.state.collapsed}
+            collapsed={this.state.collapsed || this.state.mobileDevice}
             onCollapse={this.onCollapse}>
-            <SiderMenu collapsed={this.state.collapsed} />
+            <SiderMenu collapsed={this.state.collapsed || this.state.mobileDevice} />
           </Sider>
           <Layout style={{ padding: '0 24px 24px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
