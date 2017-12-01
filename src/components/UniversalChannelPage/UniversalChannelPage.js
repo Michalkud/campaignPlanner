@@ -45,18 +45,18 @@ class UniversalChannelPage extends Component {
                 data.Campaign.channels
                   .filter(channel => channel.channelType.id === this.props.selectedChannelTypeId )
                   .map((channel, y) => (
-                    <ChannelText 
+                    <ChannelText
                       key={y}
                       name={channel.name}
-                      text={channel.text} 
-                      id={channel.id} 
+                      text={channel.text}
+                      id={channel.id}
                       startDate={channel.startDate}
                       endDate={channel.endDate}
                     />
-                ))      
+                ))
               }
       </div>
-      
+
     }
     </div>)
     ;
@@ -89,8 +89,8 @@ class UniversalChannelPage extends Component {
         }
       }`,
       updateQuery: (previous, { subscriptionData : { Channel } }) => {
-  
-        const channelIndex = previous.Campaign && 
+
+        const channelIndex = previous.Campaign &&
         previous.Campaign.channels &&
         previous.Campaign.channels.findIndex(channel => channel.id === Channel.node.id);
         if (channelIndex !== -1) {
@@ -104,17 +104,17 @@ class UniversalChannelPage extends Component {
               channels: newAllChannels
             }
           };
-        } else if ( 
-          Channel && 
-          Channel.node.campaign && 
-          Channel.node.campaign.id && 
-          Channel.node.campaign.id === previous.Campaign.id 
+        } else if (
+          Channel &&
+          Channel.node.campaign &&
+          Channel.node.campaign.id &&
+          Channel.node.campaign.id === previous.Campaign.id
         ) {
           return {
             ...previous,
             Campaign: {
               ...previous.Campaign,
-              channels: [ ...previous.Campaign.channels, Channel.node]
+              channels: [...previous.Campaign.channels, Channel.node]
             }
           };
 

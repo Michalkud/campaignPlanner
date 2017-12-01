@@ -50,8 +50,7 @@ class CreateCampaignForm extends Component {
 
   handleChannelCreate = () => {
     if (this.state.id) {
-      console.log('here iam');
-      console.log(this.props);
+      //console.log(this.props);
       this.props.updateChannel({ variables : this.state });
     } else {
       this.props.createChannel({ variables : this.state });
@@ -74,9 +73,9 @@ class CreateCampaignForm extends Component {
             <Input value={name} onChange={ (e) => this.setState({ name : e.target.value })} />
           </FormItem>
           <FormItem label="Trvání">
-            <RangePicker 
-              value={startDate && endDate && [moment(startDate), moment(endDate)]} 
-              onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })} 
+            <RangePicker
+              value={startDate && endDate && [moment(startDate), moment(endDate)]}
+              onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })}
             />
           </FormItem>
           <FormItem label="Kanál" >

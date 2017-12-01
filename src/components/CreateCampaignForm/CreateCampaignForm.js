@@ -108,7 +108,7 @@ class CreateCampaignForm extends Component {
   };
 
   handleCampaignCreate = () => {
-    this.props.createCampaign({ variables : this.state }).then( (data) => console.log(data));
+    this.props.createCampaign({ variables : this.state }).then( (data) => (data));
   }
 
   handleCampaignUpdate = () => {
@@ -148,7 +148,7 @@ class CreateCampaignForm extends Component {
           <InputGroup compact={true} >
             <InputNumber
               value={budget && budget.amount}
-              style={{ width: '100px' }} onChange={(value) => this.setState({ budget : { ...this.state.budget, amount: value } })} 
+              style={{ width: '100px' }} onChange={(value) => this.setState({ budget : { ...this.state.budget, amount: value } })}
             />
             <Select defaultValue="CZK" onChange={(value) => this.setState({ budget : { ...this.state.budget, currency: value } })} >
               <Option value="CZK">CZK</Option>

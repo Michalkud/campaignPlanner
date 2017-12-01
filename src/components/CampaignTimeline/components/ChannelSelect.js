@@ -22,7 +22,7 @@ class ChannelSelect extends Component {
     this.state = {
       selectedChannelTypes: props.defaultValue || []
     };
-    
+
     props.onChange(this.state.selectedChannelTypes);
   }
 
@@ -31,7 +31,7 @@ class ChannelSelect extends Component {
       this.setState({ selectedChannelTypes : this.state.selectedChannelTypes.filter( cId => cId !== channelTypeId ) },
       () => this.props.onChange(this.state.selectedChannelTypes));
     } else {
-      this.setState({ selectedChannelTypes : [ ...this.state.selectedChannelTypes, channelTypeId] }, 
+      this.setState({ selectedChannelTypes : [...this.state.selectedChannelTypes, channelTypeId] }, 
       () => this.props.onChange(this.state.selectedChannelTypes) );
     }
   }
@@ -43,7 +43,7 @@ class ChannelSelect extends Component {
     return (<div>
       Typy channelů:
         {allChannelTypes.map(channelType =>
-          (<Tag 
+          (<Tag
             onClick={() => this.onChannelSelect(channelType.id)}
             color={selectedChannelTypes.indexOf(channelType.id) !== -1 && `#` + channelType.color}
           >
