@@ -1,4 +1,5 @@
-import CreateCampaignForm from './CreateCampaignForm';
+//import CreateCampaignForm from './CreateCampaignForm';
+import CreateCampaignForm from './CampaignForm';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
@@ -72,7 +73,7 @@ mutation updateCampaign(
 
 const currentCampaignQuery = gql`
 query getCurrentCampaignWithChannels($selectedCampaignId: ID!) {
-  Campaign(id: $selectedCampaignId) {     
+  Campaign(id: $selectedCampaignId) {
     id
     name
     startDate
@@ -111,12 +112,10 @@ export default connect(mapStateToProps)(compose(graphql(currentCampaignQuery, {
     skip: ({ selectedCampaignId }) => !selectedCampaignId,
     options: ({ selectedCampaignId }) => ({ variables: { selectedCampaignId } })
   }),
-  graphql(createCampaign, { 
+  graphql(createCampaign, {
     name: 'createCampaign'
   }),
-  graphql(updateCampaign, { 
+  graphql(updateCampaign, {
     name: 'updateCampaign'
   })
 )(CreateCampaignForm));
-
-
