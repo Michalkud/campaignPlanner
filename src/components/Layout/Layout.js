@@ -11,6 +11,7 @@ import UserPanel from 'components/UserPanel';
 const { Header, Content, Sider, Footer } = Layout;
 import CampaignTimeline from 'components/CampaignTimeline';
 import CreateCampaignForm from 'components/CreateCampaignForm';
+import CampaignForm from 'components/CampaignOverview';
 import UniversalChannelPage from 'components/UniversalChannelPage';
 import CreateUser from 'components/CreateUser';
 import { Route } from 'react-router-dom';
@@ -86,7 +87,8 @@ class DefaultLayout extends Component {
           <Layout style={{ padding: '0 24px 24px' }}>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                 <Switch>
-                  <Route exact={true} path="/campaign" component={CreateCampaignForm} />
+                  <Route exact={true} path="/new-campaign" component={CreateCampaignForm} />
+                  <Route exact={true} path="/campaign" component={CampaignForm} />
                   <Route exact={true} path="/media-plan" component={CampaignTimeline} />
                   <Route exact={true} path="/universal-channel-page" component={UniversalChannelPage} />
                   <Route path="/signup" component={CreateUser} />

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Form, Input, InputNumber, DatePicker, Select, Button } from 'antd';
 import moment from 'moment';
 
-import ChannelTypes from './components/ChannelTypes';
-import Domains from './components/Domains';
-import Goals from './components/Goals';
+import ChannelTypes from '../CampaignComponents/ChannelTypes';
+import Domains from '../CampaignComponents/Domains';
+import Goals from '../CampaignComponents/Goals';
 
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;

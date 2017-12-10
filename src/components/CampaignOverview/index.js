@@ -1,4 +1,4 @@
-import CreateCampaignForm from './CreateCampaignForm';
+import CreateCampaignForm from './CampaignForm';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';

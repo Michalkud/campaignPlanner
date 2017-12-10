@@ -13,7 +13,7 @@ const SelectCampaign = ({ data: { allCampaigns, loading, error }, selectCampaign
       {allCampaigns.map( campaign => <Option key={campaign.id} value={campaign.id}>{campaign.name}</Option>)}
     </Select>
     <Button style={{ marginLeft: '10px', top: '-1px' }} onClick={() => selectCampaignId(null)}>
-      <Link to="/campaign">New</Link>
+      <Link to="/new-campaign">New</Link>
     </Button>
     </div>
     }
