@@ -15,9 +15,10 @@ import CampaignForm from 'components/CampaignOverview';
 import UniversalChannelPage from 'components/UniversalChannelPage';
 import CreateUser from 'components/CreateUser';
 import { Route } from 'react-router-dom';
+import 'antd/dist/antd.css';
 import 'styles/main.scss';
 import 'antd/lib/locale-provider/style';
-import 'antd/dist/antd.css';
+
 import SelectCampaign from 'components/SelectCampaign';
 
 class DefaultLayout extends Component {
