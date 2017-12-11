@@ -24,25 +24,22 @@ const currentCampaignQuery = gql`
           color
         }
       }
-    }
-    allChannelTypes {
-      id
-      color
-      name
+      channelTypes {
+        id
+        color
+        name
+      }
     }
   }
 `;
-
-
 
 const mapStateToProps = state => ({
   selectedCampaignId: selectors.selectedCampaignId(state)
 });
 
-export default connect(mapStateToProps)(graphql(
-  currentCampaignQuery,
-  {
+export default connect(mapStateToProps)(
+  graphql(currentCampaignQuery, {
     skip: ({ selectedCampaignId }) => !selectedCampaignId,
     options: ({ selectedCampaignId }) => ({ variables: { selectedCampaignId } })
-  }
-)(CampaignTimeline));
+  })(CampaignTimeline)
+);
