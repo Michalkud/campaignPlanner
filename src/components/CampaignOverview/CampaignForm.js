@@ -115,7 +115,7 @@ class CreateCampaignForm extends Component {
     const { channelTypesIds, domainsIds, goalsIds, name, startDate, endDate, budget, motto, utmCampaign } = this.state;
     return (
       <Form>
-      <Row gutter={8}>
+      <Row gutter={8} className="campaignFormHeader" >
         <Col md={6} lg={4}>
             <Input placeholder="Název kampaně" value={name} onChange={ (e) => this.setState({ name : e.target.value })} />
         </Col>
@@ -131,23 +131,23 @@ class CreateCampaignForm extends Component {
               onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })} />
         </Col>
     </Row>
-    <Row>
-      <Col md={16}>
-        <Row>
-          <Col md={24} lg={12}>
-            <FormItem label="Kanály" >
+    <Row gutter={16}>
+      <Col md={16} className="gutter-row">
+        <Row gutter={16}>
+          <Col md={24} lg={12} className="card gutter-row">
+            <FormItem label="Kanály" className="gutter-box card-green">
               <ChannelTypes key="channelTypes" checkedIds={channelTypesIds} onChange={this.handleChannelTypesChange} />
             </FormItem>
           </Col>
-          <Col md={24} lg={12}>
-          <FormItem label="Domény">
+          <Col md={24} lg={12} className="card gutter-row">
+          <FormItem label="Domény" className="gutter-box card-green">
             <Domains key="domains" checkedIds={domainsIds} onChange={this.handleDomainChange} />
           </FormItem>
           </Col>
         </Row>
       </Col>
-      <Col md={8}>
-      <FormItem label="Budget">
+      <Col md={8} className="gutter-row">
+      <FormItem label="Rozpočet" className="gutter-box card-orange budget">
         <InputGroup compact={true} >
           <InputNumber
             value={budget && budget.amount}
@@ -162,23 +162,23 @@ class CreateCampaignForm extends Component {
       </FormItem>
       </Col>
     </Row>
-    <Row>
-      <Col>
-        <FormItem label="Myšlenka kampaně">
+    <Row gutter={16}>
+      <Col md={18} lg={12} className="gutter-row">
+        <FormItem label="Myšlenka kampaně" className="gutter-box card-light-yellow">
           <TextArea
             value={motto}
             placeholder="There is place for your motto"
-            autosize={{ minRows: 2, maxRows: 2 }}
+            autosize={{ minRows: 4, maxRows: 4 }}
             onChange={(e) => this.setState({ motto: e.target.value })}
           />
         </FormItem>
       </Col>
-      <Col>
-        <FormItem label="Popis kampaně">
+      <Col md={18} lg={12} className="card gutter-row">
+        <FormItem label="Popis kampaně" className="gutter-box card-yellow">
           <TextArea
             value={motto}
             placeholder="There is place for your motto"
-            autosize={{ minRows: 2, maxRows: 2 }}
+            autosize={{ minRows: 4, maxRows: 4 }}
             onChange={(e) => this.setState({ motto: e.target.value })}
           />
         </FormItem>
