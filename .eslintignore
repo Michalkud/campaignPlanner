@@ -1,9 +1,0 @@
-# Ignore React Service Worker
-src/services/registerServiceWorker/*
-
-# Ignore all around src folder
-config/*
-node_modules/*
-public/*
-scripts/*
-server/*
