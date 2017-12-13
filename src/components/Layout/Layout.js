@@ -3,6 +3,9 @@ import SiderMenu from 'components/SiderMenu';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Switch, withRouter } from 'react-router-dom';
+import 'antd/dist/antd.css';
+import 'antd/lib/locale-provider/style';
+import 'styles/main.scss';
 import LoginAuth0 from 'components/LoginAuth0';
 import { PropTypes } from 'prop-types';
 import { clientId, domain } from 'config';
@@ -15,9 +18,7 @@ import CampaignForm from 'components/CampaignOverview';
 import UniversalChannelPage from 'components/UniversalChannelPage';
 import CreateUser from 'components/CreateUser';
 import { Route } from 'react-router-dom';
-import 'antd/dist/antd.css';
-import 'styles/main.scss';
-import 'antd/lib/locale-provider/style';
+
 
 import SelectCampaign from 'components/SelectCampaign';
 
@@ -88,6 +89,7 @@ class DefaultLayout extends Component {
           <Layout style={{ padding: '0 24px 24px' }}>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                 <Switch>
+                  <Route exact={true} path="/" component={CampaignForm} />
                   <Route exact={true} path="/new-campaign" component={CreateCampaignForm} />
                   <Route exact={true} path="/campaign" component={CampaignForm} />
                   <Route exact={true} path="/media-plan" component={CampaignTimeline} />

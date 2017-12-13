@@ -1,14 +1,13 @@
 @import 'src/components/CampaignTimeline/styles.scss';
 @import 'src/components/CreateCampaignForm/form.scss';
-//@import url('https://fonts.googleapis.com/css?family=Dosis:200,400,600&subset=latin-ext');
 @import url('https://fonts.googleapis.com/css?family=Ubuntu:400,500&amp;subset=latin-ext');
 @import url('https://fonts.googleapis.com/css?family=Quattrocento&subset=latin-ext');
 
-//$dark-color: #242424;
+// $dark-color: #242424;
 $dark-color: #003D60;
 $dark-header: #423939;
 $light-font: white;
-//#CDA999,#E8DDC7,#99ABB7,#754F6B,,#CDA999,#E8DDC7,#99ABB7
+// #CDA999,#E8DDC7,#99ABB7,#754F6B,,#CDA999,#E8DDC7,#99ABB7
 
 $font-heading: 'Ubuntu', sans-serif;
 $font-normal: 'Quattrocento', serif;
@@ -19,7 +18,7 @@ body {font-family: $font-normal; font-size: 11px;}
 .header, .ant-layout-sider-trigger{background-color: $dark-color;}
 .header, .campaignFormHeader {font-family:$font-heading; font-weight: $font-weight-bold;}
 
-//Campaign overview
+// Campaign overview
 .campaignFormHeader{/*background-color: $dark-header;*/ padding: 20px;margin: 0px;
   margin-bottom: 30px;}
 .campaignFormHeader .ant-input, .campaignFormHeader .ant-select
@@ -28,7 +27,7 @@ border: 0px;}
 .campaignFormHeader .ant-select * {background: none;border: 0px;
   /*color: $light-font;*/ font-weight: $font-weight-bold;}
 
-//#A1DBB2,#FEE5AD,#FACA66,#F7A541,#F45D4C,#A1DBB2,#FEE5AD,#FACA66
+// #A1DBB2,#FEE5AD,#FACA66,#F7A541,#F45D4C,#A1DBB2,#FEE5AD,#FACA66
 .ant-form-item label{font-family:$font-heading; font-weight: $font-weight-bold;}
 .ant-form-item.gutter-box {border-top:4px solid #DE8787; padding: 20px;
   box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.2);}
