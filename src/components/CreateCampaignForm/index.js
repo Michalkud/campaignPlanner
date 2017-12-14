@@ -18,6 +18,7 @@ const createCampaign = gql`
     $description: String,
     $endDate: DateTime!,
     $startDate: DateTime!,
+    $userId: ID!
   ) {
     createCampaign(
       name: $name,
@@ -29,7 +30,8 @@ const createCampaign = gql`
       target: $target,
       budget: $budget,
       startDate: $startDate,
-      endDate: $endDate
+      endDate: $endDate,
+      userId: $userId
     ) {
       createdAt
     }
@@ -46,10 +48,10 @@ mutation updateCampaign(
   $name: String!,
   $target: String,
   $budget: Json,
-  $utmCampaign: String,
   $description: String,
   $endDate: DateTime!,
   $startDate: DateTime!,
+  $userId: ID!
 ) {
   updateCampaign(
     id: $id
@@ -62,7 +64,8 @@ mutation updateCampaign(
     target: $target,
     budget: $budget,
     startDate: $startDate,
-    endDate: $endDate
+    endDate: $endDate,
+    userId: $userId
   ) {
     id
     createdAt
@@ -102,6 +105,14 @@ query getCurrentCampaignWithChannels($selectedCampaignId: ID!) {
 }
 `;
 
+const userQuery = gql`
+query {
+  user {
+    id
+  }
+}
+`;
+
 const mapStateToProps = state => ({
   selectedCampaignId: selectors.selectedCampaignId(state)
 });
@@ -116,5 +127,8 @@ export default connect(mapStateToProps)(compose(graphql(currentCampaignQuery, {
   }),
   graphql(updateCampaign, {
     name: 'updateCampaign'
+  }),
+  graphql(userQuery, {
+    name: 'userData'
   })
 )(CreateCampaignForm));
