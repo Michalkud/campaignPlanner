@@ -1,7 +1,7 @@
 @import 'src/components/CampaignTimeline/styles.scss';
 @import 'src/components/CreateCampaignForm/form.scss';
-@import url('https://fonts.googleapis.com/css?family=Ubuntu:400,500&amp;subset=latin-ext');
-@import url('https://fonts.googleapis.com/css?family=Quattrocento&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Barlow:400,600&subset=latin-ext');
+//import url('https://fonts.googleapis.com/css?family=Quattrocento&subset=latin-ext');
 
 // $dark-color: #242424;
 $dark-color: #003D60;
@@ -9,21 +9,25 @@ $dark-header: #423939;
 $light-font: white;
 // #CDA999,#E8DDC7,#99ABB7,#754F6B,,#CDA999,#E8DDC7,#99ABB7
 
-$font-heading: 'Ubuntu', sans-serif;
-$font-normal: 'Quattrocento', serif;
-$font-weight-bold: 500;
+$font-heading: 'Barlow', sans-serif;
+$font-normal: arial;
+$font-weight-bold: 600;
 $font-weight-slim: 400;
 
-body {font-family: $font-normal; font-size: 11px;}
+html,body{ color: black;}
+body {font-family: $font-normal;}
+.ant-layout-footer{padding: 12px 50px;}
 .header, .ant-layout-sider-trigger{background-color: $dark-color;}
-.header, .campaignFormHeader {font-family:$font-heading; font-weight: $font-weight-bold;}
+.header, .campaignFormHeader {font-family:$font-heading;
+  font-weight: $font-weight-bold;}
 
 // Campaign overview
 .campaignFormHeader{/*background-color: $dark-header;*/ padding: 20px;margin: 0px;
   margin-bottom: 30px;}
 .campaignFormHeader .ant-input, .campaignFormHeader .ant-select
-{background: none; /*color: $light-font;*/ font-size: 1.4em; font-weight: $font-weight-bold;
-border: 0px;}
+{ background: none; /*color: $light-font;*/ font-size: 1.2em;
+  font-weight: $font-weight-bold;
+  border: 0px;}
 .campaignFormHeader .ant-select * {background: none;border: 0px;
   /*color: $light-font;*/ font-weight: $font-weight-bold;}
 
@@ -37,6 +41,12 @@ border: 0px;}
 .ant-form-item.card-orange {border-color: #F7A541}
 .budget .ant-input-number {    margin-top: 0px;
     margin-right: 0px;
-    height: 32px;
+    height: 33px;
     padding: 2px;}
-.budget .ant-select-selection-selected-value{padding-top: 2px;}
+.budget .ant-select-selection{height:33px;}
+.budget .ant-select-selection-selected-value{padding-top: 2px;padding-bottom:2px;}
+input, .ant-input, .ant-select,
+.ant-menu li:not(.ant-menu-item-selected) * {color:black}
+
+//items font sizing
+.ant-tag, .ant-form-item, label {font-size:1em}
