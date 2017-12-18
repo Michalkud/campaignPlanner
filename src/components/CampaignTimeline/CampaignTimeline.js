@@ -4,7 +4,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Form, Input, DatePicker, Button, Row, Col } from 'antd';
 import gql from 'graphql-tag';
-import ChannelSelect from './components/ChannelSelect';
+import ChannelSelect from '../CampaignComponents/ChannelSelect';
 
 import CreateChannelForm from 'components/CreateChannelForm';
 
