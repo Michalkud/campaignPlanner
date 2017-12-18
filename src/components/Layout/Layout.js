@@ -43,7 +43,7 @@ class DefaultLayout extends Component {
   }
 
   resize() {
-      this.setState({ mobileDevice: window.innerWidth <= 760 });
+      this.setState({ mobileDevice: window.innerWidth <= 1018 });
   }
 
   _logout() {
@@ -114,7 +114,6 @@ class DefaultLayout extends Component {
           <div className="logo" style={{ float:'left' }} >
             <h1 style={{ color:'white', fontWeight:'600' }}>Marketing planner</h1>
           </div>
-          <UserPanel />
         </Header>
         <Layout>
           <div>

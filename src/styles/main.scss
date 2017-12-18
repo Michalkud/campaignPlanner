@@ -22,11 +22,10 @@ body {font-family: $font-normal;}
   font-weight: $font-weight-bold;}
 
 // Campaign overview
-.campaignFormHeader{/*background-color: $dark-header;*/ padding: 20px;margin: 0px;
+.campaignFormHeader{/*background-color: $dark-header;*/ padding: 0px 6px 15px 6px;margin: 0px;
   margin-bottom: 30px;}
 .campaignFormHeader .ant-input, .campaignFormHeader .ant-select
-{ background: none; /*color: $light-font;*/ font-size: 1.2em;
-  font-weight: $font-weight-bold;
+{ background: none; /*color: $light-font;*/ font-size: 1.1em;
   border: 0px;}
 .campaignFormHeader .ant-select * {background: none;border: 0px;
   /*color: $light-font;*/ font-weight: $font-weight-bold;}
@@ -41,12 +40,20 @@ body {font-family: $font-normal;}
 .ant-form-item.card-orange {border-color: #F7A541}
 .budget .ant-input-number {    margin-top: 0px;
     margin-right: 0px;
-    height: 33px;
+    height: 34px;
     padding: 2px;}
-.budget .ant-select-selection{height:33px;}
+.budget .ant-select-selection{height:34px;}
 .budget .ant-select-selection-selected-value{padding-top: 2px;padding-bottom:2px;}
 input, .ant-input, .ant-select,
 .ant-menu li:not(.ant-menu-item-selected) * {color:black}
 
 //items font sizing
 .ant-tag, .ant-form-item, label {font-size:1em}
+
+
+.sklik, .rbc-event.sklik {background-color:#9e379f; color: white;}
+.adwordscpc, .rbc-event.adwordscpc{background-color:#ffa700;}
+.facebookcpc, .rbc-event.facebookcpc{background-color:#0057e7; color: white;}
+.facebooksocial, .rbc-event.facebooksocial{background-color:#d62d20; color: white;}
+.emailing, .rbc-event.emailing{background-color:#008744; color: white;}
+.rbc-event{border-radius: '0px';opacity: 0.8;  border: '0px';  display: 'block'}

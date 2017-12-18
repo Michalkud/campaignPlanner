@@ -43,17 +43,8 @@ class CampaignTimeline extends Component {
     );
 
   eventStyleGetter = (event, start, end, isSelected) => {
-    var backgroundColor = '#' + event.color;
-    var style = {
-      backgroundColor: backgroundColor,
-      borderRadius: '0px',
-      opacity: 0.8,
-      color: 'black',
-      border: '0px',
-      display: 'block'
-    };
     return {
-      style: style
+      className:event.colorClass,
     };
   };
 
@@ -136,7 +127,7 @@ class CampaignTimeline extends Component {
                   end: channel.endDate,
                   title: channel.name,
                   id: channel.id,
-                  color: channel.channelType.color
+                  colorClass: channel.channelType.colorClass
                 }))) ||
             []
           }
@@ -166,7 +157,7 @@ class CampaignTimeline extends Component {
                 }
                 channelType {
                   id
-                  color
+                  colorClass
                 }
               }
             }

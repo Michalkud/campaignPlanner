@@ -21,12 +21,12 @@ const currentCampaignQuery = gql`
         endDate
         channelType {
           id
-          color
+          colorClass
         }
       }
       channelTypes {
         id
-        color
+        colorClass
         name
       }
     }
