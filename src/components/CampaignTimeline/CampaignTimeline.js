@@ -8,7 +8,7 @@ import ChannelSelect from '../CampaignComponents/ChannelSelect';
 
 import CreateChannelForm from 'components/CreateChannelForm';
 
-const FormItem = Form.Item;
+//const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 
 // Setup the localizer by providing the moment (or globalize) Object
@@ -57,17 +57,16 @@ class CampaignTimeline extends Component {
           data.Campaign && (
             <div>
               <Form>
-                <FormItem label="Název kampaně">
-                  <Input value={data.Campaign.name} />
-                </FormItem>
-                <FormItem label="Trvání">
-                  <RangePicker
-                    value={[
-                      moment(data.Campaign.startDate),
-                      moment(data.Campaign.endDate)
-                    ]}
-                  />
-                </FormItem>
+                <Row gutter={8} className="campaignFormHeader" >
+                  <Col md={6} lg={4}>
+                      <Input placeholder="Název kampaně" value={data.Campaign.name} />
+                  </Col>
+                  <Col md={{ span:8 }} lg={{ span:6, offset:4 }}>
+                    <RangePicker
+                        value={data.Campaign.startDate && data.Campaign.endDate && [moment(data.Campaign.startDate), moment(data.Campaign.endDate)]}
+                        /*onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })}*/ />
+                  </Col>
+                </Row>
               </Form>
               <Row style={{ marginBottom: '15px' }}>
                 <Col span={4}>
