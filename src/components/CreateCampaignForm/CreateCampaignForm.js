@@ -112,7 +112,12 @@ class CreateCampaignForm extends Component {
   };
 
   handleCampaignCreate = () => {
-    this.props.createCampaign({ variables : this.state }).then( (data) => (data));
+    this.props.createCampaign({ variables : this.state }).then( (res) => {
+      if ( res.data && res.data.createCampaign && res.data.createCampaign.id) {
+        this.props.selectCampaignId(res.data.createCampaign.id);
+        this.props.history.push(`/campaign`);
+      }
+    });
   }
 
   handleCampaignUpdate = () => {

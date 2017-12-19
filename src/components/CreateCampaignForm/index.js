@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import { compose } from 'react-apollo';
 
-import { selectors } from 'models/campaign';
+import { selectors, actions } from 'models/campaign';
 
 const createCampaign = gql`
   mutation createCampaign(
@@ -33,6 +33,7 @@ const createCampaign = gql`
       endDate: $endDate,
       userId: $userId
     ) {
+      id
       createdAt
     }
   }
@@ -117,7 +118,12 @@ const mapStateToProps = state => ({
   selectedCampaignId: selectors.selectedCampaignId(state)
 });
 
-export default connect(mapStateToProps)(compose(graphql(currentCampaignQuery, {
+const mapDispatchToProps = dispatch => ({
+  selectCampaignId: (id) => dispatch(actions.selectCampaignId(id))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(compose(graphql(currentCampaignQuery, {
     name: 'queryData',
     skip: ({ selectedCampaignId }) => !selectedCampaignId,
     options: ({ selectedCampaignId }) => ({ variables: { selectedCampaignId } })

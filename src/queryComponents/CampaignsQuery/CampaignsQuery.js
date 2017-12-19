@@ -50,7 +50,6 @@ class CampaignsQuery extends Component {
           }
         `,
         updateQuery: (previous, { subscriptionData: { data: { Campaign } }, subscriptionData }) => {
-          console.log(Campaign, previous, subscriptionData);
           const campaignIndex =
             previous.allCampaigns &&
             previous.allCampaigns &&
@@ -68,7 +67,7 @@ class CampaignsQuery extends Component {
           } else {
             return {
               ...previous,
-              allCampaigns: [...previous.allCampaigns, Campaign]
+              allCampaigns: [...previous.allCampaigns, Campaign.node]
             };
           }
         }
