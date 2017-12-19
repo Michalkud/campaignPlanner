@@ -21,10 +21,8 @@ query user {
 
 class UserQuery extends Component {
   render() {
-    console.log(this.props.data);
     return this.props.children(this.props.data);
   }
 }
 
 export default graphql(QUERY)(UserQuery);
-
