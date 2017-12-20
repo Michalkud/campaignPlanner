@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'; 
+import PropTypes from 'prop-types';
 import { Tag } from 'antd';
-const CheckableTag = Tag.CheckableTag; 
+const CheckableTag = Tag.CheckableTag;
 
 
 
@@ -11,7 +11,8 @@ class Tagger extends Component {
     tags: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string,
-        name: PropTypes.string
+        name: PropTypes.string,
+        colorClass: PropTypes.string,
       })
     ),
     checkedIds: PropTypes.arrayOf(PropTypes.number),
@@ -27,6 +28,7 @@ class Tagger extends Component {
             key={tag.id}
             checked={checkedIds.indexOf(tag.id) > -1}
             onChange={checked => onChange(tag.id, checked)}
+            className={tag.colorClass}
           >
             {tag.name}
           </CheckableTag>

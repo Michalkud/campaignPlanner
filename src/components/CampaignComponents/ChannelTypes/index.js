@@ -8,6 +8,7 @@ const allChannelsQuery = gql`
     allChannelTypes {
       id
       name
+      colorClass
     }
   }
 `;

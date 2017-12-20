@@ -47,6 +47,8 @@ class CreateCampaignForm extends Component {
   }
 
   componentWillReceiveProps(props) {
+    const { userData: { user } } = props;
+
     if (props.queryData && props.queryData.Campaign) {
       const { queryData: { Campaign } } = props;
       this.setState({
@@ -61,7 +63,8 @@ class CreateCampaignForm extends Component {
         budget: Campaign.budget || {},
         utmCampaign: Campaign.utmCampaign || '',
         startDate: Campaign.startDate || null,
-        endDate: Campaign.endDate || null
+        endDate: Campaign.endDate || null,
+        userId: user.id
       });
     } else {
       this.setState({
@@ -75,7 +78,8 @@ class CreateCampaignForm extends Component {
         budget: {},
         utmCampaign: '',
         startDate: null,
-        endDate: null
+        endDate: null,
+        userId: user.id
       });
     }
   }
@@ -108,7 +112,12 @@ class CreateCampaignForm extends Component {
   };
 
   handleCampaignCreate = () => {
-    this.props.createCampaign({ variables : this.state }).then( (data) => (data));
+    this.props.createCampaign({ variables : this.state }).then( (res) => {
+      if ( res.data && res.data.createCampaign && res.data.createCampaign.id) {
+        this.props.selectCampaignId(res.data.createCampaign.id);
+        this.props.history.push(`/campaign`);
+      }
+    });
   }
 
   handleCampaignUpdate = () => {

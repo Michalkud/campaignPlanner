@@ -4,11 +4,11 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Form, Input, DatePicker, Button, Row, Col } from 'antd';
 import gql from 'graphql-tag';
-import ChannelSelect from './components/ChannelSelect';
+import ChannelSelect from '../CampaignComponents/ChannelSelect';
 
 import CreateChannelForm from 'components/CreateChannelForm';
 
-const FormItem = Form.Item;
+//const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 
 // Setup the localizer by providing the moment (or globalize) Object
@@ -43,17 +43,8 @@ class CampaignTimeline extends Component {
     );
 
   eventStyleGetter = (event, start, end, isSelected) => {
-    var backgroundColor = '#' + event.color;
-    var style = {
-      backgroundColor: backgroundColor,
-      borderRadius: '0px',
-      opacity: 0.8,
-      color: 'black',
-      border: '0px',
-      display: 'block'
-    };
     return {
-      style: style
+      className:event.colorClass,
     };
   };
 
@@ -66,17 +57,16 @@ class CampaignTimeline extends Component {
           data.Campaign && (
             <div>
               <Form>
-                <FormItem label="Název kampaně">
-                  <Input value={data.Campaign.name} />
-                </FormItem>
-                <FormItem label="Trvání">
-                  <RangePicker
-                    value={[
-                      moment(data.Campaign.startDate),
-                      moment(data.Campaign.endDate)
-                    ]}
-                  />
-                </FormItem>
+                <Row gutter={8} className="campaignFormHeader" >
+                  <Col md={6} lg={4}>
+                      <Input placeholder="Název kampaně" value={data.Campaign.name} />
+                  </Col>
+                  <Col md={{ span:8 }} lg={{ span:6, offset:4 }}>
+                    <RangePicker
+                        value={data.Campaign.startDate && data.Campaign.endDate && [moment(data.Campaign.startDate), moment(data.Campaign.endDate)]}
+                        /*onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })}*/ />
+                  </Col>
+                </Row>
               </Form>
               <Row style={{ marginBottom: '15px' }}>
                 <Col span={4}>
@@ -136,7 +126,7 @@ class CampaignTimeline extends Component {
                   end: channel.endDate,
                   title: channel.name,
                   id: channel.id,
-                  color: channel.channelType.color
+                  colorClass: channel.channelType.colorClass
                 }))) ||
             []
           }
@@ -166,7 +156,7 @@ class CampaignTimeline extends Component {
                 }
                 channelType {
                   id
-                  color
+                  colorClass
                 }
               }
             }

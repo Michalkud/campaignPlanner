@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import { compose } from 'react-apollo';
 
-import { selectors } from 'models/campaign';
+import { selectors, actions } from 'models/campaign';
 
 const createCampaign = gql`
   mutation createCampaign(
@@ -18,6 +18,7 @@ const createCampaign = gql`
     $description: String,
     $endDate: DateTime!,
     $startDate: DateTime!,
+    $userId: ID!
   ) {
     createCampaign(
       name: $name,
@@ -29,8 +30,10 @@ const createCampaign = gql`
       target: $target,
       budget: $budget,
       startDate: $startDate,
-      endDate: $endDate
+      endDate: $endDate,
+      userId: $userId
     ) {
+      id
       createdAt
     }
   }
@@ -46,10 +49,10 @@ mutation updateCampaign(
   $name: String!,
   $target: String,
   $budget: Json,
-  $utmCampaign: String,
   $description: String,
   $endDate: DateTime!,
   $startDate: DateTime!,
+  $userId: ID!
 ) {
   updateCampaign(
     id: $id
@@ -62,7 +65,8 @@ mutation updateCampaign(
     target: $target,
     budget: $budget,
     startDate: $startDate,
-    endDate: $endDate
+    endDate: $endDate,
+    userId: $userId
   ) {
     id
     createdAt
@@ -102,11 +106,24 @@ query getCurrentCampaignWithChannels($selectedCampaignId: ID!) {
 }
 `;
 
+const userQuery = gql`
+query {
+  user {
+    id
+  }
+}
+`;
+
 const mapStateToProps = state => ({
   selectedCampaignId: selectors.selectedCampaignId(state)
 });
 
-export default connect(mapStateToProps)(compose(graphql(currentCampaignQuery, {
+const mapDispatchToProps = dispatch => ({
+  selectCampaignId: (id) => dispatch(actions.selectCampaignId(id))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(compose(graphql(currentCampaignQuery, {
     name: 'queryData',
     skip: ({ selectedCampaignId }) => !selectedCampaignId,
     options: ({ selectedCampaignId }) => ({ variables: { selectedCampaignId } })
@@ -116,5 +133,8 @@ export default connect(mapStateToProps)(compose(graphql(currentCampaignQuery, {
   }),
   graphql(updateCampaign, {
     name: 'updateCampaign'
+  }),
+  graphql(userQuery, {
+    name: 'userData'
   })
 )(CreateCampaignForm));

@@ -91,20 +91,4 @@ const createUser = gql`
     }
   }`;
 
-/*const signinUser = gql`
-  mutation signinUser($authToken: String!){
-    signinUser(
-      auth0: {
-        idToken: $authToken
-      }
-    ) {
-      token
-      user {
-        id,
-        auth0UserId
-      }
-    }
-  }
-`*/
-
 export default withRouter(graphql(createUser, { name: 'createUser' })(LoginAuth0));

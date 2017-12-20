@@ -43,7 +43,7 @@ class DefaultLayout extends Component {
   }
 
   resize() {
-      this.setState({ mobileDevice: window.innerWidth <= 760 });
+      this.setState({ mobileDevice: window.innerWidth <= 1018 });
   }
 
   _logout() {
@@ -86,7 +86,7 @@ class DefaultLayout extends Component {
             onCollapse={this.onCollapse}>
             <SiderMenu collapsed={this.state.collapsed || this.state.mobileDevice} />
           </Sider>
-          <Layout style={{ padding: '0 24px 24px' }}>
+          <Layout style={{ padding: '0 8px 24px' }}>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                 <Switch>
                   <Route exact={true} path="/" component={CampaignForm} />
@@ -114,7 +114,6 @@ class DefaultLayout extends Component {
           <div className="logo" style={{ float:'left' }} >
             <h1 style={{ color:'white', fontWeight:'600' }}>Marketing planner</h1>
           </div>
-          <UserPanel />
         </Header>
         <Layout>
           <div>

@@ -13,4 +13,3 @@ class ChannelTypes extends Component {
 }
 
 export default ChannelTypes;
-

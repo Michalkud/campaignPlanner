@@ -6,8 +6,9 @@ const propTypes = {
   allChannelTypes: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
-      color: PropTypes.string,
-      name: PropTypes.string
+    //color: PropTypes.string,
+      name: PropTypes.string,
+      colorClass: PropTypes.string,
     }).isRequired
   ),
   onChange : PropTypes.function,
@@ -31,7 +32,7 @@ class ChannelSelect extends Component {
       this.setState({ selectedChannelTypes : this.state.selectedChannelTypes.filter( cId => cId !== channelTypeId ) },
       () => this.props.onChange(this.state.selectedChannelTypes));
     } else {
-      this.setState({ selectedChannelTypes : [...this.state.selectedChannelTypes, channelTypeId] }, 
+      this.setState({ selectedChannelTypes : [...this.state.selectedChannelTypes, channelTypeId] },
       () => this.props.onChange(this.state.selectedChannelTypes) );
     }
   }
@@ -45,7 +46,7 @@ class ChannelSelect extends Component {
         {allChannelTypes.map(channelType =>
           (<Tag
             onClick={() => this.onChannelSelect(channelType.id)}
-            color={selectedChannelTypes.indexOf(channelType.id) !== -1 && `#` + channelType.color}
+            className={selectedChannelTypes.indexOf(channelType.id) !== -1 && channelType.colorClass}
           >
             {channelType.name}
           </Tag>)
