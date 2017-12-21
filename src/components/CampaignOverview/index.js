@@ -18,6 +18,7 @@ const createCampaign = gql`
     $description: String,
     $endDate: DateTime!,
     $startDate: DateTime!,
+    $utmCampaign: String
   ) {
     createCampaign(
       name: $name,
@@ -29,7 +30,8 @@ const createCampaign = gql`
       target: $target,
       budget: $budget,
       startDate: $startDate,
-      endDate: $endDate
+      endDate: $endDate,
+      utmCampaign: $utmCampaign,
     ) {
       createdAt
     }
@@ -62,7 +64,8 @@ mutation updateCampaign(
     target: $target,
     budget: $budget,
     startDate: $startDate,
-    endDate: $endDate
+    endDate: $endDate,
+    utmCampaign: $utmCampaign
   ) {
     id
     createdAt
@@ -82,6 +85,7 @@ query getCurrentCampaignWithChannels($selectedCampaignId: ID!) {
       id
     }
     budget
+    utmCampaign
     channelTypes {
       id
     }

@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Form, Input, DatePicker, Button, Row, Col } from 'antd';
+import { Form, Button, Row, Col } from 'antd';
 import gql from 'graphql-tag';
 import ChannelSelect from '../CampaignComponents/ChannelSelect';
-
+import CampaignHeader from '../CampaignComponents/CampaignHeader';
 import CreateChannelForm from 'components/CreateChannelForm';
-
-//const FormItem = Form.Item;
-const { RangePicker } = DatePicker;
 
 // Setup the localizer by providing the moment (or globalize) Object
 // to the correct localizer.
@@ -57,16 +54,7 @@ class CampaignTimeline extends Component {
           data.Campaign && (
             <div>
               <Form>
-                <Row gutter={8} className="campaignFormHeader" >
-                  <Col md={6} lg={4}>
-                      <Input placeholder="Název kampaně" value={data.Campaign.name} />
-                  </Col>
-                  <Col md={{ span:8 }} lg={{ span:6, offset:4 }}>
-                    <RangePicker
-                        value={data.Campaign.startDate && data.Campaign.endDate && [moment(data.Campaign.startDate), moment(data.Campaign.endDate)]}
-                        /*onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })}*/ />
-                  </Col>
-                </Row>
+                <CampaignHeader />
               </Form>
               <Row style={{ marginBottom: '15px' }}>
                 <Col span={4}>
