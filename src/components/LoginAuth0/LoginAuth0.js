@@ -34,6 +34,7 @@ class LoginAuth0 extends Component {
         this.props.setUser(profile);
         this.props.history.push(`/campaign`);
 
+
         // Update DOM
       });
 
