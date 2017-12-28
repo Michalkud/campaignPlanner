@@ -51,47 +51,38 @@ class CampaignHeader extends Component {
     }
 
     handleGoalChange = (id) => {
-      this.setState({ goalsIds: id });
+      this.handleChange('goalsIds', id);
     };
 
-    handleChannelTypesChange = (id, checked) => {
-      const { channelTypesIds } = this.state;
-      this.setState({ channelTypesIds: checked ?
-        [...channelTypesIds, id] :
-        channelTypesIds.filter( channelTypeId => channelTypeId !== id)
-      });
-    };
+    handleDateRange = (dates) => {
+      this.handleChange('startDate', dates[0]);
+      this.handleChange('endDate', dates[1]);
+    }
 
-    handleDomainChange = (id, checked) => {
-      const { domainsIds } = this.state;
-      this.setState({ domainsIds: checked ?
-        [...domainsIds, id] :
-        domainsIds.filter( domainId => domainId !== id)
-      });
-    };
-
-
-    handleGoalChange = (id) => {
-      this.setState({ goalsIds: id });
-    };
+    handleChange = (name, value) => {
+        this.setState({ [name] : value });
+        this.props.onValueChanged({ [name]:value });
+      }
 
   render() {
     const { goalsIds, name, startDate, endDate, utmCampaign } = this.state;
     return (
       <Row gutter={8} className="campaignFormHeader" >
         <Col md={6} lg={4}>
-            <Input placeholder="Název kampaně" value={name} onChange={ (e) => this.setState({ name : e.target.value })} />
+            <Input placeholder="Název kampaně" value={name}
+            onChange={ (e) => this.handleChange('name', e.target.value) } />
         </Col>
         <Col md={{ span:4 }} lg={4}>
             <SelectGoals checkedIds={goalsIds} onChange={this.handleGoalChange} />
         </Col>
         <Col md={{ span:6 }} lg={4}>
-          <Input placeholder="Název UTM kampaně" value={utmCampaign} onChange={ (e) => this.setState({ utmCampaign : e.target.value })} />
+          <Input placeholder="Název UTM kampaně" value={utmCampaign}
+          onChange={ (e) => this.handleChange('utmCampaign', e.target.value) } />
         </Col>
         <Col md={{ span:8 }} lg={{ span:6, offset:4 }}>
           <RangePicker
               value={startDate && endDate && [moment(startDate), moment(endDate)]}
-              onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })} />
+              onChange={(neco, dates) => this.handleDateRange(dates)} />
         </Col>
       </Row>);
  }
