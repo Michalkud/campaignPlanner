@@ -57,6 +57,19 @@ class CampaignTimeline extends Component {
                 <CampaignHeader />
               </Form>
               <Row style={{ marginBottom: '15px' }}>
+                <Col span={20}>
+                  {data.Campaign.channelTypes && (
+                    <ChannelSelect
+                      allChannelTypes={data.Campaign.channelTypes}
+                      onChange={newFilterState =>
+                        this.setState({ filterState: newFilterState })
+                      }
+                      defaultValue={data.Campaign.channelTypes.map(
+                        channelType => channelType.id
+                      )}
+                    />
+                  )}
+                </Col>
                 <Col span={4}>
                   <CreateChannelForm
                     closeModal={() => this.setState({ modalVisible: false })}
@@ -73,21 +86,6 @@ class CampaignTimeline extends Component {
                   >
                     Create channel
                   </Button>
-                </Col>
-              </Row>
-              <Row style={{ marginBottom: '15px' }}>
-                <Col span={24}>
-                  {data.Campaign.channelTypes && (
-                    <ChannelSelect
-                      allChannelTypes={data.Campaign.channelTypes}
-                      onChange={newFilterState =>
-                        this.setState({ filterState: newFilterState })
-                      }
-                      defaultValue={data.Campaign.channelTypes.map(
-                        channelType => channelType.id
-                      )}
-                    />
-                  )}
                 </Col>
               </Row>
             </div>

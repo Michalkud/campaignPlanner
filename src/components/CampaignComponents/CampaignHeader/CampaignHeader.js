@@ -8,15 +8,24 @@ class CampaignHeader extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
-
+      name: '',
+      goalsIds: [],
+      target: '',
+      utmCampaign: '',
+      startDate: null,
+      endDate: null
     };
 
-
-      /*this.onInputsChange = this.onInputsChange.bind(this);
-      this.onChange = this.onChange.bind(this);*/
+    this.onInputsChange = this.onInputsChange.bind(this);
+    this.onChange = this.onChange.bind(this);
     }
+
+    onChange(name, value) {
+      this.setState({ [name]: value });
+    }
+    onInputsChange = (e) => this.onChange(e.target.name, e.target.value)
+
     componentWillReceiveProps(props) {
       if (props.data && props.data.Campaign) {
         const { data: { Campaign } } = props;
@@ -40,6 +49,31 @@ class CampaignHeader extends Component {
         });
       }
     }
+
+    handleGoalChange = (id) => {
+      this.setState({ goalsIds: id });
+    };
+
+    handleChannelTypesChange = (id, checked) => {
+      const { channelTypesIds } = this.state;
+      this.setState({ channelTypesIds: checked ?
+        [...channelTypesIds, id] :
+        channelTypesIds.filter( channelTypeId => channelTypeId !== id)
+      });
+    };
+
+    handleDomainChange = (id, checked) => {
+      const { domainsIds } = this.state;
+      this.setState({ domainsIds: checked ?
+        [...domainsIds, id] :
+        domainsIds.filter( domainId => domainId !== id)
+      });
+    };
+
+
+    handleGoalChange = (id) => {
+      this.setState({ goalsIds: id });
+    };
 
   render() {
     const { goalsIds, name, startDate, endDate, utmCampaign } = this.state;

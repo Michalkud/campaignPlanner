@@ -31,7 +31,7 @@ class UniversalChannelPage extends Component {
           <CampaignHeader />
         </Form>
         <CreateChannelForm closeModal={() => this.setState({ modalVisible: false })} modalVisible={this.state.modalVisible} campaignId={data.Campaign.id} />
-        <Button onClick={ () => this.setState({ modalVisible: true })}>Create channel</Button>
+        <Button onClick={ () => this.setState({ modalVisible: true })}>Zmenit nastaveni kanalu</Button>
               { data.Campaign.channels &&
                 data.Campaign.channels
                   .filter(channel => channel.channelType.id === this.props.selectedChannelTypeId )

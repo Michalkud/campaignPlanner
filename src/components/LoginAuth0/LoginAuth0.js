@@ -25,6 +25,7 @@ class LoginAuth0 extends Component {
       this._lock.getUserInfo(authResult.accessToken, (error, profile) => {
         if (error) {
           // Handle error
+          console.error(error);
           return;
         }
 
@@ -42,9 +43,7 @@ class LoginAuth0 extends Component {
   }
 
   signinGraphcool = async (auth0Token, profile) => {
-    //console.info('Signing into Graphcool');
-    // create user if necessary
-    //console.log(auth0Token, profile);
+
     try {
       await this.props.createUser({
         variables: { idToken: auth0Token.idToken, name:profile.name, emailAddress: profile.email, emailSubscription:false }

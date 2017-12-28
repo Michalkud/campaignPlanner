@@ -42,7 +42,6 @@ class ChannelSelect extends Component {
     const { selectedChannelTypes } = this.state;
 
     return (<div>
-      Typy channelů:
         {allChannelTypes.map(channelType =>
           (<Tag
             onClick={() => this.onChannelSelect(channelType.id)}

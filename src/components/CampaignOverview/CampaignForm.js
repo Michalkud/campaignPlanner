@@ -80,26 +80,7 @@ class CreateCampaignForm extends Component {
 
   onInputsChange = (e) => this.onChange(e.target.name, e.target.value)
 
-  handleChannelTypesChange = (id, checked) => {
-    const { channelTypesIds } = this.state;
-    this.setState({ channelTypesIds: checked ?
-      [...channelTypesIds, id] :
-      channelTypesIds.filter( channelTypeId => channelTypeId !== id)
-    });
-  };
 
-  handleDomainChange = (id, checked) => {
-    const { domainsIds } = this.state;
-    this.setState({ domainsIds: checked ?
-      [...domainsIds, id] :
-      domainsIds.filter( domainId => domainId !== id)
-    });
-  };
-
-
-  handleGoalChange = (id) => {
-    this.setState({ goalsIds: id });
-  };
 
   handleCampaignCreate = () => {
     this.props.createCampaign({ variables : this.state }).then( (data) => (data));
@@ -112,7 +93,7 @@ class CreateCampaignForm extends Component {
   render() {
     const { channelTypesIds, domainsIds, budget, motto, description } = this.state;
     return (
-      <Form>
+      <Form className="campaign-overview">
       <CampaignHeader />
     <Row gutter={16}>
       <Col md={16} className="gutter-row">

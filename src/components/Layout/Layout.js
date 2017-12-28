@@ -74,7 +74,7 @@ class DefaultLayout extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         <Header className="header" style={{ padding:'0 25px' }} >
           <Col span={this.state.mobileDevice ? 18 : 8}>
-            <SelectCampaign />
+              <SelectCampaign />
           </Col>
           <Col span={2} push={this.state.mobileDevice ? 4 : 14}>
             <UserPanel />
