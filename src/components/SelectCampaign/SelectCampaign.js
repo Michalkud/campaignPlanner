@@ -16,7 +16,7 @@ const SelectCampaign = ({ selectCampaignId, selectedCampaignId }) => {
                 ({ allCampaigns }) =>
                 (<Select
                   value={selectedCampaignId}
-                  style={{ width: '30vw', maxWidth: '168px' }}
+                  style={{ width: '30vw' }}
                   onChange={selectCampaignId}
                 >
                     {allCampaigns.map(campaign => (
