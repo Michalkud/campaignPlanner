@@ -102,10 +102,9 @@ class CreateCampaignForm extends Component {
     });
   };
 
-  handleCampaignUpdate = () => {
-    console.log(this.state);
+  /*handleCampaignUpdate = () => {
     this.props.updateCampaign({ variables : this.state });
-  }
+  }*/
 
   handleChangeValue = e => {
     this.setState(e);
