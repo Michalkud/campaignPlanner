@@ -63,7 +63,7 @@ class LoginAuth0 extends Component {
       closable: true,
       auth: {
         params: {
-          state: '/' || window.location.pathname,
+          state: window.location.pathname || '/',
           scope: 'openid'
         },
       },
