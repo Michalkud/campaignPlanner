@@ -38,7 +38,7 @@ const createCampaign = gql`
   }
 `;
 
-const updateCampaign = gql`
+const updateCampaignQuery = gql`
 mutation updateCampaign(
   $id : ID!
   $channelTypesIds: [ID!],
@@ -68,7 +68,31 @@ mutation updateCampaign(
     utmCampaign: $utmCampaign
   ) {
     id
-    createdAt
+    name
+    startDate
+    endDate
+    motto
+    goals {
+      id
+    }
+    budget
+    utmCampaign
+    channelTypes {
+      id
+    }
+    domains {
+      id
+    }
+    channels {
+      id
+      name
+      startDate
+      endDate
+      channelType {
+        id
+        color
+      }
+    }
   }
 }
 `;
@@ -118,7 +142,7 @@ export default connect(mapStateToProps)(compose(graphql(currentCampaignQuery, {
   graphql(createCampaign, {
     name: 'createCampaign'
   }),
-  graphql(updateCampaign, {
+  graphql(updateCampaignQuery, {
     name: 'updateCampaign'
   })
 )(CreateCampaignForm));

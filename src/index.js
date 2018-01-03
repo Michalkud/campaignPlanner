@@ -43,7 +43,10 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-const client = new ApolloClient({ link: from([authMiddleware, link]), cache: new InMemoryCache() });
+const client = new ApolloClient({
+  link: from([authMiddleware, link]),
+  cache: new InMemoryCache()
+});
 const Root = () => (
   <LocaleProvider locale={enUS}>
     <Provider store={store}>

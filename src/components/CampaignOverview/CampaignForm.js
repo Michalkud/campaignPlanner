@@ -100,11 +100,12 @@ class CreateCampaignForm extends Component {
       [...domainsIds, id] :
       domainsIds.filter( domainId => domainId !== id)
     });
+
   };
 
-  /*handleCampaignUpdate = () => {
+  handleCampaignUpdate = () => {
     this.props.updateCampaign({ variables : this.state });
-  }*/
+  }
 
   handleChangeValue = e => {
     this.setState(e);
