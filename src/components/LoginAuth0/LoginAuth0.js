@@ -25,6 +25,7 @@ class LoginAuth0 extends Component {
       this._lock.getUserInfo(authResult.accessToken, (error, profile) => {
         if (error) {
           // Handle error
+          console.error(error);
           return;
         }
 
@@ -34,6 +35,7 @@ class LoginAuth0 extends Component {
         this.props.setUser(profile);
         this.props.history.push(`/campaign`);
 
+
         // Update DOM
       });
 
@@ -41,9 +43,7 @@ class LoginAuth0 extends Component {
   }
 
   signinGraphcool = async (auth0Token, profile) => {
-    //console.info('Signing into Graphcool');
-    // create user if necessary
-    //console.log(auth0Token, profile);
+
     try {
       await this.props.createUser({
         variables: { idToken: auth0Token.idToken, name:profile.name, emailAddress: profile.email, emailSubscription:false }
@@ -63,7 +63,7 @@ class LoginAuth0 extends Component {
       closable: true,
       auth: {
         params: {
-          state: '/' || window.location.pathname,
+          state: window.location.pathname || '/',
           scope: 'openid'
         },
       },
@@ -73,12 +73,7 @@ class LoginAuth0 extends Component {
   render() {
     return (
       <div>
-        <button
-          onClick={this._showLogin}
-          className="dib pa3 white bg-blue dim pointer"
-        >
-          Log in with Auth0
-        </button>
+        {this._showLogin()}
       </div>
     );
   }

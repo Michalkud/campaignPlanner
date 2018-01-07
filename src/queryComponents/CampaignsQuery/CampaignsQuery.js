@@ -52,7 +52,6 @@ class CampaignsQuery extends Component {
         updateQuery: (previous, { subscriptionData: { data: { Campaign } }, subscriptionData }) => {
           const campaignIndex =
             previous.allCampaigns &&
-            previous.allCampaigns &&
             previous.allCampaigns.findIndex(
               channel => channel.id === Campaign.node.id
             );

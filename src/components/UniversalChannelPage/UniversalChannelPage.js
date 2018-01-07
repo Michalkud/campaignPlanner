@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { Form, Input, DatePicker, Button } from 'antd';
-import moment from 'moment';
+import { Form, Button } from 'antd';
 import gql from 'graphql-tag';
 
 
 import CreateChannelForm from 'components/CreateChannelForm';
 import ChannelText from './ChannelText';
-
-
-const FormItem = Form.Item;
-const { RangePicker } = DatePicker;
+import CampaignHeader from '../CampaignComponents/CampaignHeader';
 
 class UniversalChannelPage extends Component {
 
@@ -32,15 +28,10 @@ class UniversalChannelPage extends Component {
     { data && data.Campaign &&
       <div>
         <Form>
-        <FormItem label="Název kampaně">
-          <Input value={data.Campaign.name} />
-        </FormItem>
-        <FormItem label="Trvání">
-          <RangePicker value={[moment(data.Campaign.startDate), moment(data.Campaign.endDate)]} />
-        </FormItem>
+          <CampaignHeader />
         </Form>
         <CreateChannelForm closeModal={() => this.setState({ modalVisible: false })} modalVisible={this.state.modalVisible} campaignId={data.Campaign.id} />
-        <Button onClick={ () => this.setState({ modalVisible: true })}>Create channel</Button>
+        <Button onClick={ () => this.setState({ modalVisible: true })}>Zmenit nastaveni kanalu</Button>
               { data.Campaign.channels &&
                 data.Campaign.channels
                   .filter(channel => channel.channelType.id === this.props.selectedChannelTypeId )

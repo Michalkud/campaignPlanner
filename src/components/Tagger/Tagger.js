@@ -6,17 +6,9 @@ const CheckableTag = Tag.CheckableTag;
 
 
 class Tagger extends Component {
-
-  propTypes = {
-    tags: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        colorClass: PropTypes.string,
-      })
-    ),
-    checkedIds: PropTypes.arrayOf(PropTypes.number),
-    onChange: PropTypes.func
+  constructor(props) {
+    super(props);
+    this.state = { tags: props.initialTags };
   }
 
   render() {
@@ -37,5 +29,18 @@ class Tagger extends Component {
     );
   }
 }
+
+Tagger.propTypes = {
+  tags: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      colorClass: PropTypes.string,
+    })
+  ),
+  checkedIds: PropTypes.arrayOf(PropTypes.string),
+  onChange: PropTypes.func
+};
+Tagger.defaultProps = { initialTags: { tags: [], checkedIds: [] } };
 
 export default Tagger;

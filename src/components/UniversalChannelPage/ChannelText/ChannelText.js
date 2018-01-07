@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Button, DatePicker } from 'antd';
+import { Col, Row, Button, DatePicker } from 'antd';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -35,24 +35,31 @@ class ChannelText extends Component {
   };
 
   handleSave = () => {
-    this.props.mutate({ 
-      variables : { 
-        id: this.state.id, 
+    this.props.mutate({
+      variables : {
+        id: this.state.id,
         text: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
         startDate: this.state.startDate,
         endDate: this.state.endDate
-      } 
+      }
     });
   }
-  
+
 
   render() {
     const { name } = this.props;
-    return (<Card title={name} bordered={true} >
-      <RangePicker 
-        value={[moment(this.state.startDate), moment(this.state.endDate)]} 
-        onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })} 
+    return (<div><Row className="channelDetail">
+      <Col md={12} className="gutter-row" >
+        { name }
+      </Col>
+      <Col>
+      <RangePicker
+        value={[moment(this.state.startDate), moment(this.state.endDate)]}
+        onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })}
       />
+      </Col>
+      </Row>
+      <Row>
       <Editor
         editorState={this.state.editorState}
         toolbarClassName="toolbarClassName"
@@ -60,8 +67,10 @@ class ChannelText extends Component {
         editorClassName="editorClassName"
         onEditorStateChange={this.onEditorStateChange}
       />
+      </Row>
+      <Row>
       <Button onClick={this.handleSave} >Save</Button>
-    </Card>);
+    </Row></div>);
   }
 }
 

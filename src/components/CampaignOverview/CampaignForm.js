@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, InputNumber, DatePicker, Select, Button, Row, Col } from 'antd';
-import moment from 'moment';
+import { Form, Input, InputNumber, Select, Button, Row, Col } from 'antd';
 
+import CampaignHeader from '../CampaignComponents/CampaignHeader';
 import ChannelTypes from '../CampaignComponents/ChannelTypes';
 import Domains from '../CampaignComponents/Domains';
-import SelectGoals from '../CampaignComponents/GoalsSelect';
 
 const FormItem = Form.Item;
-const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const InputGroup = Input.Group;
 const Option = Select.Option;
@@ -82,6 +80,12 @@ class CreateCampaignForm extends Component {
 
   onInputsChange = (e) => this.onChange(e.target.name, e.target.value)
 
+
+
+  handleCampaignCreate = () => {
+    this.props.createCampaign({ variables : this.state }).then( (data) => (data));
+  }
+
   handleChannelTypesChange = (id, checked) => {
     const { channelTypesIds } = this.state;
     this.setState({ channelTypesIds: checked ?
@@ -96,41 +100,22 @@ class CreateCampaignForm extends Component {
       [...domainsIds, id] :
       domainsIds.filter( domainId => domainId !== id)
     });
+
   };
-
-
-  handleGoalChange = (id) => {
-    this.setState({ goalsIds: id });
-  };
-
-  handleCampaignCreate = () => {
-    this.props.createCampaign({ variables : this.state }).then( (data) => (data));
-  }
 
   handleCampaignUpdate = () => {
     this.props.updateCampaign({ variables : this.state });
   }
 
+  handleChangeValue = e => {
+    this.setState(e);
+  };
+
   render() {
-    const { channelTypesIds, domainsIds, goalsIds, name, startDate, endDate, budget, motto, utmCampaign } = this.state;
+    const { channelTypesIds, domainsIds, budget, motto, description } = this.state;
     return (
-      <Form>
-      <Row gutter={8} className="campaignFormHeader" >
-        <Col md={6} lg={4}>
-            <Input placeholder="Název kampaně" value={name} onChange={ (e) => this.setState({ name : e.target.value })} />
-        </Col>
-        <Col md={{ span:4 }} lg={4}>
-            <SelectGoals checkedIds={goalsIds} onChange={this.handleGoalChange} />
-        </Col>
-        <Col md={{ span:6 }} lg={4}>
-          <Input placeholder="Název UTM kampaně" value={utmCampaign} onChange={ (e) => this.setState({ utmCampaign : e.target.value })} />
-        </Col>
-        <Col md={{ span:8 }} lg={{ span:6, offset:4 }}>
-          <RangePicker
-              value={startDate && endDate && [moment(startDate), moment(endDate)]}
-              onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })} />
-        </Col>
-    </Row>
+      <Form className="campaign-overview">
+      <CampaignHeader onValueChanged={this.handleChangeValue} />
     <Row gutter={16}>
       <Col md={16} className="gutter-row">
         <Row gutter={16}>
@@ -176,10 +161,10 @@ class CreateCampaignForm extends Component {
       <Col md={18} lg={12} className="card gutter-row">
         <FormItem label="Popis kampaně" className="gutter-box card-yellow">
           <TextArea
-            value={motto}
-            placeholder="There is place for your motto"
+            value={description}
+            placeholder="There is place for your description"
             autosize={{ minRows: 4, maxRows: 4 }}
-            onChange={(e) => this.setState({ motto: e.target.value })}
+            onChange={(e) => this.setState({ description: e.target.value })}
           />
         </FormItem>
       </Col>
