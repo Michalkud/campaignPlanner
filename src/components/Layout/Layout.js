@@ -13,6 +13,7 @@ import { Layout, Col } from 'antd';
 import UserPanel from 'components/UserPanel';
 const { Header, Content, Sider, Footer } = Layout;
 import CampaignTimeline from 'components/CampaignTimeline';
+import Dashboard from 'components/Dashboard';
 import CreateCampaignForm from 'components/CreateCampaignForm';
 import CampaignForm from 'components/CampaignOverview';
 import UniversalChannelPage from 'components/UniversalChannelPage';
@@ -89,7 +90,7 @@ class DefaultLayout extends Component {
           <Layout style={{ padding: '0 8px 24px' }}>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                 <Switch>
-                  <Route exact={true} path="/" component={CampaignForm} />
+                  <Route exact={true} path="/" component={Dashboard} />
                   <Route exact={true} path="/new-campaign" component={CreateCampaignForm} />
                   <Route exact={true} path="/campaign" component={CampaignForm} />
                   <Route exact={true} path="/media-plan" component={CampaignTimeline} />
