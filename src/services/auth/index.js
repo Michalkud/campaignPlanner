@@ -1,146 +1,98 @@
+import decode from 'jwt-decode';
+import { browserHistory } from 'react-router';
 import auth0 from 'auth0-js';
-import { AUTH_CONFIG } from './config';
-class Auth {
+const ID_TOKEN_KEY = 'id_token';
 
-  tokenRenewalTimeout
+const REDIRECT = process.env.AUTH_CONFIG_CALLBACK_URL;
+const SCOPE = 'openid email profile';
+const AUDIENCE = process.env.AUTH_CONFIG_AUDIENCE;
+console.log(process);
+const auth = new auth0.WebAuth({
+  clientID: process.env.AUTH_CONFIG_DOMAIN,
+  domain: process.env.AUTH_CONFIG_DOMAIN
+});
 
-  constructor() {
-    this.login = this.login.bind(this);
-    this.logout = this.logout.bind(this);
-    this.handleAuthentication = this.handleAuthentication.bind(this);
-    this.isAuthenticated = this.isAuthenticated.bind(this);
-    this.auth0 = new auth0.WebAuth({
-      domain: AUTH_CONFIG.domain,
-      clientID: AUTH_CONFIG.clientId,
-      redirectUri: AUTH_CONFIG.callbackUrl,
-      audience: AUTH_CONFIG.audience,
-      responseType: 'token id_token',
-      scope: 'openid',
-      auth: {
-        sso: true, 
-      }
-    });
+export function login() {
+  auth.authorize({
+    responseType: 'id_token',
+    redirectUri: REDIRECT,
+    audience: AUDIENCE,
+    scope: SCOPE
+  });
+}
 
-    this.scheduleRenewal();
-  }
+export function logout() {
+  clearIdToken();
+  clearProfile();
+  browserHistory.push('/');
+}
 
-  login() {
-    this.auth0.authorize();
-  }
-
-  handleAuthentication() {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
-        history.replace('/');
-      } else if (err) {
-        history.replace('/');
-        console.error(err);
-        alert(`Error: ${err.error}. Check the console for further details.`);
-      }
-    });
-  }
-
-  getAccessToken() {
-    const accessToken = localStorage.getItem('access_token');
-    if (!accessToken) {
-      throw new Error('No access token found');
-    }
-    return accessToken;
-  }
-
-  getProfile(cb) {
-    let accessToken = this.getAccessToken();
-    this.auth0.client.userInfo(accessToken, (err, profile) => {
-      if (profile) {
-        this.userProfile = profile;
-      }
-      cb(err, profile);
-    });
-  }
-
-
-  /**
-   * Start timer for renew token
-   */
-  startRenewTimer(expiresIn) {
-    this.renewTimer = setTimeout(() => { 
-      this.renew(); 
-    }, parseInt(expiresIn, 0));
-  }
-
-  setSession(authResult) {
-    let expiresAt = JSON.stringify(
-      authResult.expiresIn * 1000 + new Date().getTime()
-    );
-
-    // Set the time that the access token will expire at
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
-    // navigate to the admin route
-
-    this.scheduleRenewal();
-
-    history.replace('/');
-  }
-
-  logout() {
-    // Clear access token and ID token from local storage
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
-
-    clearTimeout(this.tokenRenewalTimeout);
-    // navigate to the admin route
-    history.replace('/');
-  }
-
-  isAuthenticated() {
-    /**
-     * Check whether token exists
-     */
-    const token = localStorage.getItem('access_token');
-    if (!token) {
-      return false;
-    }
-
-    /**
-     * Check it's expiration time
-     */
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-
-    if (!expiresAt) {
-      return false;
-    }
-    
-    return new Date().getTime() < expiresAt;
-  }
-
-  scheduleRenewal() {
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    const delay = expiresAt - Date.now();
-    if (delay > 0) {
-      this.tokenRenewalTimeout = setTimeout(() => {
-        this.renewToken();
-      }, delay);
-    }
-  }
-
-  renewToken() {
-    this.auth0.checkSession({
-      audience: AUTH_CONFIG.audience,
-      scope:'openid'
-    }, (err, result) => {
-        if (err) {
-          alert('Error occurred. Open app new window' + JSON.stringify(err));
-        } else {
-          this.setSession(result);
-        }
-      }
-    );
+export function requireAuth(nextState, replace) {
+  if (!isLoggedIn()) {
+    replace({ pathname: '/' });
   }
 }
 
-const auth = new Auth(history);
-export default auth;
+export function getIdToken() {
+  return localStorage.getItem(ID_TOKEN_KEY);
+}
+
+function clearIdToken() {
+  localStorage.removeItem(ID_TOKEN_KEY);
+}
+
+function clearProfile() {
+  localStorage.removeItem('profile');
+  localStorage.removeItem('userId');
+}
+
+// Helper function that will allow us to extract the id_token
+export function getAndStoreParameters() {
+  auth.parseHash(window.location.hash, function(err, authResult) {
+    if (err) {
+      return console.log(err);
+    }
+
+    setIdToken(authResult.idToken);
+  });
+}
+
+export function getEmail() {
+  return getProfile().email;
+}
+
+export function getName() {
+  return getProfile().nickname;
+}
+
+// Get and store id_token in local storage
+function setIdToken(idToken) {
+  localStorage.setItem(ID_TOKEN_KEY, idToken);
+}
+
+export function isLoggedIn() {
+  const idToken = getIdToken();
+  return !!idToken && !isTokenExpired(idToken);
+}
+
+export function getProfile() {
+  const token = decode(getIdToken());
+  return token;
+}
+
+function getTokenExpirationDate(encodedToken) {
+  const token = decode(encodedToken);
+  if (!token.exp) {
+    return null;
+  }
+
+  const date = new Date(0);
+  date.setUTCSeconds(token.exp);
+
+  return date;
+}
+
+function isTokenExpired(token) {
+  const expirationDate = getTokenExpirationDate(token);
+  return expirationDate < new Date();
+}

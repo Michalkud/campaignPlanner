@@ -1,29 +1,39 @@
 import React, { Component } from 'react';
 import { Button, Popover, Avatar } from 'antd';
+import { login, logout, isLoggedIn } from 'services/auth';
 
 class UserPanel extends Component {
   constructor(props) {
     super(props);
   }
 
-  _logout() {
-    // remove token from local storage and reload page to reset apollo client
-    window.localStorage.removeItem('auth0IdToken');
-    location.reload();
-  }
-
-  content = () =>
-  (<div>
-    <Button onClick={this._logout}>Odhlásit se</Button>
-   </div>)
+  content = () => (
+    <div>
+      {isLoggedIn() ? (
+        <Button onClick={() => logout()}>
+          Log out
+        </Button>
+      ) : (
+        <Button onClick={() => login()}>
+          Log In
+        </Button>
+      )}
+    </div>
+  );
 
   render() {
     return (
       <div style={{ marginTop: '10px' }}>
-        <Popover placement="bottom" title={this.props.user.name}
-            content={this.content()} trigger="click">
-          <Avatar size="large"
-            src={this.props && this.props.user && this.props.user.picture} />
+        <Popover
+          placement="bottom"
+          title={this.props.user.name}
+          content={this.content()}
+          trigger="click"
+        >
+          <Avatar
+            size="large"
+            src={this.props && this.props.user && this.props.user.picture}
+          />
         </Popover>
       </div>
     );

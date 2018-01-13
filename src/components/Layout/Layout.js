@@ -6,18 +6,18 @@ import { Switch, withRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import 'antd/lib/locale-provider/style';
 import 'styles/main.scss';
-import LoginAuth0 from 'components/LoginAuth0';
+
 import { PropTypes } from 'prop-types';
-import { clientId, domain } from 'config';
 import { Layout, Col } from 'antd';
 import UserPanel from 'components/UserPanel';
 const { Header, Content, Sider, Footer } = Layout;
 import CampaignTimeline from 'components/CampaignTimeline';
 import CreateCampaignForm from 'components/CreateCampaignForm';
-import CampaignForm from 'components/CampaignOverview';
+import CampaignOverview from 'components/CampaignOverview';
 import UniversalChannelPage from 'components/UniversalChannelPage';
-import CreateUser from 'components/CreateUser';
 import { Route } from 'react-router-dom';
+import { requireAuth } from 'services/auth';
+import Callback from 'services/auth/callback';
 
 
 import SelectCampaign from 'components/SelectCampaign';
@@ -46,29 +46,7 @@ class DefaultLayout extends Component {
       this.setState({ mobileDevice: window.innerWidth <= 1018 });
   }
 
-  _logout() {
-    // remove token from local storage and reload page to reset apollo client
-    window.localStorage.removeItem('auth0IdToken');
-    location.reload();
-  }
-
-  _isLoggedIn() {
-    return localStorage.getItem('auth0IdToken');
-  }
-
   render() {
-    if (this.props.data.loading) {
-      return (<div>Loading</div>);
-    }
-    if (this._isLoggedIn()) {
-      return this.renderLoggedIn();
-    } else {
-      return this.renderLoggedOut();
-    }
-
-  }
-
-  renderLoggedIn() {
 
     return (
       <Layout style={{ minHeight: '100vh' }}>
@@ -89,12 +67,12 @@ class DefaultLayout extends Component {
           <Layout style={{ padding: '0 8px 24px' }}>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                 <Switch>
-                  <Route exact={true} path="/" component={CampaignForm} />
-                  <Route exact={true} path="/new-campaign" component={CreateCampaignForm} />
-                  <Route exact={true} path="/campaign" component={CampaignForm} />
-                  <Route exact={true} path="/media-plan" component={CampaignTimeline} />
-                  <Route exact={true} path="/universal-channel-page" component={UniversalChannelPage} />
-                  <Route path="/signup" component={CreateUser} />
+                  <Route exact={true} path="/" component={CampaignOverview} onEnter={requireAuth} />
+                  <Route exact={true} path="/new-campaign" component={CreateCampaignForm} onEnter={requireAuth} />
+                  <Route exact={true} path="/campaign" component={CampaignOverview} onEnter={requireAuth} />
+                  <Route exact={true} path="/media-plan" component={CampaignTimeline} onEnter={requireAuth} />
+                  <Route exact={true} path="/universal-channel-page" component={UniversalChannelPage} onEnter={requireAuth} />
+                  <Route path="/callback" component={Callback} />
                 </Switch>
             </Content>
           </Layout>
@@ -104,29 +82,6 @@ class DefaultLayout extends Component {
         </Footer>
       </Layout>
 
-    );
-  }
-
-  renderLoggedOut() {
-    return (
-      <Layout>
-        <Header className="header">
-          <div className="logo" style={{ float:'left' }} >
-            <h1 style={{ color:'white', fontWeight:'600' }}>Marketing planner</h1>
-          </div>
-        </Header>
-        <Layout>
-          <div>
-            <div className="pv3">
-              <LoginAuth0
-                clientId={clientId}
-                domain={domain}
-                history={history}
-              />
-            </div>
-          </div>
-      </Layout>
-    </Layout>
     );
   }
 

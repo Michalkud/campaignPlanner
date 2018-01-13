@@ -1,4 +1,4 @@
-import CreateCampaignForm from './CampaignForm';
+import CampaignOverview from './CampaignOverview';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
@@ -145,4 +145,4 @@ export default connect(mapStateToProps)(compose(graphql(currentCampaignQuery, {
   graphql(updateCampaignQuery, {
     name: 'updateCampaign'
   })
-)(CreateCampaignForm));
+)(CampaignOverview));

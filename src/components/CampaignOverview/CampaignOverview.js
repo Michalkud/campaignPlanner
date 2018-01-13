@@ -18,7 +18,7 @@ const propTypes = {
   //addCampaign: PropTypes.func.isRequired
 };
 
-class CreateCampaignForm extends Component {
+class CampaignOverview extends Component {
 
   constructor(props) {
     super(props);
@@ -179,6 +179,6 @@ class CreateCampaignForm extends Component {
   }
 }
 
-CreateCampaignForm.propTypes = propTypes;
+CampaignOverview.propTypes = propTypes;
 
-export default CreateCampaignForm;
+export default CampaignOverview;
