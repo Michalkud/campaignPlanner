@@ -6,8 +6,8 @@ const ID_TOKEN_KEY = 'id_token';
 
 console.log(process);
 const auth = new auth0.WebAuth({
-  clientID: domain,
-  domain: clientId
+  clientID: clientId,
+  domain: domain
 });
 
 export function login() {
