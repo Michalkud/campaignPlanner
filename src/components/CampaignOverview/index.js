@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import { compose } from 'react-apollo';
 
-import { selectors } from 'models/campaign';
+//import { selectors } from 'models/campaign';
 
 const createCampaign = gql`
   mutation createCampaign(
@@ -130,8 +130,12 @@ query getCurrentCampaignWithChannels($selectedCampaignId: ID!) {
 }
 `;
 
-const mapStateToProps = state => ({
+/*const mapStateToProps = state => ({
   selectedCampaignId: selectors.selectedCampaignId(state)
+});*/
+
+const mapStateToProps = (state, ownProps) => ({
+  selectedCampaignId: ownProps.match.params.id_campaign
 });
 
 export default connect(mapStateToProps)(compose(graphql(currentCampaignQuery, {

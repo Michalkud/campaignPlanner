@@ -115,7 +115,7 @@ class CreateCampaignForm extends Component {
     const { channelTypesIds, domainsIds, budget, motto, description } = this.state;
     return (
       <Form className="campaign-overview">
-      <CampaignHeader onValueChanged={this.handleChangeValue} />
+      <CampaignHeader idCampaign={this.state.id} onValueChanged={this.handleChangeValue} />
     <Row gutter={16}>
       <Col md={16} className="gutter-row">
         <Row gutter={16}>

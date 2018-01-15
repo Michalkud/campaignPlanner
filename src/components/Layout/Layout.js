@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import SiderMenu from 'components/SiderMenu';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
-import { Switch, withRouter } from 'react-router-dom';
+import { withRouter, Route } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import 'antd/lib/locale-provider/style';
 import 'styles/main.scss';
@@ -17,7 +15,6 @@ import CreateCampaignForm from 'components/CreateCampaignForm';
 import CampaignForm from 'components/CampaignOverview';
 import UniversalChannelPage from 'components/UniversalChannelPage';
 import CreateUser from 'components/CreateUser';
-import { Route } from 'react-router-dom';
 
 
 import SelectCampaign from 'components/SelectCampaign';
@@ -26,7 +23,6 @@ class DefaultLayout extends Component {
 
   static propTypes = {
     history: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
   }
 
   state = {
@@ -38,6 +34,7 @@ class DefaultLayout extends Component {
   }
 
   componentDidMount() {
+    console.log('did mount');
     window.addEventListener('resize', this.resize.bind(this));
     this.resize();
   }
@@ -56,10 +53,12 @@ class DefaultLayout extends Component {
     return localStorage.getItem('auth0IdToken');
   }
 
+  componentDidUpdate() {
+    console.log('updated');
+    console.log(this.props.location);
+  }
+
   render() {
-    if (this.props.data.loading) {
-      return (<div>Loading</div>);
-    }
     if (this._isLoggedIn()) {
       return this.renderLoggedIn();
     } else {
@@ -69,7 +68,6 @@ class DefaultLayout extends Component {
   }
 
   renderLoggedIn() {
-
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Header className="header" style={{ padding:'0 25px' }} >
@@ -88,14 +86,12 @@ class DefaultLayout extends Component {
           </Sider>
           <Layout style={{ padding: '0 8px 24px' }}>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-                <Switch>
                   <Route exact={true} path="/" component={CampaignForm} />
                   <Route exact={true} path="/new-campaign" component={CreateCampaignForm} />
-                  <Route exact={true} path="/campaign" component={CampaignForm} />
-                  <Route exact={true} path="/media-plan" component={CampaignTimeline} />
-                  <Route exact={true} path="/universal-channel-page" component={UniversalChannelPage} />
+                  <Route exact={true} path="/campaign/:id_campaign?" component={CampaignForm} />
+                  <Route exact={true} path="/campaign/:id_campaign/media-plan" component={CampaignTimeline} />
+                  <Route exact={true} path="/campaign/:id_campaign/universal-channel-page" component={UniversalChannelPage} />
                   <Route path="/signup" component={CreateUser} />
-                </Switch>
             </Content>
           </Layout>
         </Layout>
@@ -132,13 +128,4 @@ class DefaultLayout extends Component {
 
 }
 
-const userQuery = gql`
-query {
-  user {
-    id
-    name
-  }
-}
-`;
-
-export default graphql(userQuery, { options: { fetchPolicy: 'network-only' } })(withRouter(DefaultLayout));
+export default withRouter(DefaultLayout);
