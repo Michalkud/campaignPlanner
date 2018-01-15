@@ -81,7 +81,6 @@ class DefaultLayout extends Component {
           Ant Design ©2016 Created by Ant UED
         </Footer>
       </Layout>
-
     );
   }
 

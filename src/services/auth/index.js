@@ -1,23 +1,21 @@
 import decode from 'jwt-decode';
 import { browserHistory } from 'react-router';
 import auth0 from 'auth0-js';
+import { redirect, domain, clientId, audience, scope } from 'config';
 const ID_TOKEN_KEY = 'id_token';
 
-const REDIRECT = process.env.AUTH_CONFIG_CALLBACK_URL;
-const SCOPE = 'openid email profile';
-const AUDIENCE = process.env.AUTH_CONFIG_AUDIENCE;
 console.log(process);
 const auth = new auth0.WebAuth({
-  clientID: process.env.AUTH_CONFIG_DOMAIN,
-  domain: process.env.AUTH_CONFIG_DOMAIN
+  clientID: domain,
+  domain: clientId
 });
 
 export function login() {
   auth.authorize({
     responseType: 'id_token',
-    redirectUri: REDIRECT,
-    audience: AUDIENCE,
-    scope: SCOPE
+    redirectUri: redirect,
+    audience: audience,
+    scope: scope
   });
 }
 
