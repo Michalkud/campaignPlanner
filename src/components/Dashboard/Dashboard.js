@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Col, Row } from 'antd';
+import { CampaignsQuery, UserQuery } from 'queryComponents';
+import { Link } from 'react-router-dom';
 
 class Dashboard extends Component {
 
@@ -20,7 +22,24 @@ class Dashboard extends Component {
           Dashboard
         </Col>
         <Col md={18} lg={12} className="card gutter-row">
-          <span>Text</span>
+          <UserQuery>
+            {
+              ({ user }) => (<CampaignsQuery user={user}>
+                {
+                  ({ allCampaigns }) =>
+                  (<div>
+                      {allCampaigns.map(campaign => (
+                        <Row gutter={16}>
+                          <Link to={`/campaign/${campaign.id}`}>
+                            {campaign.name}
+                          </Link>
+                        </Row>
+                      ))}
+                  </div>)
+                }
+              </CampaignsQuery>)
+            }
+          </UserQuery>
         </Col>
       </Row>
     </div>
