@@ -28,16 +28,21 @@ class DefaultLayout extends Component {
 
   state = {
     collapsed: false,
-    mobileDevice: false
+    mobileDevice: false,
+    id_campaign: null
   };
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
   }
 
   componentDidMount() {
-    console.log('did mount');
     window.addEventListener('resize', this.resize.bind(this));
     this.resize();
+    this.setState({ id_campaign:this.getCampaignIDFromUrl(this.props.location.pathname) });
+  }
+
+  getCampaignIDFromUrl(pathname) {
+    return pathname.split('/')[2];
   }
 
   resize() {
@@ -55,8 +60,9 @@ class DefaultLayout extends Component {
   }
 
   componentDidUpdate() {
-    console.log('updated');
-    console.log(this.props.location);
+    if (this.state.id_campaign !== this.getCampaignIDFromUrl(this.props.location.pathname)) {
+      this.setState({ id_campaign:this.getCampaignIDFromUrl(this.props.location.pathname) });
+    }
   }
 
   render() {
@@ -83,7 +89,7 @@ class DefaultLayout extends Component {
           <Sider collapsible={true}
             collapsed={this.state.collapsed || this.state.mobileDevice}
             onCollapse={this.onCollapse}>
-            <SiderMenu collapsed={this.state.collapsed || this.state.mobileDevice} />
+            <SiderMenu collapsed={this.state.collapsed || this.state.mobileDevice} campaignID={this.state.id_campaign} />
           </Sider>
           <Layout style={{ padding: '0 8px 24px' }}>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
