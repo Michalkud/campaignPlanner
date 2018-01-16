@@ -21,7 +21,7 @@ $font-weight-slim: 400;
 @import 'src/components/CreateCampaignForm/form.scss';
 @import 'src/components/CampaignOverview/form.scss';
 @import 'src/components/CampaignTimeline/styles.scss';
-
+@import 'src/components/Dashboard/styles.scss';
 
 html,body{ color: black;}
 body {font-family: $font-normal;}
