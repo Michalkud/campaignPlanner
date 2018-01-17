@@ -81,14 +81,14 @@ class CampaignTimeline extends Component {
 
   render() {
     const { data } = this.props;
-    console.log(this.state);
+    const { id_campaign } = this.props.match.params;
     return (
       <div>
         {data &&
           data.Campaign && (
             <div>
               <Form>
-                <CampaignHeader />
+                <CampaignHeader idCampaign={id_campaign} />
               </Form>
               <Row style={{ marginBottom: '15px' }}>
                 <Col span={20}>

@@ -96,8 +96,8 @@ class DefaultLayout extends Component {
                   <Route exact={true} path="/" component={Dashboard} />
                   <Route exact={true} path="/new-campaign" component={CreateCampaignForm} />
                   <Route exact={true} path="/campaign/:id_campaign?" component={CampaignForm} />
-                  <Route exact={true} path="/campaign/:id_campaign/media-plan" component={CampaignTimeline} />
-                  <Route exact={true} path="/campaign/:id_campaign/universal-channel-page" component={UniversalChannelPage} />
+                  <Route exact={true} path="/campaign/:id_campaign?/media-plan" component={CampaignTimeline} />
+                  <Route exact={true} path="/campaign/:id_campaign?/universal-channel-page" component={UniversalChannelPage} />
                   <Route path="/signup" component={CreateUser} />
             </Content>
           </Layout>
