@@ -32,6 +32,8 @@ export function requireAuth(nextState, replace) {
 }
 
 export function getIdToken() {
+  console.log(localStorage);
+  console.log(localStorage.getItem(ID_TOKEN_KEY));
   return localStorage.getItem(ID_TOKEN_KEY);
 }
 
@@ -65,6 +67,7 @@ export function getName() {
 
 // Get and store id_token in local storage
 function setIdToken(idToken) {
+  console.log(idToken);
   localStorage.setItem(ID_TOKEN_KEY, idToken);
 }
 
@@ -74,12 +77,16 @@ export function isLoggedIn() {
 }
 
 export function getProfile() {
+  alert('getProfile');
   const token = decode(getIdToken());
+  console.log(token);
   return token;
 }
 
 function getTokenExpirationDate(encodedToken) {
+  alert('getTokenExpirationDate');
   const token = decode(encodedToken);
+  console.log(token);
   if (!token.exp) {
     return null;
   }

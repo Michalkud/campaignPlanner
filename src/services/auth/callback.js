@@ -14,13 +14,12 @@ class Callback extends Component {
   createUser = () => {
     const variables = {
       idToken: getIdToken(),
-      email: getEmail(),
+      emailAddress: getEmail(),
       name: getName()
     };
-
+    console.log('createUser', getIdToken(), variables);
     this.props.createUser({ variables })
       .then((response) => {
-          console.log('Response from create user', response);
           localStorage.setItem('userId', response.data.createUser.id);
           this.props.router.replace('/');
       }).catch((e) => {
@@ -35,8 +34,8 @@ class Callback extends Component {
 }
 
 const createUser = gql`
-  mutation ($idToken: String!, $name: String!, $email: String!){
-    createUser(authProvider: {auth0: {idToken: $idToken}}, name: $name, email: $email) {
+  mutation ($idToken: String!, $name: String!, $emailAddress: String!){
+    createUser(authProvider: {auth0: {idToken: $idToken}}, name: $name, emailAddress: $emailAddress, emailSubscription: false) {
       id
     }
   }

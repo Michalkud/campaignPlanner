@@ -26,7 +26,7 @@ class UserPanel extends Component {
       <div style={{ marginTop: '10px' }}>
         <Popover
           placement="bottom"
-          title={this.props.user.name}
+          title={this.props.user && this.props.user.name || ''}
           content={this.content()}
           trigger="click"
         >
