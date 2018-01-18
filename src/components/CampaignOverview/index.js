@@ -72,6 +72,7 @@ mutation updateCampaign(
     startDate
     endDate
     motto
+    description
     goals {
       id
     }
@@ -105,6 +106,7 @@ query getCurrentCampaignWithChannels($selectedCampaignId: ID!) {
     startDate
     endDate
     motto
+    description
     goals {
       id
     }
