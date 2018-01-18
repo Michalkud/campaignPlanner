@@ -23,8 +23,7 @@ const currentCampaignQuery = gql`
 `;
 
 const mapStateToProps = (state, ownProps) => ({
-  selectedCampaignId: ownProps.campaignID || selectors.selectedCampaignId(state),
-  ownProps: ownProps
+  selectedCampaignId: ownProps.campaignID || selectors.selectedCampaignId(state)
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -20,12 +20,12 @@ render () {
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to={`/campaign/${this.props.campaignID}`}>
+              <Link to={`/campaign/${this.props.selectedCampaignId}`}>
                 <Icon type="home" />
                 <span>Základní informace</span>
               </Link>
             </Menu.Item>
-            <Menu.Item key="3"><Link to={`/campaign/${this.props.campaignID}/media-plan`}><Icon type="schedule" />
+            <Menu.Item key="3"><Link to={`/campaign/${this.props.selectedCampaignId}/media-plan`}><Icon type="schedule" />
             <span>Média plán</span></Link></Menu.Item>
             { this.props.data &&
               this.props.data.Campaign &&
@@ -33,7 +33,8 @@ render () {
             <SubMenu key="sub4" title={<span><Icon type="notification" /><span>Kanály</span></span>} >
               { this.props.data.Campaign.channelTypes.map( channelType =>
                 (<Menu.Item key={channelType.id}>
-                  <Link to={`/campaign/${this.props.campaignID}/universal-channel-page`} onClick={() => this.props.selectChannelTypeId(channelType.id)} >
+                  <Link to={`/campaign/${this.props.selectedCampaignId}/universal-channel-page`}
+                     onClick={() => this.props.selectChannelTypeId(channelType.id)} >
                     <Icon type="mail" /><span>{channelType.name}</span>
                   </Link>
                 </Menu.Item>))
