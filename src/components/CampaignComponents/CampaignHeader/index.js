@@ -1,7 +1,7 @@
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
-import { selectors } from 'models/campaign';
+//import { selectors } from 'models/campaign';
 
 import CampaignHeader from './CampaignHeader';
 
@@ -23,8 +23,8 @@ const currentCampaignQuery = gql`
 `;
 
 
-const mapStateToProps = state => ({
-  selectedCampaignId: selectors.selectedCampaignId(state)
+const mapStateToProps = (state, ownProps) => ({
+  selectedCampaignId: ownProps.idCampaign
 });
 
 export default connect(mapStateToProps)(graphql(currentCampaignQuery,

@@ -14,20 +14,27 @@ render () {
           style={{ height: '100%', borderRight: 0 }}
         >
             <Menu.Item key="1">
-              <Link to="/campaign">
+              <Link to="/">
+                <Icon type="dashboard" />
+                <span>Základní informace</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Link to={`/campaign/${this.props.selectedCampaignId}`}>
                 <Icon type="home" />
                 <span>Základní informace</span>
               </Link>
             </Menu.Item>
-            <Menu.Item key="2"><Link to="/media-plan"><Icon type="schedule" />
+            <Menu.Item key="3"><Link to={`/campaign/${this.props.selectedCampaignId}/media-plan`}><Icon type="schedule" />
             <span>Média plán</span></Link></Menu.Item>
             { this.props.data &&
               this.props.data.Campaign &&
               this.props.data.Campaign.channelTypes &&
-            <SubMenu key="sub3" title={<span><Icon type="notification" /><span>Kanály</span></span>} >
+            <SubMenu key="sub4" title={<span><Icon type="notification" /><span>Kanály</span></span>} >
               { this.props.data.Campaign.channelTypes.map( channelType =>
                 (<Menu.Item key={channelType.id}>
-                  <Link to="/universal-channel-page" onClick={() => this.props.selectChannelTypeId(channelType.id)} >
+                  <Link to={`/campaign/${this.props.selectedCampaignId}/universal-channel-page`}
+                     onClick={() => this.props.selectChannelTypeId(channelType.id)} >
                     <Icon type="mail" /><span>{channelType.name}</span>
                   </Link>
                 </Menu.Item>))
