@@ -5,10 +5,10 @@ import { CampaignsQuery, UserQuery } from 'queryComponents';
 
 const Option = Select.Option;
 
-const SelectCampaign = ({ selectCampaignId, selectedCampaignId }) => {
+const SelectCampaign = ({ selectCampaignId, selectedCampaignId, reduxUser }) => {
   return (
     <div>
-      <div>
+      <div> 
         <UserQuery>
           {
             ({ user }) => (<CampaignsQuery user={user}>
