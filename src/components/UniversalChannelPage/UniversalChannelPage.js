@@ -23,12 +23,11 @@ class UniversalChannelPage extends Component {
 
   render() {
     const { data } = this.props;
-
     return (<div>
     { data && data.Campaign &&
       <div>
         <Form>
-          <CampaignHeader />
+          <CampaignHeader idCampaign={data.Campaign.id} />
         </Form>
         <CreateChannelForm closeModal={() => this.setState({ modalVisible: false })} modalVisible={this.state.modalVisible} campaignId={data.Campaign.id} />
         <Button onClick={ () => this.setState({ modalVisible: true })}>Zmenit nastaveni kanalu</Button>

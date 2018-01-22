@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import SiderMenu from 'components/SiderMenu';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
-import { Switch, withRouter } from 'react-router-dom';
+import { withRouter, Route } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import 'antd/lib/locale-provider/style';
 import 'styles/main.scss';
@@ -18,7 +16,6 @@ import CreateCampaignForm from 'components/CreateCampaignForm';
 import CampaignForm from 'components/CampaignOverview';
 import UniversalChannelPage from 'components/UniversalChannelPage';
 import CreateUser from 'components/CreateUser';
-import { Route } from 'react-router-dom';
 
 
 import SelectCampaign from 'components/SelectCampaign';
@@ -27,12 +24,12 @@ class DefaultLayout extends Component {
 
   static propTypes = {
     history: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
   }
 
   state = {
     collapsed: false,
-    mobileDevice: false
+    mobileDevice: false,
+    id_campaign: null
   };
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
@@ -41,6 +38,11 @@ class DefaultLayout extends Component {
   componentDidMount() {
     window.addEventListener('resize', this.resize.bind(this));
     this.resize();
+    this.setState({ id_campaign:this.getCampaignIDFromUrl(this.props.location.pathname) });
+  }
+
+  getCampaignIDFromUrl(pathname) {
+    return pathname.split('/')[2];
   }
 
   resize() {
@@ -57,10 +59,13 @@ class DefaultLayout extends Component {
     return localStorage.getItem('auth0IdToken');
   }
 
-  render() {
-    if (this.props.data.loading) {
-      return (<div>Loading</div>);
+  componentDidUpdate() {
+    if (this.state.id_campaign !== this.getCampaignIDFromUrl(this.props.location.pathname)) {
+      this.setState({ id_campaign:this.getCampaignIDFromUrl(this.props.location.pathname) });
     }
+  }
+
+  render() {
     if (this._isLoggedIn()) {
       return this.renderLoggedIn();
     } else {
@@ -70,7 +75,6 @@ class DefaultLayout extends Component {
   }
 
   renderLoggedIn() {
-
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Header className="header" style={{ padding:'0 25px' }} >
@@ -85,18 +89,16 @@ class DefaultLayout extends Component {
           <Sider collapsible={true}
             collapsed={this.state.collapsed || this.state.mobileDevice}
             onCollapse={this.onCollapse}>
-            <SiderMenu collapsed={this.state.collapsed || this.state.mobileDevice} />
+            <SiderMenu collapsed={this.state.collapsed || this.state.mobileDevice} campaignID={this.state.id_campaign} />
           </Sider>
           <Layout style={{ padding: '0 8px 24px' }}>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-                <Switch>
                   <Route exact={true} path="/" component={Dashboard} />
                   <Route exact={true} path="/new-campaign" component={CreateCampaignForm} />
-                  <Route exact={true} path="/campaign" component={CampaignForm} />
-                  <Route exact={true} path="/media-plan" component={CampaignTimeline} />
-                  <Route exact={true} path="/universal-channel-page" component={UniversalChannelPage} />
+                  <Route exact={true} path="/campaign/:id_campaign?" component={CampaignForm} />
+                  <Route exact={true} path="/campaign/:id_campaign?/media-plan" component={CampaignTimeline} />
+                  <Route exact={true} path="/campaign/:id_campaign?/universal-channel-page" component={UniversalChannelPage} />
                   <Route path="/signup" component={CreateUser} />
-                </Switch>
             </Content>
           </Layout>
         </Layout>
@@ -133,13 +135,4 @@ class DefaultLayout extends Component {
 
 }
 
-const userQuery = gql`
-query {
-  user {
-    id
-    name
-  }
-}
-`;
-
-export default graphql(userQuery, { options: { fetchPolicy: 'network-only' } })(withRouter(DefaultLayout));
+export default withRouter(DefaultLayout);

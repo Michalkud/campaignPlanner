@@ -29,6 +29,40 @@ class CampaignTimeline extends Component {
     this._subscribeToNewChannels();
   }
 
+  componentWillReceiveProps(props) {
+    if (props.queryData && props.queryData.Campaign) {
+      const { queryData: { Campaign } } = props;
+      this.setState({
+        id: Campaign.id || null,
+        name: Campaign.name || '',
+        domainsIds: Campaign.domains && Campaign.domains.map(d => d.id) || [],
+        channelTypesIds: Campaign.channelTypes && Campaign.channelTypes.map(ct => ct.id) || [],
+        goalsIds: Campaign.goals && Campaign.goals.map(ct => ct.id) || [],
+        motto: Campaign.motto || '',
+        description: Campaign.description || '',
+        target: Campaign.target || '',
+        budget: Campaign.budget || {},
+        utmCampaign: Campaign.utmCampaign || '',
+        startDate: Campaign.startDate || null,
+        endDate: Campaign.endDate || null
+      });
+    } else {
+      this.setState({
+        name: '',
+        domainsIds: [],
+        channelTypesIds: [],
+        goalsIds: [],
+        motto: '',
+        description: '',
+        target: '',
+        budget: {},
+        utmCampaign: '',
+        startDate: null,
+        endDate: null
+      });
+    }
+  }
+
   handleOnSelect = selectedEntity =>
     this.setState(
       {
@@ -46,15 +80,14 @@ class CampaignTimeline extends Component {
   };
 
   render() {
-    const { data } = this.props;
-
+    const data = this.props.queryData;
     return (
       <div>
         {data &&
           data.Campaign && (
             <div>
               <Form>
-                <CampaignHeader />
+                <CampaignHeader idCampaign={data.Campaign.id} />
               </Form>
               <Row style={{ marginBottom: '15px' }}>
                 <Col span={20}>
