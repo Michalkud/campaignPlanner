@@ -24,8 +24,8 @@ class CampaignsQuery extends Component {
   }
 
   render() {
-    if (!this.props.data || this.props.data.loading || !this.props.user) {
-        return <Spin />;
+    if (!this.props.data || this.props.data.loading || !this.props.data.allCampaigns) {
+      return <Spin />;
     }
     return this.props.children(this.props.data);
   }
