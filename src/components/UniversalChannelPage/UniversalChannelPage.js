@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button } from 'antd';
+import { Form, Button, Row } from 'antd';
 import gql from 'graphql-tag';
 
 
@@ -26,25 +26,36 @@ class UniversalChannelPage extends Component {
     return (<div>
     { data && data.Campaign &&
       <div>
-        <Form>
-          <CampaignHeader idCampaign={data.Campaign.id} />
-        </Form>
-        <CreateChannelForm closeModal={() => this.setState({ modalVisible: false })} modalVisible={this.state.modalVisible} campaignId={data.Campaign.id} />
-        <Button onClick={ () => this.setState({ modalVisible: true })}>Zmenit nastaveni kanalu</Button>
-              { data.Campaign.channels &&
-                data.Campaign.channels
-                  .filter(channel => channel.channelType.id === this.props.selectedChannelTypeId )
-                  .map((channel, y) => (
-                    <ChannelText
-                      key={y}
-                      name={channel.name}
-                      text={channel.text}
-                      id={channel.id}
-                      startDate={channel.startDate}
-                      endDate={channel.endDate}
-                    />
-                ))
-              }
+        <Row>
+          <Form>
+            <CampaignHeader idCampaign={data.Campaign.id} />
+          </Form>
+        </Row>
+        <Row>
+          <CreateChannelForm
+            closeModal={() => this.setState({ modalVisible: false })}
+            modalVisible={this.state.modalVisible}
+            campaignId={data.Campaign.id} />
+          <Button onClick={ () => this.setState({ modalVisible: true })}>
+            Přidat nový kakál
+          </Button>
+        </Row>
+        <Row gutter={16}>
+        { data.Campaign.channels &&
+          data.Campaign.channels
+            .filter(channel => channel.channelType.id === this.props.selectedChannelTypeId )
+            .map((channel, y) => (
+              <ChannelText
+                key={y}
+                name={channel.name}
+                text={channel.text}
+                id={channel.id}
+                startDate={channel.startDate}
+                endDate={channel.endDate}
+              />
+          ))
+        }
+        </Row>
       </div>
 
     }

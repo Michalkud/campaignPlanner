@@ -48,29 +48,31 @@ class ChannelText extends Component {
 
   render() {
     const { name } = this.props;
-    return (<div><Row className="channelDetail">
-      <Col md={12} className="gutter-row" >
-        { name }
-      </Col>
-      <Col>
-      <RangePicker
-        value={[moment(this.state.startDate), moment(this.state.endDate)]}
-        onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })}
-      />
-      </Col>
-      </Row>
-      <Row>
-      <Editor
-        editorState={this.state.editorState}
-        toolbarClassName="toolbarClassName"
-        wrapperClassName="wrapperClassName"
-        editorClassName="editorClassName"
-        onEditorStateChange={this.onEditorStateChange}
-      />
-      </Row>
-      <Row>
-      <Button onClick={this.handleSave} >Save</Button>
-    </Row></div>);
+    return (<Col className="gutter-row" md={24} lg={12}>
+      <div className="card gutter-box">
+        <Row className="channelDetail">
+        <Col md={12}>
+          { name }
+        </Col>
+        <Col>
+        <RangePicker
+          value={[moment(this.state.startDate), moment(this.state.endDate)]}
+          onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })}
+        />
+        </Col>
+        </Row>
+        <Row>
+        <Editor
+          editorState={this.state.editorState}
+          toolbarClassName="toolbarClassName"
+          wrapperClassName="wrapperClassName"
+          editorClassName="editorClassName"
+          onEditorStateChange={this.onEditorStateChange}
+        />
+        </Row>
+        <Row>
+        <Button onClick={this.handleSave} >Save</Button>
+    </Row></div></Col>);
   }
 }
 
