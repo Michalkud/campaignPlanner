@@ -2,10 +2,23 @@ import React from 'react';
 import { Select, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { CampaignsQuery, UserQuery } from 'queryComponents';
+import createHistory from 'history/createBrowserHistory';
+const history = createHistory();
 
 const Option = Select.Option;
 
 const SelectCampaign = ({ selectCampaignId, selectedCampaignId }) => {
+  const changeSelection = (id) => {
+    selectCampaignId(id);
+    if (history && history.location && history.location.pathname) {
+      const pathInArray = history.location.pathname.split('/');
+      if (pathInArray.length > 2) {
+        pathInArray[2] = id;
+        history.push(pathInArray.join('/'));
+        //location.reload();
+      }
+    }
+  };
   return (
     <div>
       <div>
@@ -17,7 +30,7 @@ const SelectCampaign = ({ selectCampaignId, selectedCampaignId }) => {
                 (<Select
                   value={selectedCampaignId}
                   style={{ width: '30vw' }}
-                  onChange={selectCampaignId}
+                  onChange={changeSelection}
                 >
                     {allCampaigns.map(campaign => (
                       <Option key={campaign.id} value={campaign.id}>
