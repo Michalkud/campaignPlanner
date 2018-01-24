@@ -51,10 +51,10 @@ class ChannelText extends Component {
     return (<Col className="gutter-row" md={24} lg={12}>
       <div className="card gutter-box">
         <Row className="channelDetail">
-        <Col md={12}>
+        <Col md={12} className="channelName" >
           { name }
         </Col>
-        <Col>
+        <Col md={12} >
         <RangePicker
           value={[moment(this.state.startDate), moment(this.state.endDate)]}
           onChange={(neco, dates) => this.setState({ startDate: dates[0], endDate: dates[1] })}

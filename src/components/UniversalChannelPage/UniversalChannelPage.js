@@ -25,7 +25,7 @@ class UniversalChannelPage extends Component {
     const { data } = this.props;
     return (<div>
     { data && data.Campaign &&
-      <div>
+      <div className="universalChannel">
         <Row>
           <Form>
             <CampaignHeader idCampaign={data.Campaign.id} />

@@ -1,3 +1,9 @@
-.card {border-top:4px solid #DE8787; padding: 20px;
+.universalChannel .card {border-top:4px solid #DE8787; padding: 20px;
   box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.2);
    margin: 20px 10px 40px 10px}
+.universalChannel .channelName {font-weight: 600; font-size: 1.2em;
+line-height: 36px}
+.universalChannel .channelDetail {margin-bottom: 20px}
+.universalChannel .rdw-editor-main{margin-bottom: 10px;
+background-color: #fafafa; padding: 5px 10px;}
+.universalChannel .ant-calendar-picker{float: right}
