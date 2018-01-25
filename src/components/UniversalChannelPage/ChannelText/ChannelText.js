@@ -71,7 +71,8 @@ class ChannelText extends Component {
         />
         </Row>
         <Row>
-        <Button onClick={this.handleSave} >Save</Button>
+        <Button onClick={this.handleSave} className="save">Uložit</Button>
+        <Button onClick={this.handleDelete} className="delete">Smazat</Button>
     </Row></div></Col>);
   }
 }
