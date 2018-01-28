@@ -90,9 +90,8 @@ class UniversalChannelPage extends Component {
         }
       }`,
       updateQuery: (previous, { subscriptionData : { Channel } }) => {
-
         const channelIndex = previous.Campaign &&
-        previous.Campaign.channels &&
+        previous.Campaign.channels && 
         previous.Campaign.channels.findIndex(channel => channel.id === Channel.node.id);
         if (channelIndex !== -1) {
           const channel = Channel.node;

@@ -39,6 +39,7 @@ class ChannelText extends Component {
     this.props.mutate({
       variables : {
         id: this.state.id,
+        name: this.state.name,
         text: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
         startDate: this.state.startDate,
         endDate: this.state.endDate

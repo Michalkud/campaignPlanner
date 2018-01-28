@@ -13,7 +13,7 @@ const propTypes = {
   domains: PropTypes.array,
   channels: PropTypes.array,
 
-  addCampaign: PropTypes.func.isRequired
+  //addCampaign: PropTypes.func.isRequired
 };
 
 class CreateCampaignForm extends Component {
