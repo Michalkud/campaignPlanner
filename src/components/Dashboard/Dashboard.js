@@ -4,6 +4,8 @@ import { CampaignsQuery, UserQuery } from 'queryComponents';
 import { Link } from 'react-router-dom';
 import { actions } from 'models/campaign';
 import { connect } from 'react-redux';
+import moment from 'moment';
+import numeral from 'numeral';
 
 class Dashboard extends Component {
 
@@ -31,12 +33,24 @@ class Dashboard extends Component {
                   (<div>
                       {allCampaigns.map(campaign => (
                         <Row gutter={16} key={campaign.id} >
+                          <Col md={12}>
                           <Link to={`/campaign/${campaign.id}`}
                             value={campaign.id}
                             onClick={() => this.props.selectCampaignId(campaign.id)}
                           >
                             {campaign.name}
+                            {}
                           </Link>
+                          </Col>
+                          <Col md={4}>
+                            {moment(campaign.startDate).format('DD-MM-YYYY')}
+                          </Col>
+                          <Col md={4}>
+                            {moment(campaign.endDate).format('DD-MM-YYYY')}
+                          </Col>
+                          <Col md={4}>
+                            {numeral(campaign.budget.amount).format('0,0[.]00')} Kč
+                          </Col>
                         </Row>
                       ))}
                   </div>)
