@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Row } from 'antd';
+import { Col, Row, List } from 'antd';
 import { CampaignsQuery, UserQuery } from 'queryComponents';
 import { Link } from 'react-router-dom';
 import { actions } from 'models/campaign';
@@ -30,9 +30,11 @@ class Dashboard extends Component {
               ({ user }) => (<CampaignsQuery user={user}>
                 {
                   ({ allCampaigns }) =>
-                  (<div>
-                      {allCampaigns.map(campaign => (
-                        <Row gutter={16} key={campaign.id} >
+                  (<List
+                    itemLayout="horizontal"
+                    dataSource={allCampaigns}
+                    renderItem={campaign => (
+                        <List.Item gutter={16} key={campaign.id} >
                           <Col md={12}>
                           <Link to={`/campaign/${campaign.id}`}
                             value={campaign.id}
@@ -51,9 +53,9 @@ class Dashboard extends Component {
                           <Col md={4}>
                             {numeral(campaign.budget.amount).format('0,0[.]00')} Kč
                           </Col>
-                        </Row>
-                      ))}
-                  </div>)
+                        </List.Item>
+                      )} />
+                  )
                 }
               </CampaignsQuery>)
             }
