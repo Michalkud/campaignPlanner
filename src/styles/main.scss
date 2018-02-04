@@ -10,7 +10,10 @@ $purple: #9e379f;
 $orange: #ffa700;
 $blue: #0057e7;
 $red: #d62d20;
+$delete-red: #CF4647;
+$hover-gray:#99ABB7;
 $green: #008744;
+$pink: #DE8787;
 
 $font-heading: 'Barlow', sans-serif;
 $font-normal: arial;
@@ -22,6 +25,7 @@ $font-weight-slim: 400;
 @import 'src/components/CampaignOverview/form.scss';
 @import 'src/components/CampaignTimeline/styles.scss';
 @import 'src/components/Dashboard/styles.scss';
+@import 'src/components/UniversalChannelPage/styles.scss';
 
 html,body{ color: black;}
 body {font-family: $font-normal;}
@@ -64,5 +68,3 @@ input, .ant-input, .ant-select,
 
 
 .rbc-event{border-radius: '0px';opacity: 0.8;  border: '0px';  display: 'block'}
-
-.rdw-editor-main{border: 1px solid black;}

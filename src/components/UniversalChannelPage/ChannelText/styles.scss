@@ -1,0 +1,12 @@
+.universalChannel .card {border-top:4px solid $pink; padding: 20px;
+  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.2);
+   margin: 20px 10px 40px 10px}
+.universalChannel .channelName input {font-weight: 600; font-size: 1.2em;
+line-height: 36px; border: 0px;}
+.universalChannel .channelDetail {margin-bottom: 20px}
+.universalChannel .rdw-editor-main{margin-bottom: 10px;
+background-color: #fafafa; padding: 5px 10px;}
+.universalChannel .ant-calendar-picker{float: right}
+.universalChannel button.save,.universalChannel button.delete{margin: 5px 5px 5px 0;}
+.universalChannel .delete {border-color: $delete-red; color: $delete-red}
+.universalChannel .delete:hover {border-color: $hover-gray; color: $hover-gray;}
