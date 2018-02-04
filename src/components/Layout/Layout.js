@@ -18,6 +18,8 @@ import CampaignForm from 'components/CampaignOverview';
 import UniversalChannelPage from 'components/UniversalChannelPage';
 import CreateUser from 'components/CreateUser';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { selectors, actions } from 'models/user';
 
 
 import SelectCampaign from 'components/SelectCampaign';
@@ -49,6 +51,8 @@ class DefaultLayout extends Component {
   _logout() {
     // remove token from local storage and reload page to reset apollo client
     window.localStorage.removeItem('auth0IdToken');
+    window.localStorage.removeItem('user');
+    this.props.setUser(null);
     location.reload();
   }
 
@@ -57,7 +61,7 @@ class DefaultLayout extends Component {
   }
 
   render() {
-    if (this.props.data.loading) {
+    if (this.props.data && this.props.data.loading) {
       return (<div>Loading</div>);
     }
     if (this._isLoggedIn()) {
@@ -141,4 +145,15 @@ query {
 }
 `;
 
-export default graphql(userQuery, { options: { fetchPolicy: 'network-only' } })(withRouter(DefaultLayout));
+const mapStateToProps = state => ({
+  reduxUser: selectors.getUser(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  setUser: (user) => dispatch(actions.setUser(user))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(graphql(userQuery, { 
+  options: { fetchPolicy: 'network-only' }, 
+  skip: ({ reduxUser }) => !reduxUser })(withRouter(DefaultLayout)));
