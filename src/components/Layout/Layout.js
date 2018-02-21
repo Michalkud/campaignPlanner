@@ -154,6 +154,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(graphql(userQuery, { 
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(graphql(userQuery, { 
   options: { fetchPolicy: 'network-only' }, 
-  skip: ({ reduxUser }) => !reduxUser })(withRouter(DefaultLayout)));
+  skip: ({ reduxUser }) => !reduxUser })(DefaultLayout)));

@@ -32,7 +32,6 @@ class UserQuery extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return { reduxUser: selectors.getUser(state) };
 };
 

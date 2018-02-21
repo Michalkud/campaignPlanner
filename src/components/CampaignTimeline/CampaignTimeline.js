@@ -92,9 +92,9 @@ class CampaignTimeline extends Component {
                   {data.Campaign.channelTypes && (
                     <ChannelSelect
                       allChannelTypes={data.Campaign.channelTypes}
-                      onChange={newFilterState =>
+                      onChange={(newFilterState) => {
                         this.setState({ filterState: newFilterState })
-                      }
+                      }}
                       defaultValue={data.Campaign.channelTypes.map(
                         channelType => channelType.id
                       )}

@@ -16,8 +16,6 @@ const Option = Select.Option;
 const propTypes = {
   domains: PropTypes.array,
   channels: PropTypes.array,
-
-  //addCampaign: PropTypes.func.isRequired
 };
 
 class CreateCampaignForm extends Component {
