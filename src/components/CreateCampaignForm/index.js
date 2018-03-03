@@ -140,7 +140,8 @@ query {
 `;
 
 const mapStateToProps = state => ({
-  selectedCampaignId: selectors.selectedCampaignId(state)
+  selectedCampaignId: selectors.selectedCampaignId(state),
+  reduxUser: selectors.getUser(state)
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -160,6 +161,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(compose(graphql(curr
     name: 'updateCampaign'
   }),
   graphql(userQuery, {
-    name: 'userData'
+    name: 'userData',
+    skip: ({ reduxUser }) => !reduxUser
   })
 )(CreateCampaignForm));

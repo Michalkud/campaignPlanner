@@ -16,6 +16,10 @@ import CreateCampaignForm from 'components/CreateCampaignForm';
 import CampaignForm from 'components/CampaignOverview';
 import UniversalChannelPage from 'components/UniversalChannelPage';
 import CreateUser from 'components/CreateUser';
+import { connect } from 'react-redux';
+import { selectors, actions } from 'models/user';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 
 
 import SelectCampaign from 'components/SelectCampaign';
@@ -52,6 +56,8 @@ class DefaultLayout extends Component {
   _logout() {
     // remove token from local storage and reload page to reset apollo client
     window.localStorage.removeItem('auth0IdToken');
+    window.localStorage.removeItem('user');
+    this.props.setUser(null);
     location.reload();
   }
 
@@ -66,6 +72,7 @@ class DefaultLayout extends Component {
   }
 
   render() {
+    console.log(this._isLoggedIn());
     if (this._isLoggedIn()) {
       return this.renderLoggedIn();
     } else {
@@ -114,25 +121,44 @@ class DefaultLayout extends Component {
     return (
       <Layout>
         <Header className="header">
+        <Col span={this.state.mobileDevice ? 18 : 12}>
           <div className="logo" style={{ float:'left' }} >
             <h1 style={{ color:'white', fontWeight:'600' }}>Marketing planner</h1>
           </div>
+        </Col>
+        <Col span={2} push={this.state.mobileDevice ? 4 : 10}>
+          <LoginAuth0
+            clientId={clientId}
+            domain={domain}
+            history={history}
+          />
+        </Col>
         </Header>
-        <Layout>
-          <div>
-            <div className="pv3">
-              <LoginAuth0
-                clientId={clientId}
-                domain={domain}
-                history={history}
-              />
-            </div>
-          </div>
-      </Layout>
+        <Layout />
     </Layout>
     );
   }
 
 }
 
-export default withRouter(DefaultLayout);
+const userQuery = gql`
+query {
+  user {
+    id
+    name
+  }
+}
+`;
+
+const mapStateToProps = state => ({
+  reduxUser: selectors.getUser(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  setUser: (user) => dispatch(actions.setUser(user))
+});
+
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(graphql(userQuery, { 
+  options: { fetchPolicy: 'network-only' }, 
+  skip: ({ reduxUser }) => !reduxUser })(DefaultLayout)));

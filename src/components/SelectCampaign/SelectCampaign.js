@@ -21,7 +21,7 @@ const SelectCampaign = ({ selectCampaignId, selectedCampaignId }) => {
   };
   return (
     <div>
-      <div>
+      <div> 
         <UserQuery>
           {
             ({ user }) => (<CampaignsQuery user={user}>

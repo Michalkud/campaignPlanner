@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
+import { Button } from 'antd';
 
 const USER_ALREADY_EXISTS_ERROR_CODE = 3023;
 
@@ -30,6 +31,7 @@ class LoginAuth0 extends Component {
         }
 
         // Save token and profile locally
+        console.log('Save token and profile locally:', authResult.idToken);
         localStorage.setItem('auth0IdToken', authResult.idToken);
         this.signinGraphcool(authResult, profile);
         this.props.setUser(profile);
@@ -73,7 +75,7 @@ class LoginAuth0 extends Component {
   render() {
     return (
       <div>
-        {this._showLogin()}
+        <Button type="primary" onClick={this._showLogin}>Log in</Button>
       </div>
     );
   }

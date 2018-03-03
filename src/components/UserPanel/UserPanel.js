@@ -6,9 +6,11 @@ class UserPanel extends Component {
     super(props);
   }
 
-  _logout() {
+  _logout = () => {
     // remove token from local storage and reload page to reset apollo client
     window.localStorage.removeItem('auth0IdToken');
+    window.localStorage.removeItem('user');
+    this.props.setUser(null);
     location.reload();
   }
 
