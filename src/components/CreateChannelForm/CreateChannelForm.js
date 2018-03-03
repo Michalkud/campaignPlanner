@@ -24,8 +24,8 @@ class CreateCampaignForm extends Component {
         id: null,
         name: '',
         channelTypeId: '',
-        startDate: null,
-        endDate: null,
+        startDate: props.selectedInterval && props.selectedInterval.start || null,
+        endDate: props.selectedInterval && props.selectedInterval.end || null,
         campaignId: props.campaignId
     };
 

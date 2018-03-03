@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Form, Button, Row, Col } from 'antd';
+import { Form, Row, Col } from 'antd';
 import gql from 'graphql-tag';
 import ChannelSelect from '../CampaignComponents/ChannelSelect';
 import CampaignHeader from '../CampaignComponents/CampaignHeader';
@@ -19,7 +19,8 @@ class CampaignTimeline extends Component {
     this.state = {
       selectedChannel: null,
       modalVisible: false,
-      filterState: []
+      filterState: [],
+      visible: false
     };
 
     this.handleOnSelect = this.handleOnSelect.bind(this);
@@ -81,8 +82,10 @@ class CampaignTimeline extends Component {
 
   render() {
     const data = this.props.queryData;
+
     return (
       <div>
+
         {data &&
           data.Campaign && (
             <div>
@@ -107,28 +110,26 @@ class CampaignTimeline extends Component {
                   <CreateChannelForm
                     closeModal={() => this.setState({ modalVisible: false })}
                     modalVisible={this.state.modalVisible}
+                    startDate={this.state.selectedInterval && this.state.selectedInterval.start}
+                    endDate={this.state.selectedInterval && this.state.selectedInterval.end}
                     campaignId={data.Campaign.id}
                     {...this.state.selectedChannel}
                   />
-                  <Button
-                    onClick={() =>
-                      this.setState({ selectedChannel: null }, () =>
-                        this.setState({ modalVisible: true })
-                      )
-                    }
-                  >
-                    Create channel
-                  </Button>
                 </Col>
               </Row>
             </div>
           )}
-
         <BigCalendar
           selectable={true}
-          /*onNavigate={}
-            onView={}
-            onSelecting={}*/
+          onNavigate={console.log}
+          onView={console.log}
+          onSelecting={console.log}
+          onSelectSlot={(selectedInterval) => {
+            console.log(selectedInterval);
+            this.setState({ selectedChannel: null }, () =>
+              this.setState({ modalVisible: true, selectedInterval })
+            )
+          }}
           views={['month', 'agenda']}
           events={
             (data &&
