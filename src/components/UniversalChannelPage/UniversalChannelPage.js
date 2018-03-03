@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { Form, Input, DatePicker, Button } from 'antd';
-import moment from 'moment';
+import { Form, Button, Row } from 'antd';
 import gql from 'graphql-tag';
 
 
 import CreateChannelForm from 'components/CreateChannelForm';
 import ChannelText from './ChannelText';
-
-
-const FormItem = Form.Item;
-const { RangePicker } = DatePicker;
+import CampaignHeader from '../CampaignComponents/CampaignHeader';
 
 class UniversalChannelPage extends Component {
 
@@ -27,34 +23,39 @@ class UniversalChannelPage extends Component {
 
   render() {
     const { data } = this.props;
-
     return (<div>
     { data && data.Campaign &&
-      <div>
-        <Form>
-        <FormItem label="Název kampaně">
-          <Input value={data.Campaign.name} />
-        </FormItem>
-        <FormItem label="Trvání">
-          <RangePicker value={[moment(data.Campaign.startDate), moment(data.Campaign.endDate)]} />
-        </FormItem>
-        </Form>
-        <CreateChannelForm closeModal={() => this.setState({ modalVisible: false })} modalVisible={this.state.modalVisible} campaignId={data.Campaign.id} />
-        <Button onClick={ () => this.setState({ modalVisible: true })}>Create channel</Button>
-              { data.Campaign.channels &&
-                data.Campaign.channels
-                  .filter(channel => channel.channelType.id === this.props.selectedChannelTypeId )
-                  .map((channel, y) => (
-                    <ChannelText
-                      key={y}
-                      name={channel.name}
-                      text={channel.text}
-                      id={channel.id}
-                      startDate={channel.startDate}
-                      endDate={channel.endDate}
-                    />
-                ))
-              }
+      <div className="universalChannel">
+        <Row>
+          <Form>
+            <CampaignHeader idCampaign={data.Campaign.id} />
+          </Form>
+        </Row>
+        <Row>
+          <CreateChannelForm
+            closeModal={() => this.setState({ modalVisible: false })}
+            modalVisible={this.state.modalVisible}
+            campaignId={data.Campaign.id} />
+          <Button onClick={ () => this.setState({ modalVisible: true })}>
+            Přidat nový kakál
+          </Button>
+        </Row>
+        <Row gutter={16}>
+        { data.Campaign.channels &&
+          data.Campaign.channels
+            .filter(channel => channel.channelType.id === this.props.selectedChannelTypeId )
+            .map((channel, y) => (
+              <ChannelText
+                key={y}
+                name={channel.name}
+                text={channel.text}
+                id={channel.id}
+                startDate={channel.startDate}
+                endDate={channel.endDate}
+              />
+          ))
+        }
+        </Row>
       </div>
 
     }
@@ -89,9 +90,8 @@ class UniversalChannelPage extends Component {
         }
       }`,
       updateQuery: (previous, { subscriptionData : { Channel } }) => {
-
         const channelIndex = previous.Campaign &&
-        previous.Campaign.channels &&
+        previous.Campaign.channels && 
         previous.Campaign.channels.findIndex(channel => channel.id === Channel.node.id);
         if (channelIndex !== -1) {
           const channel = Channel.node;

@@ -11,7 +11,9 @@ const { RangePicker } = DatePicker;
 
 const propTypes = {
   domains: PropTypes.array,
-  channels: PropTypes.array
+  channels: PropTypes.array,
+
+  //addCampaign: PropTypes.func.isRequired
 };
 
 class CreateCampaignForm extends Component {

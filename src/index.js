@@ -9,7 +9,7 @@ import DefaultLayout from 'components/Layout';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloLink, concat } from 'apollo-link';
+import { ApolloLink, from } from 'apollo-link';
 import { Provider } from 'react-redux';
 import { WebSocketLink } from 'apollo-link-ws';
 import { split } from 'apollo-link';
@@ -43,7 +43,10 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-const client = new ApolloClient({ link: concat(authMiddleware, link), cache: new InMemoryCache() });
+const client = new ApolloClient({
+  link: from([authMiddleware, link]),
+  cache: new InMemoryCache()
+});
 const Root = () => (
   <LocaleProvider locale={enUS}>
     <Provider store={store}>

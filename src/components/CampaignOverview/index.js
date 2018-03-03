@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import { compose } from 'react-apollo';
 
-import { selectors } from 'models/campaign';
+//import { selectors } from 'models/campaign';
 
 const createCampaign = gql`
   mutation createCampaign(
@@ -18,6 +18,7 @@ const createCampaign = gql`
     $description: String,
     $endDate: DateTime!,
     $startDate: DateTime!,
+    $utmCampaign: String
   ) {
     createCampaign(
       name: $name,
@@ -29,14 +30,15 @@ const createCampaign = gql`
       target: $target,
       budget: $budget,
       startDate: $startDate,
-      endDate: $endDate
+      endDate: $endDate,
+      utmCampaign: $utmCampaign,
     ) {
       createdAt
     }
   }
 `;
 
-const updateCampaign = gql`
+const updateCampaignQuery = gql`
 mutation updateCampaign(
   $id : ID!
   $channelTypesIds: [ID!],
@@ -62,26 +64,20 @@ mutation updateCampaign(
     target: $target,
     budget: $budget,
     startDate: $startDate,
-    endDate: $endDate
+    endDate: $endDate,
+    utmCampaign: $utmCampaign
   ) {
-    id
-    createdAt
-  }
-}
-`;
-
-const currentCampaignQuery = gql`
-query getCurrentCampaignWithChannels($selectedCampaignId: ID!) {
-  Campaign(id: $selectedCampaignId) {
     id
     name
     startDate
     endDate
     motto
+    description
     goals {
       id
     }
     budget
+    utmCampaign
     channelTypes {
       id
     }
@@ -102,8 +98,46 @@ query getCurrentCampaignWithChannels($selectedCampaignId: ID!) {
 }
 `;
 
-const mapStateToProps = state => ({
+const currentCampaignQuery = gql`
+query getCurrentCampaignWithChannels($selectedCampaignId: ID!) {
+  Campaign(id: $selectedCampaignId) {
+    id
+    name
+    startDate
+    endDate
+    motto
+    description
+    goals {
+      id
+    }
+    budget
+    utmCampaign
+    channelTypes {
+      id
+    }
+    domains {
+      id
+    }
+    channels {
+      id
+      name
+      startDate
+      endDate
+      channelType {
+        id
+        color
+      }
+    }
+  }
+}
+`;
+
+/*const mapStateToProps = state => ({
   selectedCampaignId: selectors.selectedCampaignId(state)
+});*/
+
+const mapStateToProps = (state, ownProps) => ({
+  selectedCampaignId: ownProps.match.params.id_campaign
 });
 
 export default connect(mapStateToProps)(compose(graphql(currentCampaignQuery, {
@@ -114,7 +148,7 @@ export default connect(mapStateToProps)(compose(graphql(currentCampaignQuery, {
   graphql(createCampaign, {
     name: 'createCampaign'
   }),
-  graphql(updateCampaign, {
+  graphql(updateCampaignQuery, {
     name: 'updateCampaign'
   })
 )(CreateCampaignForm));
