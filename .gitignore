@@ -26,3 +26,5 @@ yarn-error.log*
 sonar-scanner
 run_sonar.sh
 .scannerwork
+test/bin/*
+test/e2e/reports/*
