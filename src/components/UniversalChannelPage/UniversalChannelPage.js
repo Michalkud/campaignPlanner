@@ -35,7 +35,9 @@ class UniversalChannelPage extends Component {
           <CreateChannelForm
             closeModal={() => this.setState({ modalVisible: false })}
             modalVisible={this.state.modalVisible}
-            campaignId={data.Campaign.id} />
+            campaignId={data.Campaign.id}
+            channelTypeId={this.props.selectedChannelTypeId}
+          />
           <Button onClick={ () => this.setState({ modalVisible: true })}>
             Přidat nový kakál
           </Button>
@@ -89,7 +91,7 @@ class UniversalChannelPage extends Component {
           }
         }
       }`,
-      updateQuery: (previous, { subscriptionData : { Channel } }) => {
+      updateQuery: (previous, { subscriptionData : { data: { Channel } } }) => {
         const channelIndex = previous.Campaign &&
         previous.Campaign.channels && 
         previous.Campaign.channels.findIndex(channel => channel.id === Channel.node.id);

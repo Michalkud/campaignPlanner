@@ -36,9 +36,11 @@ class CampaignTimeline extends Component {
       this.setState({
         id: Campaign.id || null,
         name: Campaign.name || '',
-        domainsIds: Campaign.domains && Campaign.domains.map(d => d.id) || [],
-        channelTypesIds: Campaign.channelTypes && Campaign.channelTypes.map(ct => ct.id) || [],
-        goalsIds: Campaign.goals && Campaign.goals.map(ct => ct.id) || [],
+        domainsIds: (Campaign.domains && Campaign.domains.map(d => d.id)) || [],
+        channelTypesIds:
+          (Campaign.channelTypes && Campaign.channelTypes.map(ct => ct.id)) ||
+          [],
+        goalsIds: (Campaign.goals && Campaign.goals.map(ct => ct.id)) || [],
         motto: Campaign.motto || '',
         description: Campaign.description || '',
         target: Campaign.target || '',
@@ -76,7 +78,7 @@ class CampaignTimeline extends Component {
 
   eventStyleGetter = (event, start, end, isSelected) => {
     return {
-      className:event.colorClass,
+      className: event.colorClass
     };
   };
 
@@ -85,7 +87,6 @@ class CampaignTimeline extends Component {
 
     return (
       <div>
-
         {data &&
           data.Campaign && (
             <div>
@@ -110,8 +111,16 @@ class CampaignTimeline extends Component {
                   <CreateChannelForm
                     closeModal={() => this.setState({ modalVisible: false })}
                     modalVisible={this.state.modalVisible}
-                    startDate={this.state.selectedInterval && this.state.selectedInterval.start}
-                    endDate={this.state.selectedInterval && this.state.selectedInterval.end}
+                    startDate={
+                      this.state.selectedInterval &&
+                      this.state.selectedInterval.start
+                    }
+                    endDate={
+                      this.state.selectedInterval &&
+                      moment(this.state.selectedInterval.end)
+                        .endOf('day')
+                        .toDate()
+                    }
                     campaignId={data.Campaign.id}
                     {...this.state.selectedChannel}
                   />
@@ -121,14 +130,10 @@ class CampaignTimeline extends Component {
           )}
         <BigCalendar
           selectable={true}
-          onNavigate={console.log}
-          onView={console.log}
-          onSelecting={console.log}
-          onSelectSlot={(selectedInterval) => {
-            console.log(selectedInterval);
+          onSelectSlot={selectedInterval => {
             this.setState({ selectedChannel: null }, () =>
               this.setState({ modalVisible: true, selectedInterval })
-            )
+            );
           }}
           views={['month', 'agenda']}
           events={
@@ -153,7 +158,6 @@ class CampaignTimeline extends Component {
           scrollToTime={new Date(1970, 1, 1, 6)}
           defaultDate={new Date()}
           onSelectEvent={this.handleOnSelect}
-          /*onSelectSlot={console.log}*/
           eventPropGetter={this.eventStyleGetter}
         />
       </div>
@@ -161,8 +165,8 @@ class CampaignTimeline extends Component {
   }
 
   _subscribeToNewChannels = () => {
-    if (this.props.data) {
-      this.props.data.subscribeToMore({
+    if (this.props.queryData) {
+      this.props.queryData.subscribeToMore({
         document: gql`
           subscription {
             Channel(filter: { mutation_in: [CREATED, UPDATED] }) {
@@ -182,7 +186,10 @@ class CampaignTimeline extends Component {
             }
           }
         `,
-        updateQuery: (previous, { subscriptionData: { Channel } }) => {
+        updateQuery: (
+          previous,
+          { subscriptionData: { data: { Channel } } }
+        ) => {
           const channelIndex =
             previous.Campaign &&
             previous.Campaign.channels &&
