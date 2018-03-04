@@ -10,7 +10,7 @@
       "host": "127.0.0.1",
       "port": 4444,
       "cli_args": {
-        "webdriver.chrome.driver": "test/bin/chromedriver.exe"
+        "webdriver.chrome.driver": "test/bin/chromedriver"
       }
     },
     "test_settings": {
@@ -23,7 +23,7 @@
           "acceptSslCerts": true,
           "browserName": "chrome",
           "chromeOptions" : {
-            "args" : ["headless", "no-sandbox", "disable-gpu"]
+            "args" : ["headless","no-sandbox", "disable-gpu"]
           }
         }
       }

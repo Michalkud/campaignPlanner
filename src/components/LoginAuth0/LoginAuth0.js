@@ -75,7 +75,7 @@ class LoginAuth0 extends Component {
   render() {
     return (
       <div>
-        <Button type="primary" onClick={this._showLogin}>Log in</Button>
+        <Button name="btnLogin" type="primary" onClick={this._showLogin}>Log in</Button>
       </div>
     );
   }
