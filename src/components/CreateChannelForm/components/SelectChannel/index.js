@@ -9,6 +9,7 @@ import SelectChannel from './SelectChannel';
 const currentCampaignQuery = gql`
 query getCurrentCampaignWithChannels($selectedCampaignId: ID!) {
   Campaign(id: $selectedCampaignId) {
+    id
     channelTypes {
       id
       color

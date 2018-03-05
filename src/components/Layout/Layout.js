@@ -72,7 +72,6 @@ class DefaultLayout extends Component {
   }
 
   render() {
-    console.log(this._isLoggedIn());
     if (this._isLoggedIn()) {
       return this.renderLoggedIn();
     } else {

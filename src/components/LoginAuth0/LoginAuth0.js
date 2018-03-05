@@ -31,7 +31,6 @@ class LoginAuth0 extends Component {
         }
 
         // Save token and profile locally
-        console.log('Save token and profile locally:', authResult.idToken);
         localStorage.setItem('auth0IdToken', authResult.idToken);
         this.signinGraphcool(authResult, profile);
         this.props.setUser(profile);

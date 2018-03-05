@@ -16,7 +16,7 @@ render () {
             <Menu.Item key="1">
               <Link to="/">
                 <Icon type="dashboard" />
-                <span>Základní informace</span>
+                <span>Dashboard</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
