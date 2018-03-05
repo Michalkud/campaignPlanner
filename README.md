@@ -9,22 +9,24 @@
 ## Setting test environment
 ```
 yarn global add nightwatch
-yarn run e2e-setup
 ```
 
-https://selenium-release.storage.googleapis.com/3.9/selenium-server-standalone-3.9.1.jar
+### Download and copy this to test/bin
+  - https://selenium-release.storage.googleapis.com/3.9/selenium-server-standalone-3.9.1.jar
+  - https://chromedriver.storage.googleapis.com/index.html?path=2.35/
 
-https://chromedriver.storage.googleapis.com/index.html?path=2.35/
+### Creating config file for NightWatch scenarios
+Create *config.js* file in location `test/e2e/config.js`
+``` javascript
+module.exports = {
+  email:'mail@test.cz',
+  badPassword:'mailBadPassword',
+  password:'mailPassword'
+};
+```
 ### Running test
 ```
 yarn run nw-test
 ```
 
-TODO:
-    - Add remove, edit, add function to timeline
-    - Drag and drop from list to timeline
-    - Runnanle demo to github
-    - Campaign dashboard
-    - validations
-    - subPages
-    - design
+Test reports will be in test/e2e/reports
