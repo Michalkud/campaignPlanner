@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Form, Button, Row, Col } from 'antd';
+import { Form, Row, Col } from 'antd';
 import gql from 'graphql-tag';
 import ChannelSelect from '../CampaignComponents/ChannelSelect';
 import CampaignHeader from '../CampaignComponents/CampaignHeader';
@@ -19,7 +19,8 @@ class CampaignTimeline extends Component {
     this.state = {
       selectedChannel: null,
       modalVisible: false,
-      filterState: []
+      filterState: [],
+      visible: false
     };
 
     this.handleOnSelect = this.handleOnSelect.bind(this);
@@ -35,9 +36,11 @@ class CampaignTimeline extends Component {
       this.setState({
         id: Campaign.id || null,
         name: Campaign.name || '',
-        domainsIds: Campaign.domains && Campaign.domains.map(d => d.id) || [],
-        channelTypesIds: Campaign.channelTypes && Campaign.channelTypes.map(ct => ct.id) || [],
-        goalsIds: Campaign.goals && Campaign.goals.map(ct => ct.id) || [],
+        domainsIds: (Campaign.domains && Campaign.domains.map(d => d.id)) || [],
+        channelTypesIds:
+          (Campaign.channelTypes && Campaign.channelTypes.map(ct => ct.id)) ||
+          [],
+        goalsIds: (Campaign.goals && Campaign.goals.map(ct => ct.id)) || [],
         motto: Campaign.motto || '',
         description: Campaign.description || '',
         target: Campaign.target || '',
@@ -75,12 +78,13 @@ class CampaignTimeline extends Component {
 
   eventStyleGetter = (event, start, end, isSelected) => {
     return {
-      className:event.colorClass,
+      className: event.colorClass
     };
   };
 
   render() {
     const data = this.props.queryData;
+
     return (
       <div>
         {data &&
@@ -107,28 +111,30 @@ class CampaignTimeline extends Component {
                   <CreateChannelForm
                     closeModal={() => this.setState({ modalVisible: false })}
                     modalVisible={this.state.modalVisible}
+                    startDate={
+                      this.state.selectedInterval &&
+                      this.state.selectedInterval.start
+                    }
+                    endDate={
+                      this.state.selectedInterval &&
+                      moment(this.state.selectedInterval.end)
+                        .endOf('day')
+                        .toDate()
+                    }
                     campaignId={data.Campaign.id}
                     {...this.state.selectedChannel}
                   />
-                  <Button
-                    onClick={() =>
-                      this.setState({ selectedChannel: null }, () =>
-                        this.setState({ modalVisible: true })
-                      )
-                    }
-                  >
-                    Create channel
-                  </Button>
                 </Col>
               </Row>
             </div>
           )}
-
         <BigCalendar
           selectable={true}
-          /*onNavigate={}
-            onView={}
-            onSelecting={}*/
+          onSelectSlot={selectedInterval => {
+            this.setState({ selectedChannel: null }, () =>
+              this.setState({ modalVisible: true, selectedInterval })
+            );
+          }}
           views={['month', 'agenda']}
           events={
             (data &&
@@ -152,7 +158,6 @@ class CampaignTimeline extends Component {
           scrollToTime={new Date(1970, 1, 1, 6)}
           defaultDate={new Date()}
           onSelectEvent={this.handleOnSelect}
-          /*onSelectSlot={console.log}*/
           eventPropGetter={this.eventStyleGetter}
         />
       </div>
@@ -160,8 +165,8 @@ class CampaignTimeline extends Component {
   }
 
   _subscribeToNewChannels = () => {
-    if (this.props.data) {
-      this.props.data.subscribeToMore({
+    if (this.props.queryData) {
+      this.props.queryData.subscribeToMore({
         document: gql`
           subscription {
             Channel(filter: { mutation_in: [CREATED, UPDATED] }) {
@@ -181,7 +186,10 @@ class CampaignTimeline extends Component {
             }
           }
         `,
-        updateQuery: (previous, { subscriptionData: { Channel } }) => {
+        updateQuery: (
+          previous,
+          { subscriptionData: { data: { Channel } } }
+        ) => {
           const channelIndex =
             previous.Campaign &&
             previous.Campaign.channels &&

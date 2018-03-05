@@ -11,7 +11,7 @@ const propTypes = {
       colorClass: PropTypes.string,
     }).isRequired
   ),
-  onChange : PropTypes.function,
+  onChange : PropTypes.func,
   defaultValues: PropTypes.array
 };
 

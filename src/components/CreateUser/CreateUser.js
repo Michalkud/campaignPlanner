@@ -106,4 +106,5 @@ export default connect(mapStateToProps)(graphql(createUser, { name: 'createUser'
     fetchPolicy: 'network-only',
     skip: ({ reduxUser }) => !reduxUser 
   } })(withRouter(CreateUser)))
-)
+);
+
