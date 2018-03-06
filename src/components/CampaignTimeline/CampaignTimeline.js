@@ -69,7 +69,7 @@ class CampaignTimeline extends Component {
   handleOnSelect = selectedEntity =>
     this.setState(
       {
-        selectedChannel: this.props.data.Campaign.channels.find(
+        selectedChannel: this.props.queryData.Campaign.channels.find(
           channel => channel.id === selectedEntity.id
         )
       },
