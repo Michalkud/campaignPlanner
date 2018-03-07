@@ -24,6 +24,7 @@ query user {
 
 class UserQuery extends Component {
   render() {
+    console.log(this.props);
     if (!this.props.data || this.props.data.loading || !this.props.data.user) {
       return <Spin />;
     }
