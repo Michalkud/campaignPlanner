@@ -18,14 +18,12 @@ import { domain, clientId, audience, redirect } from '../../config';
               cb(false, { ...authResult, ...profile });
             });
           } else if (err) {
-            console.log(err);
-            cb(true, err)
+            cb(true, err);
           }
         });
       }
       storeAuth0Cred(authResult, profile) {
 
-        console.log('here', authResult.accessToken);
         // Set the time that the access token will expire at
         let expiresAt = JSON.stringify(
           authResult.expiresIn * 1000 + new Date().getTime()

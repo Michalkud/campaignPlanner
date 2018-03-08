@@ -22,7 +22,6 @@ class Callback extends React.Component {
     });
   }
   render() {
-    console.log('here');
     // Show a loading text while the app validates the user
     return <div>Loading...</div>;
   }

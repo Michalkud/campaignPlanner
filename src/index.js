@@ -16,14 +16,14 @@ import { split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
 
 const wsLink = new WebSocketLink({
-  uri: `wss://subscriptions.ap-northeast-1.graph.cool/v1/cjegswjsx11qy01921cp0y6ec`,
+  uri: `wss://subscriptions.graph.cool/v1/cj7yfwulp1j710168atkx0492`,
   options: {
     reconnect: true
   }
 });
 
 
-const httpLink = createHttpLink({ uri: 'https://api.graph.cool/simple/v1/cjegswjsx11qy01921cp0y6ec/api' });
+const httpLink = createHttpLink({ uri: 'https://api.graph.cool/simple/v1/cj7yfwulp1j710168atkx0492/api' });
 const link = split(
   ({ query }) => {
     const { kind, operation } = getMainDefinition(query);
@@ -34,7 +34,6 @@ const link = split(
 );
 
 const authMiddleware = new ApolloLink((operation, forward) => {
-  console.log(localStorage.getItem('auth_gcool_token'));
   // add the authorization to the headers
   operation.setContext({
     headers: {
