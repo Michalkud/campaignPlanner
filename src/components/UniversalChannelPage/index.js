@@ -1,7 +1,6 @@
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
-import { selectors } from 'models/campaign'
 import { selectors as channelTypeSelectors } from 'models/channelType';
 
 import UniversalChannelPage from './UniversalChannelPage';
@@ -9,7 +8,7 @@ import UniversalChannelPage from './UniversalChannelPage';
 // We use the gql tag to parse our query string into a query document
 const currentCampaignQuery = gql`
   query getCurrentCampaignAndTheirChannels($selectedCampaignId: ID!) {
-    Campaign(id: $selectedCampaignId) {     
+    Campaign(id: $selectedCampaignId) {
       id
       name
       startDate
@@ -37,12 +36,12 @@ const currentCampaignQuery = gql`
 `;
 
 
-const mapStateToProps = state => ({
-  selectedCampaignId: selectors.selectedCampaignId(state),
+const mapStateToProps = (state, ownProps) => ({
+  selectedCampaignId: ownProps.match.params.id_campaign,
   selectedChannelTypeId: channelTypeSelectors.selectedChannelTypeId(state)
 });
 
-export default connect(mapStateToProps)(graphql(currentCampaignQuery, 
+export default connect(mapStateToProps)(graphql(currentCampaignQuery,
   {
     skip: ({ selectedCampaignId }) => !selectedCampaignId,
   },

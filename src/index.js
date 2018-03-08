@@ -9,7 +9,7 @@ import DefaultLayout from 'components/Layout';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloLink, concat } from 'apollo-link';
+import { ApolloLink, from } from 'apollo-link';
 import { Provider } from 'react-redux';
 import { WebSocketLink } from 'apollo-link-ws';
 import { split } from 'apollo-link';
@@ -26,8 +26,8 @@ const wsLink = new WebSocketLink({
 const httpLink = createHttpLink({ uri: 'https://api.graph.cool/simple/v1/cj7yfwulp1j710168atkx0492/api' });
 const link = split(
   ({ query }) => {
-    const { kind, operation } = getMainDefinition(query)
-    return kind === 'OperationDefinition' && operation === 'subscription'
+    const { kind, operation } = getMainDefinition(query);
+    return kind === 'OperationDefinition' && operation === 'subscription';
   },
   wsLink,
   httpLink,
@@ -38,12 +38,15 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext({
     headers: {
       authorization: localStorage.getItem('auth0IdToken') ? `Bearer ${localStorage.getItem('auth0IdToken')}` : null,
-    } 
+    }
   });
   return forward(operation);
 });
 
-const client = new ApolloClient({ link: concat(authMiddleware, link), cache: new InMemoryCache() });
+const client = new ApolloClient({
+  link: from([authMiddleware, link]),
+  cache: new InMemoryCache()
+});
 const Root = () => (
   <LocaleProvider locale={enUS}>
     <Provider store={store}>

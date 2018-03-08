@@ -1,0 +1,13 @@
+.ant-form-item-label {font-weight: 600}
+
+.ant-tag-checkable.sklik {border-color:$purple;background-color:transparent; color: black;}
+.ant-tag-checkable.adwordscpc{border-color:$orange;background-color:transparent;}
+.ant-tag-checkable.facebookcpc{border-color:$blue;background-color:transparent; color: black;}
+.ant-tag-checkable.facebooksocial{border-color:$red;background-color:transparent; color: black;}
+.ant-tag-checkable.emailing{border-color:$green;background-color:transparent; color: black;}
+
+.sklik.ant-tag-checkable-checked{background-color:$purple; color: white;}
+.adwordscpc.ant-tag-checkable-checked{background-color:$orange;}
+.facebookcpc.ant-tag-checkable-checked,{background-color:$blue; color: white;}
+.facebooksocial.ant-tag-checkable-checked{background-color:$red; color: white;}
+.emailing.ant-tag-checkable-checked{background-color:$green; color: white;}

@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Barlow:400,600&subset=latin-ext');
+
+// $dark-color: #242424;
+$dark-color: #003D60;
+$dark-header: #423939;
+$light-font: white;
+// #CDA999,#E8DDC7,#99ABB7,#754F6B,,#CDA999,#E8DDC7,#99ABB7
+
+$purple: #9e379f;
+$orange: #ffa700;
+$blue: #0057e7;
+$red: #d62d20;
+$delete-red: #CF4647;
+$hover-gray:#99ABB7;
+$green: #008744;
+$pink: #DE8787;
+
+$font-heading: 'Barlow', sans-serif;
+$font-normal: arial;
+$font-weight-bold: 600;
+$font-weight-slim: 400;
+
+@import 'src/components/CampaignTimeline/styles.scss';
+@import 'src/components/CreateCampaignForm/form.scss';
+@import 'src/components/CampaignOverview/form.scss';
+@import 'src/components/CampaignTimeline/styles.scss';
+@import 'src/components/Dashboard/styles.scss';
+@import 'src/components/UniversalChannelPage/styles.scss';
+
+html,body{ color: black;}
+body {font-family: $font-normal;}
+.ant-layout-footer{padding: 12px 50px;}
+.header, .ant-layout-sider-trigger{background-color: $dark-color;}
+.header, .campaignFormHeader {font-family:$font-heading;
+  font-weight: $font-weight-bold;}
+
+// Campaign overview
+.campaignFormHeader{/*background-color: $dark-header;*/ padding: 0px 6px 15px 6px;margin: 0px;
+  margin-bottom: 30px;}
+.campaignFormHeader .ant-input, .campaignFormHeader .ant-select
+{ background: none; /*color: $light-font;*/ font-size: 1.1em;
+  border: 0px;}
+.campaignFormHeader .ant-select * {background: none;border: 0px;
+  /*color: $light-font;*/ font-weight: $font-weight-bold;}
+
+// #A1DBB2,#FEE5AD,#FACA66,#F7A541,#F45D4C,#A1DBB2,#FEE5AD,#FACA66
+.ant-form-item label{font-family:$font-heading; font-weight: $font-weight-bold;}
+.ant-form-item.gutter-box {border-top:4px solid #DE8787; padding: 20px;
+  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.2);}
+.ant-form-item.card-green {border-color: #A1DBB2}
+.ant-form-item.card-light-yellow {border-color: #FEE5AD}
+.ant-form-item.card-yellow {border-color: #FACA66}
+.ant-form-item.card-orange {border-color: #F7A541}
+.budget .ant-input-number {    margin-top: 0px;
+    margin-right: 0px;
+    height: 34px;
+    padding: 2px;}
+.budget .ant-select-selection{height:34px;}
+.budget .ant-select-selection-selected-value{padding-top: 2px;padding-bottom:2px;}
+input, .ant-input, .ant-select,
+.ant-menu li:not(.ant-menu-item-selected) * {color:black}
+
+//items font sizing
+.ant-tag, .ant-form-item, label {font-size:1em}
+//.campaign-overview
+
+
+
+
+.rbc-event{border-radius: '0px';opacity: 0.8;  border: '0px';  display: 'block'}

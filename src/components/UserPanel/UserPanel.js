@@ -6,20 +6,26 @@ class UserPanel extends Component {
     super(props);
   }
 
-  _logout() {
+  _logout = () => {
     // remove token from local storage and reload page to reset apollo client
     window.localStorage.removeItem('auth0IdToken');
+    window.localStorage.removeItem('user');
+    this.props.setUser(null);
     location.reload();
   }
 
-  content = () => 
-  (<Button onClick={this._logout}>Odhlásit se</Button>)
-  
+  content = () =>
+  (<div>
+    <Button onClick={this._logout}>Odhlásit se</Button>
+   </div>)
+
   render() {
     return (
       <div style={{ marginTop: '10px' }}>
-        <Popover placement="bottom" title={'User panel'} content={this.content()} trigger="click">
-          <Avatar size="large" src={this.props && this.props.user && this.props.user.picture} />
+        <Popover placement="bottom" title={this.props.user.name}
+            content={this.content()} trigger="click">
+          <Avatar size="large"
+            src={this.props && this.props.user && this.props.user.picture} />
         </Popover>
       </div>
     );

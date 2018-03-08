@@ -1,47 +1,77 @@
 import React, { Component } from 'react';
 import SiderMenu from 'components/SiderMenu';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
-import { Switch, withRouter } from 'react-router-dom';
+import { withRouter, Route } from 'react-router-dom';
+import 'antd/dist/antd.css';
+import 'antd/lib/locale-provider/style';
+import 'styles/main.scss';
 import LoginAuth0 from 'components/LoginAuth0';
 import { PropTypes } from 'prop-types';
 import { clientId, domain } from 'config';
-import { Layout, Breadcrumb, Col } from 'antd';
+import { Layout, Col } from 'antd';
 import UserPanel from 'components/UserPanel';
 const { Header, Content, Sider, Footer } = Layout;
 import CampaignTimeline from 'components/CampaignTimeline';
+import Dashboard from 'components/Dashboard';
 import CreateCampaignForm from 'components/CreateCampaignForm';
+import CampaignForm from 'components/CampaignOverview';
 import UniversalChannelPage from 'components/UniversalChannelPage';
-import AdminUI from 'components/AdminUI';
 import CreateUser from 'components/CreateUser';
-import { Route } from 'react-router-dom';
-import 'styles/main.scss';
-import 'antd/lib/locale-provider/style';
-import 'antd/dist/antd.css';
+import { connect } from 'react-redux';
+import { selectors, actions } from 'models/user';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
+
+
 import SelectCampaign from 'components/SelectCampaign';
 
 class DefaultLayout extends Component {
 
   static propTypes = {
     history: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
+  }
+
+  state = {
+    collapsed: false,
+    mobileDevice: false,
+    id_campaign: null
+  };
+  onCollapse = (collapsed) => {
+    this.setState({ collapsed });
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.resize.bind(this));
+    this.resize();
+    this.setState({ id_campaign:this.getCampaignIDFromUrl(this.props.location.pathname) });
+  }
+
+  getCampaignIDFromUrl(pathname) {
+    return pathname.split('/')[2];
+  }
+
+  resize() {
+      this.setState({ mobileDevice: window.innerWidth <= 1018 });
   }
 
   _logout() {
     // remove token from local storage and reload page to reset apollo client
     window.localStorage.removeItem('auth0IdToken');
+    window.localStorage.removeItem('user');
+    this.props.setUser(null);
     location.reload();
   }
 
   _isLoggedIn() {
-    return this.props.data.user;
+    return localStorage.getItem('auth0IdToken');
+  }
+
+  componentDidUpdate() {
+    if (this.state.id_campaign !== this.getCampaignIDFromUrl(this.props.location.pathname)) {
+      this.setState({ id_campaign:this.getCampaignIDFromUrl(this.props.location.pathname) });
+    }
   }
 
   render() {
-    if (this.props.data.loading) {
-      return (<div>Loading</div>);
-    }
-
     if (this._isLoggedIn()) {
       return this.renderLoggedIn();
     } else {
@@ -51,35 +81,30 @@ class DefaultLayout extends Component {
   }
 
   renderLoggedIn() {
-
     return (
-      <Layout>
-        <Header className="header">
-          <Col span={4}>
-            <SelectCampaign />
+      <Layout style={{ minHeight: '100vh' }}>
+        <Header className="header" style={{ padding:'0 25px' }} >
+          <Col span={this.state.mobileDevice ? 18 : 12}>
+              <SelectCampaign />
           </Col>
-          <Col offset={18} span={2}>
+          <Col span={2} push={this.state.mobileDevice ? 4 : 10}>
             <UserPanel />
           </Col>
         </Header>
         <Layout>
-          <Sider width={200} style={{ background: '#fff' }}>
-            <SiderMenu />
+          <Sider collapsible={true}
+            collapsed={this.state.collapsed || this.state.mobileDevice}
+            onCollapse={this.onCollapse}>
+            <SiderMenu collapsed={this.state.collapsed || this.state.mobileDevice} campaignID={this.state.id_campaign} />
           </Sider>
-          <Layout style={{ padding: '0 24px 24px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
+          <Layout style={{ padding: '0 8px 24px' }}>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-                <Switch>
+                  <Route exact={true} path="/" component={Dashboard} />
                   <Route exact={true} path="/new-campaign" component={CreateCampaignForm} />
-                  <Route exact={true} path="/" component={AdminUI} />
-                  <Route exact={true} path="/media-plan" component={CampaignTimeline} />
-                  <Route exact={true} path="/universal-channel-page" component={UniversalChannelPage} />
+                  <Route exact={true} path="/campaign/:id_campaign?" component={CampaignForm} />
+                  <Route exact={true} path="/campaign/:id_campaign?/media-plan" component={CampaignTimeline} />
+                  <Route exact={true} path="/campaign/:id_campaign?/universal-channel-page" component={UniversalChannelPage} />
                   <Route path="/signup" component={CreateUser} />
-                </Switch>
             </Content>
           </Layout>
         </Layout>
@@ -95,22 +120,20 @@ class DefaultLayout extends Component {
     return (
       <Layout>
         <Header className="header">
+        <Col span={this.state.mobileDevice ? 18 : 12}>
           <div className="logo" style={{ float:'left' }} >
             <h1 style={{ color:'white', fontWeight:'600' }}>Marketing planner</h1>
           </div>
-          <UserPanel />
+        </Col>
+        <Col span={2} push={this.state.mobileDevice ? 4 : 10}>
+          <LoginAuth0
+            clientId={clientId}
+            domain={domain}
+            history={history}
+          />
+        </Col>
         </Header>
-        <Layout>
-          <div>
-            <div className="pv3">
-              <LoginAuth0
-                clientId={clientId}
-                domain={domain}
-                history={history}
-              />
-            </div>
-          </div>
-      </Layout>
+        <Layout />
     </Layout>
     );
   }
@@ -126,4 +149,15 @@ query {
 }
 `;
 
-export default graphql(userQuery, { options: { fetchPolicy: 'network-only' } })(withRouter(DefaultLayout));
+const mapStateToProps = state => ({
+  reduxUser: selectors.getUser(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  setUser: (user) => dispatch(actions.setUser(user))
+});
+
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(graphql(userQuery, { 
+  options: { fetchPolicy: 'network-only' }, 
+  skip: ({ reduxUser }) => !reduxUser })(DefaultLayout)));

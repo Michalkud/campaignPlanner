@@ -8,7 +8,7 @@ import SiderMenu from './SiderMenu';
 // We use the gql tag to parse our query string into a query document
 const currentCampaignQuery = gql`
   query getCurrentCampaignWithChannels($selectedCampaignId: ID!) {
-    Campaign(id: $selectedCampaignId) {     
+    Campaign(id: $selectedCampaignId) {
       id
       name
       startDate
@@ -22,8 +22,8 @@ const currentCampaignQuery = gql`
   }
 `;
 
-const mapStateToProps = state => ({
-  selectedCampaignId: selectors.selectedCampaignId(state)
+const mapStateToProps = (state, ownProps) => ({
+  selectedCampaignId: ownProps.campaignID || selectors.selectedCampaignId(state)
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -31,8 +31,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(graphql(
-  currentCampaignQuery, 
-  { 
+  currentCampaignQuery,
+  {
     skip: ({ selectedCampaignId }) => !selectedCampaignId,
     options: ({ selectedCampaignId }) => ({ variables: { selectedCampaignId } })
   }
