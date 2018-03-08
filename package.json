@@ -45,6 +45,7 @@
     "jest": "20.0.4",
     "material-ui": "^0.19.1",
     "moment": "^2.20.1",
+    "nightwatch": "^0.9.20",
     "node-sass": "^4.5.3",
     "numeral": "^2.0.6",
     "object-assign": "4.1.1",
