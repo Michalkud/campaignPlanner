@@ -116,7 +116,7 @@ class DefaultLayout extends Component {
           </div>
         </Col>
         <Col span={2} push={this.state.mobileDevice ? 4 : 10}>
-          <Button type="primary" onClick={() => auth.login()}>Log in</Button>
+          <Button name="btnLogin" type="primary" onClick={() => auth.login()}>Log in</Button>
           <Route exact={true} path="/callback" component={Callback} />
         </Col>
         </Header>
