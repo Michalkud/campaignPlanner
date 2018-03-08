@@ -46,7 +46,6 @@ class CreateCampaignForm extends Component {
 
   componentWillReceiveProps(props) {
     const { userData: { user } } = props;
-
     if (props.queryData && props.queryData.Campaign) {
       const { queryData: { Campaign } } = props;
       this.setState({
@@ -77,7 +76,7 @@ class CreateCampaignForm extends Component {
         utmCampaign: '',
         startDate: null,
         endDate: null,
-        userId: user.id
+        userId: user && user.id
       });
     }
   }
