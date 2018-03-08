@@ -9,7 +9,6 @@ const QUERY = gql`
 query user {
   user {
     id
-    name
     auth0UserId
     campaigns {
       id
@@ -17,8 +16,7 @@ query user {
     company {
       id
     }
-    emailAddress
-    emailSubscription
+    email
   }
 }`;
 
@@ -35,4 +33,4 @@ const mapStateToProps = state => {
   return { reduxUser: selectors.getUser(state) };
 };
 
-export default connect(mapStateToProps)(graphql(QUERY, { skip: ({ reduxUser }) => !reduxUser })(UserQuery));
+export default connect(mapStateToProps)(graphql(QUERY)(UserQuery));

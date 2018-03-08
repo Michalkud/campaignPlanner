@@ -31,7 +31,6 @@ class CreateCampaignForm extends Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log(props.startDate, props.endDate);
     this.setState({
       id: props.id || '',
       name: props.name || '',
