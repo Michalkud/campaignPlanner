@@ -1,7 +1,6 @@
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { connect } from 'react-redux';
-import { selectors as channelTypeSelectors } from 'models/channelType';
+import { withRouter } from 'react-router-dom';
 
 import UniversalChannelPage from './UniversalChannelPage';
 
@@ -35,16 +34,8 @@ const currentCampaignQuery = gql`
 }
 `;
 
-
-const mapStateToProps = (state, ownProps) => ({
-  selectedCampaignId: ownProps.match.params.id_campaign,
-  selectedChannelTypeId: channelTypeSelectors.selectedChannelTypeId(state)
-});
-
-export default connect(mapStateToProps)(graphql(currentCampaignQuery,
+export default withRouter(graphql(currentCampaignQuery,
   {
-    skip: ({ selectedCampaignId }) => !selectedCampaignId,
-  },
-  {
-  options: ({ selectedCampaignId }) => ({ variables: { selectedCampaignId } }),
-})(UniversalChannelPage));
+    skip: ({ match }) => !(match && match.params && match.params.id_campaign),
+    options: ({ match }) => ({ variables: { selectedCampaignId : match && match.params && match.params.id_campaign } })
+  })(UniversalChannelPage));

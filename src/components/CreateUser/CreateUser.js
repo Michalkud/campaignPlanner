@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, Redirect } from 'react-router-dom';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { connect } from 'react-redux';
-import { selectors } from 'models/user';
-
 class CreateUser extends Component {
 
   static propTypes = {
@@ -97,14 +94,11 @@ const createUser = gql`
     }
   `;
 
-  const mapStateToProps = state => ({
-    reduxUser: selectors.getUser(state)
-  });
-
-export default connect(mapStateToProps)(graphql(createUser, { name: 'createUser' } )(
+export default compose(
+  graphql(createUser, { name: 'createUser' } ),
   graphql(userQuery, { options: { 
     fetchPolicy: 'network-only',
     skip: ({ reduxUser }) => !reduxUser 
-  } })(withRouter(CreateUser)))
-);
+  }
+}))(withRouter(CreateUser));
 

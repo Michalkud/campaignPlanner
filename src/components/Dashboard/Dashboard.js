@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Col, Row, List } from 'antd';
 import { CampaignsQuery, UserQuery } from 'queryComponents';
 import { Link } from 'react-router-dom';
-import { actions } from 'models/campaign';
-import { connect } from 'react-redux';
 import moment from 'moment';
 import numeral from 'numeral';
 
@@ -38,7 +36,6 @@ class Dashboard extends Component {
                       <Col md={12}>
                       <Link to={`/campaign/${campaign.id}`}
                         value={campaign.id}
-                        onClick={() => this.props.selectCampaignId(campaign.id)}
                       >
                         {campaign.name}
                       </Link>
@@ -65,10 +62,5 @@ class Dashboard extends Component {
     );
   }
 }
-const mapDispatchToProps = (dispatch) => {
-  return {
-    selectCampaignId: (id) => dispatch(actions.selectCampaignId(id)),
-  };
-};
 
-export default connect(null, mapDispatchToProps)(Dashboard);
+export default Dashboard;

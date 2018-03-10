@@ -1,7 +1,6 @@
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { connect } from 'react-redux';
-import { selectors } from 'models/campaign';
+import { withRouter } from 'react-router-dom';
 
 import SelectChannel from './SelectChannel';
 // We use the gql tag to parse our query string into a query document
@@ -19,16 +18,10 @@ query getCurrentCampaignWithChannels($selectedCampaignId: ID!) {
 }
 `;
 
-
-
-const mapStateToProps = state => ({
-selectedCampaignId: selectors.selectedCampaignId(state)
-});
-
-export default connect(mapStateToProps)(graphql(
+export default withRouter(graphql(
 currentCampaignQuery,
 {
-  skip: ({ selectedCampaignId }) => !selectedCampaignId,
-  options: ({ selectedCampaignId }) => ({ variables: { selectedCampaignId } })
+  skip: ({ match }) => !(match && match.params && match.params.id_campaign),
+  options: ({ match }) => ({ variables: { selectedCampaignId : match && match.params && match.params.id_campaign } })
 }
 )(SelectChannel));

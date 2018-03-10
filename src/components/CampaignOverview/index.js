@@ -1,8 +1,8 @@
-import CreateCampaignForm from './CampaignForm';
+import CreateCampaignForm from './CampaignOverview';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { connect } from 'react-redux';
 import { compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 
 //import { selectors } from 'models/campaign';
 
@@ -132,18 +132,10 @@ query getCurrentCampaignWithChannels($selectedCampaignId: ID!) {
 }
 `;
 
-/*const mapStateToProps = state => ({
-  selectedCampaignId: selectors.selectedCampaignId(state)
-});*/
-
-const mapStateToProps = (state, ownProps) => ({
-  selectedCampaignId: ownProps.match.params.id_campaign
-});
-
-export default connect(mapStateToProps)(compose(graphql(currentCampaignQuery, {
+export default withRouter(compose(graphql(currentCampaignQuery, {
     name: 'queryData',
-    skip: ({ selectedCampaignId }) => !selectedCampaignId,
-    options: ({ selectedCampaignId }) => ({ variables: { selectedCampaignId } })
+    skip: ({ match }) => !(match && match.params && match.params.id_campaign),
+    options: ({ match }) => ({ variables: { selectedCampaignId : match && match.params && match.params.id_campaign } })
   }),
   graphql(createCampaign, {
     name: 'createCampaign'
