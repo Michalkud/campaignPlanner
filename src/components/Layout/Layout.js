@@ -58,7 +58,7 @@ class DefaultLayout extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         <Header className="header" style={{ padding: '0 25px' }}>
           <Col span={this.state.mobileDevice ? 18 : 12}>
-            <Link to="/new-campaign">
+            <Link className="new-campaign" to="/new-campaign">
               <Icon type="plus" /> Create new campaign
             </Link>
           </Col>

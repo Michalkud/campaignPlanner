@@ -1,6 +1,7 @@
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 //import { selectors } from 'models/campaign';
+import { withRouter } from 'react-router-dom';
 
 import CampaignHeader from './CampaignHeader';
 
@@ -21,10 +22,8 @@ const currentCampaignQuery = gql`
 }
 `;
 
-export default graphql(currentCampaignQuery,
-  {
-    skip: ({ selectedCampaignId }) => !selectedCampaignId,
-  },
-  {
-  options: ({ selectedCampaignId }) => ({ variables: { selectedCampaignId } }),
-})(CampaignHeader);
+
+export default withRouter(graphql(currentCampaignQuery, {
+    skip: ({ match }) => !(match && match.params && match.params.id_campaign),
+    options: ({ match }) => ({ variables: { selectedCampaignId : match && match.params && match.params.id_campaign } })
+})(CampaignHeader));

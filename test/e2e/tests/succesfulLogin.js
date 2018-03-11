@@ -12,8 +12,8 @@ module.exports = {
       .setValue('.auth0-lock-view-content input[name=email]', config.email)
       .setValue('.auth0-lock-view-content input[name=password]', config.password)
       .click('button[class=auth0-lock-submit]')
-      .waitForElementVisible('li.ant-menu-item', 2000)
-      .assert.containsText('.campaign-overview button[type=button] span', 'Create')
+      .waitForElementVisible('li.ant-menu-item', 15000)
+      .assert.containsText('a.new-campaign', 'Create')
       .end();
   }
 };
