@@ -6,6 +6,18 @@
 
   - You can add campaigns to timeline from form
 
+## App configuration setting
+For each env is necessary create `config.<env>.js` in src folder. Webpack is looking in this configuration files a solve it dynamically.
+
+Example of *config.dev.js*
+```
+export const clientId = '<clientId>';
+export const domain = '<domain>.auth0.com';
+export const redirect = 'http://localhost:3000/callback';
+export const scope = 'openid email profile';
+export const audience = 'https://<domain>.auth0.com/api/v2/';
+```
+
 ## Setting test environment
 ```
 yarn global add nightwatch
