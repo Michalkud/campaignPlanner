@@ -1,6 +1,6 @@
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import CampaignTimeline from './CampaignTimeline';
 
@@ -32,14 +32,8 @@ const currentCampaignQuery = gql`
   }
 `;
 
-const mapStateToProps = (state, ownProps) => ({
-  selectedCampaignId: ownProps.match.params.id_campaign
-});
-
-export default connect(mapStateToProps)(
-  graphql(currentCampaignQuery, {
-    name: 'queryData',
-    skip: ({ selectedCampaignId }) => !selectedCampaignId,
-    options: ({ selectedCampaignId }) => ({ variables: { selectedCampaignId } })
-  })(CampaignTimeline)
-);
+export default withRouter(graphql(currentCampaignQuery, {
+  name: 'queryData',
+  skip: ({ match }) => !(match && match.params && match.params.id_campaign),
+  options: ({ match }) => ({ variables: { selectedCampaignId : match && match.params && match.params.id_campaign } })
+})(CampaignTimeline));

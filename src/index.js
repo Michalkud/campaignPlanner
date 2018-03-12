@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import store from './store';
 import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 import { ApolloProvider } from 'react-apollo';
@@ -10,7 +9,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink, from } from 'apollo-link';
-import { Provider } from 'react-redux';
 import { WebSocketLink } from 'apollo-link-ws';
 import { split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
@@ -49,13 +47,11 @@ const client = new ApolloClient({
 });
 const Root = () => (
   <LocaleProvider locale={enUS}>
-    <Provider store={store}>
       <ApolloProvider client={client}>
         <Router path="access_token=:auth0IdToken" >
           <DefaultLayout />
         </Router>
       </ApolloProvider>
-    </Provider>
   </LocaleProvider>
 );
 

@@ -22,7 +22,8 @@ class UniversalChannelPage extends Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, match } = this.props;
+    const channelId = match && match.params.id_channel;
     return (<div>
     { data && data.Campaign &&
       <div className="universalChannel">
@@ -36,7 +37,7 @@ class UniversalChannelPage extends Component {
             closeModal={() => this.setState({ modalVisible: false })}
             modalVisible={this.state.modalVisible}
             campaignId={data.Campaign.id}
-            channelTypeId={this.props.selectedChannelTypeId}
+            channelTypeId={channelId}
           />
           <Button onClick={ () => this.setState({ modalVisible: true })}>
             Přidat nový kakál
@@ -45,10 +46,10 @@ class UniversalChannelPage extends Component {
         <Row gutter={16}>
         { data.Campaign.channels &&
           data.Campaign.channels
-            .filter(channel => channel.channelType.id === this.props.selectedChannelTypeId )
-            .map((channel, y) => (
+            .filter(channel => channel.channelType.id === channelId )
+            .map((channel) => (
               <ChannelText
-                key={y}
+                key={channel.id}
                 name={channel.name}
                 text={channel.text}
                 id={channel.id}

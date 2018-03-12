@@ -18,7 +18,7 @@ class Callback extends React.Component {
       // Save response to localStorage
       auth.storeGraphCoolCred(result.data.authenticateUser);
       // Redirect to profile page
-      this.props.history.push('/campaign');
+      this.props.history.push('/');
     });
   }
   render() {

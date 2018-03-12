@@ -1,7 +1,7 @@
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { connect } from 'react-redux';
 //import { selectors } from 'models/campaign';
+import { withRouter } from 'react-router-dom';
 
 import CampaignHeader from './CampaignHeader';
 
@@ -23,14 +23,7 @@ const currentCampaignQuery = gql`
 `;
 
 
-const mapStateToProps = (state, ownProps) => ({
-  selectedCampaignId: ownProps.idCampaign
-});
-
-export default connect(mapStateToProps)(graphql(currentCampaignQuery,
-  {
-    skip: ({ selectedCampaignId }) => !selectedCampaignId,
-  },
-  {
-  options: ({ selectedCampaignId }) => ({ variables: { selectedCampaignId } }),
+export default withRouter(graphql(currentCampaignQuery, {
+    skip: ({ match }) => !(match && match.params && match.params.id_campaign),
+    options: ({ match }) => ({ variables: { selectedCampaignId : match && match.params && match.params.id_campaign } })
 })(CampaignHeader));

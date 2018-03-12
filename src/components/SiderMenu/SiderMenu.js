@@ -33,8 +33,7 @@ render () {
             <SubMenu key="sub4" title={<span><Icon type="notification" /><span>Kanály</span></span>} >
               { this.props.data.Campaign.channelTypes.map( channelType =>
                 (<Menu.Item key={channelType.id}>
-                  <Link to={`/campaign/${this.props.selectedCampaignId}/universal-channel-page`}
-                     onClick={() => this.props.selectChannelTypeId(channelType.id)} >
+                  <Link to={`/campaign/${this.props.selectedCampaignId}/universal-channel-page/${channelType.id}`}>
                     <Icon type="mail" /><span>{channelType.name}</span>
                   </Link>
                 </Menu.Item>))

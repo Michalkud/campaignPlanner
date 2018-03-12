@@ -1,8 +1,6 @@
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { selectors } from 'models/user';
 import { Spin } from 'antd';
 
 const QUERY = gql`
@@ -29,8 +27,4 @@ class UserQuery extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { reduxUser: selectors.getUser(state) };
-};
-
-export default connect(mapStateToProps)(graphql(QUERY)(UserQuery));
+export default graphql(QUERY)(UserQuery);

@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import ChannelTypes from '../CampaignComponents/ChannelTypes';
 import Domains from '../CampaignComponents/Domains';
-import Goals from '../CampaignComponents/Goals';
+import { GoalsQuery } from 'queryComponents';
 
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
@@ -44,43 +44,6 @@ class CreateCampaignForm extends Component {
     this.setState({ [name]: value });
   }
 
-  componentWillReceiveProps(props) {
-    const { userData: { user } } = props;
-    if (props.queryData && props.queryData.Campaign) {
-      const { queryData: { Campaign } } = props;
-      this.setState({
-        id: Campaign.id || null,
-        name: Campaign.name || '',
-        domainsIds: Campaign.domains && Campaign.domains.map(d => d.id) || [],
-        channelTypesIds: Campaign.channelTypes && Campaign.channelTypes.map(ct => ct.id) || [],
-        goalsIds: Campaign.goals && Campaign.goals.map(ct => ct.id) || [],
-        motto: Campaign.motto || '',
-        description: Campaign.description || '',
-        target: Campaign.target || '',
-        budget: Campaign.budget || {},
-        utmCampaign: Campaign.utmCampaign || '',
-        startDate: Campaign.startDate || null,
-        endDate: Campaign.endDate || null,
-        userId: user.id
-      });
-    } else {
-      this.setState({
-        name: '',
-        domainsIds: [],
-        channelTypesIds: [],
-        goalsIds: [],
-        motto: '',
-        description: '',
-        target: '',
-        budget: {},
-        utmCampaign: '',
-        startDate: null,
-        endDate: null,
-        userId: user && user.id
-      });
-    }
-  }
-
   onInputsChange = (e) => this.onChange(e.target.name, e.target.value)
 
   handleChannelTypesChange = (id, checked) => {
@@ -109,18 +72,13 @@ class CreateCampaignForm extends Component {
   };
 
   handleCampaignCreate = () => {
-    this.props.createCampaign({ variables : this.state }).then( (res) => {
+    const { userData: { user } } = this.props;
+    this.props.createCampaign({ variables : { ...this.state, userId: user.id } }).then( (res) => {
       if ( res.data && res.data.createCampaign && res.data.createCampaign.id) {
-        this.props.selectCampaignId(res.data.createCampaign.id);
-        this.props.history.push(`/campaign`);
+        this.props.history.push(`/campaign/${res.data.createCampaign.id}`);
       }
     });
   }
-
-  handleCampaignUpdate = () => {
-    this.props.updateCampaign({ variables : this.state });
-  }
-
   render() {
     const { channelTypesIds, domainsIds, goalsIds, name, startDate, endDate, budget, motto, utmCampaign } = this.state;
     return (
@@ -164,13 +122,15 @@ class CreateCampaignForm extends Component {
           </InputGroup>
         </FormItem>
         <FormItem label="Cíl" >
-          <Goals checkedIds={goalsIds} onChange={this.handleGoalChange} />
-        </FormItem>
-        { this.props.queryData && this.props.queryData.Campaign &&
-            <Button onClick={this.handleCampaignUpdate}> Update </Button> ||
-            <Button onClick={this.handleCampaignCreate}> Create </Button>
+        <GoalsQuery>
+        {({ allGoals }) => 
+          (<Select style={{ width: '180px' }} value={goalsIds && goalsIds[0]} onChange={(value) => this.setState({ goalsIds : [value] })} >
+            {allGoals.map(goal => <Option key={goal.id} value={goal.id}>{goal.name}</Option>)}
+          </Select>)
         }
-
+        </GoalsQuery>
+        </FormItem>
+        <Button onClick={this.handleCampaignCreate}> Create </Button>
       </Form>
     );
   }
