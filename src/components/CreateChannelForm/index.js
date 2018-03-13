@@ -45,11 +45,26 @@ const updateChannel = gql`
   }
 `;
 
+const deleteChannel = gql`
+  mutation deleteChannel(
+    $id: ID!
+  ) {
+    deleteChannel(
+      id: $id
+    ) {
+      id
+    }
+  }
+`;
+
 export default compose(
   graphql(updateChannel, {
     name : 'updateChannel'
   }),
   graphql(createChannel, {
     name: 'createChannel'
+  }),
+  graphql(deleteChannel, {
+    name: 'deleteChannel'
   })
 )(CreateChannelForm);

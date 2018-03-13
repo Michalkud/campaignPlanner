@@ -135,7 +135,7 @@ class CampaignTimeline extends Component {
               this.setState({ modalVisible: true, selectedInterval })
             );
           }}
-          views={['month', 'agenda']}
+          views={['month', 'day', 'agenda']}
           events={
             (data &&
               data.Campaign &&
@@ -146,13 +146,16 @@ class CampaignTimeline extends Component {
                     this.state.filterState.indexOf(channel.channelType.id) !==
                     -1
                 )
-                .map(channel => ({
-                  start: channel.startDate,
-                  end: channel.endDate,
-                  title: channel.name,
-                  id: channel.id,
-                  colorClass: channel.channelType.colorClass
-                }))) ||
+                .map(channel => {
+                  console.log(channel);
+                  return {
+                    start: new Date(channel.startDate),
+                    end: new Date(channel.endDate),
+                    title: channel.name,
+                    id: channel.id,
+                    colorClass: channel.channelType.colorClass
+                  };
+                })) ||
             []
           }
           scrollToTime={new Date(1970, 1, 1, 6)}
@@ -169,7 +172,7 @@ class CampaignTimeline extends Component {
       this.props.queryData.subscribeToMore({
         document: gql`
           subscription {
-            Channel(filter: { mutation_in: [CREATED, UPDATED] }) {
+            Channel {
               node {
                 id
                 name
@@ -183,21 +186,37 @@ class CampaignTimeline extends Component {
                   colorClass
                 }
               }
+              previousValues {
+                id
+              }
             }
           }
         `,
         updateQuery: (
           previous,
-          { subscriptionData: { data: { Channel } } }
+          { subscriptionData: { data: { Channel: { node, previousValues } } } }
         ) => {
+          if (!node) {
+            return {
+              ...previous,
+              Campaign: {
+                ...previous.Campaign,
+                channels: [
+                  ...previous.Campaign.channels.filter(
+                    c => c.id !== previousValues.id
+                  )
+                ]
+              }
+            };
+          }
           const channelIndex =
             previous.Campaign &&
             previous.Campaign.channels &&
             previous.Campaign.channels.findIndex(
-              channel => channel.id === Channel.node.id
+              channel => channel.id === node.id
             );
           if (channelIndex !== -1) {
-            const channel = Channel.node;
+            const channel = node;
             const newAllChannels = previous.Campaign.channels.slice();
             newAllChannels[channelIndex] = channel;
             return {
@@ -208,16 +227,15 @@ class CampaignTimeline extends Component {
               }
             };
           } else if (
-            Channel &&
-            Channel.node.campaign &&
-            Channel.node.campaign.id &&
-            Channel.node.campaign.id === previous.Campaign.id
+            node.campaign &&
+            node.campaign.id &&
+            node.campaign.id === previous.Campaign.id
           ) {
             return {
               ...previous,
               Campaign: {
                 ...previous.Campaign,
-                channels: [...previous.Campaign.channels, Channel.node]
+                channels: [...previous.Campaign.channels, node]
               }
             };
           }
