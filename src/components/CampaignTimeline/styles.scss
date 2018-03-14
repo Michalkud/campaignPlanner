@@ -1,7 +1,7 @@
 .rbc-row-content{min-height: 10vh;}
 
-.sklik, .rbc-event.sklik {background-color:$purple; color: white;}
-.adwordscpc, .rbc-event.adwordscpc{background-color:$orange;}
-.facebookcpc, .rbc-event.facebookcpc{background-color:$blue; color: white;}
-.facebooksocial, .rbc-event.facebooksocial{background-color:$red; color: white;}
-.emailing, .rbc-event.emailing{background-color:$green; color: white;}
+.sklik, .rbc-event.sklik {background-color:$purple; color: white; min-height: 21px;}
+.adwordscpc, .rbc-event.adwordscpc{background-color:$orange; min-height: 21px;}
+.facebookcpc, .rbc-event.facebookcpc{background-color:$blue; color: white; min-height: 21px;}
+.facebooksocial, .rbc-event.facebooksocial{background-color:$red; color: white; min-height: 21px;}
+.emailing, .rbc-event.emailing{background-color:$green; color: white; min-height: 21px;}
