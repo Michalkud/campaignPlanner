@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, DatePicker, Modal } from 'antd';
+import { Form, Input, DatePicker, Modal, Button, Popconfirm } from 'antd';
 import moment from 'moment';
 
 import SelectChannel from './components/SelectChannel';
@@ -30,6 +30,31 @@ class CreateCampaignForm extends Component {
     this.onChange = this.onChange.bind(this);
   }
 
+  
+  
+  _handleKeyDown = (event) => {
+    const ENTER_KEY = 13;
+    if (this.props.modalVisible) {
+      switch ( event.keyCode ) {
+          case ENTER_KEY:
+              this.handleChannelCreate()
+              break;
+          default: 
+              break;
+      }
+    }
+  }
+  
+  
+  componentWillMount() {
+      document.addEventListener('keydown', this._handleKeyDown.bind(this));
+  }
+  
+  
+  componentWillUnmount() {
+      document.removeEventListener('keydown', this._handleKeyDown.bind(this));
+  }
+
   componentWillReceiveProps(props) {
     this.setState({
       id: props.id || '',
@@ -47,6 +72,13 @@ class CreateCampaignForm extends Component {
   onChange(name, value) {
     this.setState({ [name]: value });
   }
+
+  deleteChannel = () => {
+    this.props.deleteChannel({
+      variables: { id: this.state.id }
+    });
+    this.props.closeModal();
+  } 
 
   handleChannelCreate = () => {
     if (this.state.id) {
@@ -95,6 +127,14 @@ class CreateCampaignForm extends Component {
             </FormItem>
           )}
         </Form>
+        {this.props.id && (
+          <Popconfirm 
+            placement="top" 
+            title={'Opravdu chcete tento channel smazat?'} 
+            onConfirm={this.deleteChannel} okText="Ano" cancelText="Ne">
+            <Button type="danger">Smazat</Button>
+          </Popconfirm>
+        )}
       </Modal>
     );
   }
